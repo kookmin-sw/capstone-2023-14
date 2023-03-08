@@ -29,10 +29,22 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django.contrib.sites',
 
     # cumstom setting
     "api",
     "rest_framework",
+    'rest_framework.authtoken',
+    'rest_auth',
+
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+
+    # kakao
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.kakao',
+
     "corsheaders",  # CORS관련
 ]
 
@@ -48,8 +60,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3033",
-    "http://127.0.0.1:8088",
+    "http://localhost:3000",
+    "http://127.0.0.1:8000",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
