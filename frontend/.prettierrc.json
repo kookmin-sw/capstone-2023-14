@@ -1,5 +1,7 @@
 {
-  "editor.formatOnSave": true,
-  "javascript.format.enable": false,
-  "prettier.eslintIntegration": true
+  "tabWidth": 2,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 80
 }
