@@ -56,7 +56,7 @@ country_list = []
 for item in data:
     country_list.extend(item['country'])
 
-# 진행된 정보 가져오기 (일주일 더 된 데이터면 다시 크롤링)
+# 진행된 정보 가져오기 (파일명 제일 앞에있는 번호를 기준)
 crawl_dir = './blog_data'
 file_list = os.listdir('./blog_data')
 last_index = 0
@@ -72,6 +72,7 @@ for idx, country in enumerate(country_list):
     if idx <= last_index: continue
 
     review_list = []
+    # 네이버 검색 API는 최대 100개까지 밖에 볼 수 없기때문에 for문을 돌려서 총 1000개의 블로그를 조회
     for i in range(1, 11):
         params = {
             'start': i,
@@ -94,11 +95,14 @@ for idx, country in enumerate(country_list):
             blog_m = blog_p.search(post_link)
 
             if blog_m:
+                # iframe 제거 후 블로그 내용 가져옴
                 blog_text = text_scraping(delete_iframe(post_link))
                 review_list.append(blog_text)
 
+    # Pandas dataframe으로 변환 -> CSV 파일 저장
     df = pd.DataFrame({'country': [country for i in review_list], 'contents' : review_list})
     save_file_path = f'./blog_data/{idx}_{country}_crawling.csv'
     df.to_csv(save_file_path, encoding='UTF-8')
+
     print(f'Saved {save_file_path}')
     print('='*50)
