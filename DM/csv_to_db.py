@@ -15,37 +15,7 @@ from pykospacing import Spacing
 
 import pymysql
 
-class Database():
-    def __init__(self):
-        load_dotenv()
-        self.conn = pymysql.connect(
-            host=os.environ.get('DB_IP'),
-            user=os.environ.get('DB_USER'),
-            password=os.environ.get('DB_PASSWD'),
-            db='capstone',
-            # charset='utf-8'
-        )
-        self.cur = self.conn.cursor()
-
-    def select(self, command):
-        result = ''
-        try:
-            self.cur.execute(command)
-            result = self.cur.fetchall()
-        except Exception as e:
-            print('MySQL ERROR: {}'.format(e))
-        return result
-
-    def query(self, command):
-        try:
-            self.cur.execute(command)
-            self.conn.commit()
-        except Exception as e:
-            print('MySQL ERROR: {}'.format(e))
-
-    def close(self):
-        self.cur.close()
-        self.conn.close()
+from database import Database
 
 
 
@@ -66,7 +36,8 @@ def preprocessing(review):
 
     #불용어 제거하기
     fire_dragon = ['의', '이', '있', '하', '들', '그', '되', '수', '보', '않', '없', '나', '사람', '아', '등', '같', '오', '있','한']
-    fire_dragon += ['여행', '사진', '시간', '정도', '생각', '지만', '절대', '니다', '', '그간', '남이', '조금', '후기', '사용', '도착', '때문', '보니', '안녕하세요', '이다', '한국', '이랑', '이번', '간다', '완전', '이건', '나름', '하면']
+    fire_dragon += ['여행', '사진', '시간', '정도', '생각', '지만', '절대', '니다', '', '그간', '남이', '조금', '후기', '사용', '도착', '때문', '보니', '안녕하세요',
+                    '이다', '한국', '이랑', '이번', '간다', '완전', '이건', '나름', '하면', '여기', '다음', '이후', '']
     word_review = list(set(word_review))
     fire_word = [w for w in word_review if not w in fire_dragon and len(w)>1]
 
