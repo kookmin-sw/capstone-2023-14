@@ -1,6 +1,8 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Login from './pages/Login/Login';
+import Login from './pages/Login/login';
+import Join from './pages/Join/join';
+import Home from './pages/Home';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
     >
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/join" element={<Join />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </div>
   );
