@@ -1,13 +1,14 @@
 import React from 'react';
-import StrokeButton from '../../components/Buttons/strokeButton';
-import FullButton from '../../components/Buttons/fullButton';
-import Header from '../../components/Header/header';
+import Footer from '../../components/Footer/footer';
 import Destination from '../../components/Destination';
+import { Wrap } from './styles';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const navigator = useNavigate();
-
+  const handleClickDestination = () => {
+    navigator('/detail');
+  };
   // test data
   const bestDestination = [
     {
@@ -31,17 +32,19 @@ function Home() {
   ];
 
   return (
-    <div style={{ width: '432px', margin: '0 auto' }}>
+    <Wrap>
       <h2>추천하는 여행지 & 비슷한 사용자</h2>
       {bestDestination.map((destination) => (
         <Destination
+          onClick={handleClickDestination}
           key={destination.title}
           title={destination.title}
           imgUrl={destination.imgUrl}
           companion={destination.companion}
         />
       ))}
-    </div>
+      <Footer />
+    </Wrap>
   );
 }
 export default Home;
