@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../../components/Header/header';
 import Footer from '../../components/Footer/footer';
 import { useParams } from 'react-router-dom';
+import ImgSlider from '../../components/Slider';
 
 function Detail() {
   const params = useParams();
@@ -9,8 +10,10 @@ function Detail() {
 
   return (
     <div>
+      {' '}
       <Header />
-      {destination}
+      <h1>{destination}</h1>
+      <ImgSlider />
       <Footer />
     </div>
   );
