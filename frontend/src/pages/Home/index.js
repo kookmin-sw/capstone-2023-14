@@ -6,8 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const navigator = useNavigate();
-  const handleClickDestination = () => {
-    navigator('/detail');
+  const handleClickDestination = (event) => {
+    event.preventDefault();
+    const id = event.currentTarget.querySelector('span').innerText; // 나라명
+    navigator(`/detail/${id}`);
   };
   // test data
   const bestDestination = [

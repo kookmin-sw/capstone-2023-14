@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Login from './pages/Login/login';
 import Join from './pages/Join/join';
 import Home from './pages/Home';
+import Detail from './pages/Detail';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/join" element={<Join />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/detail/:id" element={<Detail />} />
       </Routes>
     </div>
   );
