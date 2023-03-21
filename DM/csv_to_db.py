@@ -1,20 +1,11 @@
 import os
-import requests
 import re #추가
-from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-import json
 import pandas as pd
 from collections import Counter
 from datetime import datetime
 
 from konlpy.tag import Komoran, Okt, Mecab
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
-from sklearn.metrics.pairwise import linear_kernel
-from pykospacing import Spacing
-
-import pymysql
-
 from database import Database
 
 
@@ -81,6 +72,7 @@ if __name__ == "__main__":
 
 
         wc = dict(Counter(word_set).most_common())
+
         wc = dict(filter(lambda x:x[1] > 10, wc.items()))   # 10번 이상 들어간 값만 추출
         print(wc)
         print(f"{country_id}_{country_name} : LENGTH={len(str(wc))}")
