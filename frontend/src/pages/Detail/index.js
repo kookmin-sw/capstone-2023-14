@@ -33,8 +33,8 @@ function Detail() {
         Img2={Info.thumbnailList[1]}
         Img3={Info.thumbnailList[2]}
       />
-      <h2>{destination}</h2>
-      <p>{Info.introduction}</p>
+      <h2 style={{ marginBottom: '4px' }}>{destination}</h2>
+      <p style={{ marginTop: '0' }}>{Info.introduction}</p>
       <div>날씨: {Info.weather}</div>
       <div>환율: {Info.exchangeRate}</div>
       <div>소요시간: {Info.timeTaken}</div>
