@@ -35,7 +35,7 @@ function Detail() {
   return (
     <Wrap>
       {' '}
-      <Header />
+      <Header title="Detail" />
       <ImgSlider
         Img1={Info.thumbnailList[0]}
         Img2={Info.thumbnailList[1]}
