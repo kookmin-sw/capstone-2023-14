@@ -5,7 +5,7 @@ export const Wrap = styled.div`
   width: 100%;
   max-width: 480px;
   top: 0;
-  z-index: 99;
+  z-index: 11;
   background-color: #ffffff;
   height: 50px;
   display: flex;
