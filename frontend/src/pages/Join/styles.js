@@ -52,10 +52,31 @@ export const GenderWrap = styled.div`
   gap: 12px;
 `;
 
+export const TermsWrap = styled.div`
+  border-top: 2px solid #e0e0e0;
+  padding-top: 20px;
+  margin-bottom: 60px;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+
+    :first-child {
+      margin-bottom: 16px;
+    }
+    :nth-child(2) {
+      margin-bottom: 4px;
+    }
+  }
+`;
+
 export const GenderButton = styled.div`
   flex: 1 1 50%;
   text-align: center;
-  border: 2px solid #e0e0e0;
+  border: ${(props) =>
+    props.checked ? '2px solid #ef4e3e' : '2px solid #e0e0e0'};
   border-radius: 30px;
   padding: 12px 15px;
   font-weight: 400;
@@ -64,7 +85,9 @@ export const GenderButton = styled.div`
 `;
 
 export const InfoWrap = styled.div`
-  > input {
+  input {
+    text-align: center;
+    background-color: #ffffff;
     width: -webkit-fill-available;
     border: 2px solid #e0e0e0;
     border-radius: 30px;

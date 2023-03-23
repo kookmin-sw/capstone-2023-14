@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import heic2any from 'heic2any';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import {
   ImgWrap,
@@ -9,6 +11,7 @@ import {
   InfoWrap,
   GenderWrap,
   GenderButton,
+  TermsWrap,
 } from './styles';
 import { Title, SubTitle } from '../../components/Fonts/fonts';
 
@@ -29,6 +32,9 @@ function Join() {
   // mbti modal on/off
   const [mbtiModal, setMbtiModal] = useState(false);
 
+  const [startDate, setStartDate] = useState(new Date());
+
+  // database에 저장할 유저의 회원정보
   const [userInfo, setUserInfo] = useState({
     name: '',
     phone: '',
@@ -38,6 +44,8 @@ function Join() {
     birthday: '',
     mbti: '',
   });
+
+  // 입력값 변화 적용
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setUserInfo({
@@ -46,6 +54,7 @@ function Join() {
     });
   };
 
+  // 프로필 사진 업로드
   const upload = async () => {
     let file = imgRef.current.files[0];
     const fileName = file.name.split('.')[1].toLowerCase(); //확장자명 체크를 위해 소문자 변환 HEIC, heic
@@ -69,7 +78,6 @@ function Join() {
       setBase64(reader.result);
     };
   };
-  console.log(userInfo.gender);
 
   return (
     <div>
@@ -113,24 +121,37 @@ function Join() {
           <InputBox
             title={'비밀번호'}
             onChange={handleOnChange}
-            type={'password'}
+            type={'new-password'}
             value={userInfo.password}
           />
-          <InputBox title={'비밀번호 확인'} type={'password'} />
+          <InputBox title={'비밀번호 확인'} type={'new-password'} />
           <div>
             <SubTitle margin={'0 0 10px'}>성별</SubTitle>
             <GenderWrap>
-              <GenderButton check={userInfo.gender === 'man' ? true : false}>
+              <GenderButton
+                onClick={() => setUserInfo({ ...userInfo, gender: 'man' })}
+                checked={userInfo.gender === 'man' ? true : false}
+              >
                 남자
               </GenderButton>
-              <GenderButton check={userInfo.gender === 'woman' ? true : false}>
+              <GenderButton
+                onClick={() => setUserInfo({ ...userInfo, gender: 'woman' })}
+                checked={userInfo.gender === 'woman' ? true : false}
+              >
                 여자
               </GenderButton>
             </GenderWrap>
           </div>
           <InfoWrap>
             <SubTitle margin={'0 0 10px'}>생년월일</SubTitle>
-            <input type={'button'} value={userInfo.birthday} disabled={true} />
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => {
+                setStartDate(date);
+                setUserInfo({ ...userInfo, birthday: date });
+              }}
+              dateFormat="yyyy-MM-dd"
+            />
           </InfoWrap>
           <InfoWrap>
             <SubTitle margin={'0 0 10px'}>MBTI</SubTitle>
@@ -143,6 +164,26 @@ function Join() {
             />
           </InfoWrap>
         </BlockWrap>
+        <TermsWrap>
+          <div>
+            <img
+              src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
+            />
+            <span>전체선택</span>
+          </div>
+          <div>
+            <img
+              src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
+            />
+            <span>개인정보 처리방침을 확인했습니다.</span>
+          </div>
+          <div>
+            <img
+              src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
+            />
+            <span>서비스 이용방침을 확인했습니다.</span>
+          </div>
+        </TermsWrap>
         <BlockWrap>
           <FullButton btnName="회원가입" />
           <StrokeButton btnName="뒤로가기" onClick={() => navigator(-1)} />
