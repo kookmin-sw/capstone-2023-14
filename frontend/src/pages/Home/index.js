@@ -3,6 +3,7 @@ import Footer from '../../components/Footer/footer';
 import Destination from '../../components/Destination';
 import { Wrap } from './styles';
 import { useNavigate } from 'react-router-dom';
+import { Title } from '../../components/Fonts/fonts';
 
 function Home() {
   const navigator = useNavigate();
@@ -34,19 +35,21 @@ function Home() {
   ];
 
   return (
-    <Wrap>
-      <h2>추천하는 여행지 & 비슷한 사용자</h2>
-      {bestDestination.map((destination) => (
-        <Destination
-          onClick={handleClickDestination}
-          key={destination.title}
-          title={destination.title}
-          imgUrl={destination.imgUrl}
-          companion={destination.companion}
-        />
-      ))}
+    <div>
+      <Wrap>
+        <Title margin={'20px 0'}>추천하는 여행지 & 비슷한 사용자</Title>
+        {bestDestination.map((destination) => (
+          <Destination
+            onClick={handleClickDestination}
+            key={destination.title}
+            title={destination.title}
+            imgUrl={destination.imgUrl}
+            companion={destination.companion}
+          />
+        ))}
+      </Wrap>
       <Footer />
-    </Wrap>
+    </div>
   );
 }
 export default Home;
