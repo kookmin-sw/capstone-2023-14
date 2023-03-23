@@ -42,7 +42,7 @@ function Login() {
           </Row>
         </Row>
         <ButtonWrap>
-          <FullButton btnName="로그인" />
+          <FullButton btnName="로그인" onClick={() => navigator('/home')} />
           <StrokeButton btnName="회원가입" onClick={() => navigator('/join')} />
         </ButtonWrap>
       </div>

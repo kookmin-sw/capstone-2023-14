@@ -185,7 +185,13 @@ function Join() {
           </div>
         </TermsWrap>
         <BlockWrap>
-          <FullButton btnName="회원가입" />
+          <FullButton
+            btnName="회원가입"
+            onClick={() => {
+              alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
+              navigator('/');
+            }}
+          />
           <StrokeButton btnName="뒤로가기" onClick={() => navigator(-1)} />
         </BlockWrap>
       </Wrap>
