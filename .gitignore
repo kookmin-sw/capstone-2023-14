@@ -186,5 +186,9 @@ cython_debug/
 poetry.toml
 .ruff_cache/
 pyrightconfig.json
+*.idea
+*.imi
 
-### WebStorm ###
+# DataMining
+DM/blog_data/
+DM/.env
