@@ -1,33 +1,11 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=10048771&assignment_repo_type=AssignmentRepo)
-# Welcome to GitHub
+### 1. 프로젝트 소개
 
-캡스톤 팀 생성을 축하합니다.
+팬데믹 당시 억눌려있었던 여행에 대한 갈망이 엔데믹 이후 증가하면서 많은 분들이 다시 여행을 가기 시작했습니다. 그러나 정작 본인이 가고픈 다음 여행지를 모를 때도 있을뿐더러, 나와 여행 기간, 예상 경비 등 조건이 맞는 지인을 찾기 힘들 때가 있습니다.
 
-## 팀소개 및 페이지를 꾸며주세요.
+현재 동행인을 찾는 방법으로는 여행 관련 카페를 통한 경우가 많은데 본인이 직접 모집 글을 작성하거나, 나와 맞을 것 같은 상대방을 직접 찾아야 하는 번거로움이 있습니다. 
+따라서 유사도 추천 시스템을 통해 나와 잘 맞을 것 같은 동행인을 추천해줌으로써 번거로움을 해결하고자 합니다.
 
-- 프로젝트 소개
-  - 프로젝트 설치방법 및 데모, 사용방법, 프리뷰등을 readme.md에 작성.
-  - Api나 사용방법등 내용이 많을경우 wiki에 꾸미고 링크 추가.
-
-- 팀페이지 꾸미기
-  - 프로젝트 소개 및 팀원 소개
-  - index.md 예시보고 수정.
-
-- GitHub Pages 리파지토리 Settings > Options > GitHub Pages 
-  - Source를 marster branch
-  - Theme Chooser에서 태마선택
-  - 수정후 팀페이지 확인하여 점검.
-
-**팀페이지 주소** -> https://kookmin-sw.github.io/ '{{자신의 리파지토리 아이디}}'
-
-**예시)** 2023년 0조  https://kookmin-sw.github.io/capstone-2023-00/
-
-
-## 내용에 아래와 같은 내용들을 추가하세요.
-
-### 1. 프로잭트 소개
-
-프로젝트
+'함께할래?' 는 이전에 가봤던 여행지 선호도와 본인의 취향에 기반하여 비슷한 여행지를 추천하고, 자신의 여행 성향과 유사한 동행인을 쉽고 간편하게 추천해주는 서비스입니다.
 
 ### 2. 소개 영상
 
@@ -35,9 +13,12 @@
 
 ### 3. 팀 소개
 
-팀을 소개하세요.
-
-팀원정보 및 담당이나 사진 및 SNS를 이용하여 소개하세요.
+| <span style="justify-content:center; align-items: center; display: flex;">윤서영</span>                                                                                                                     | <span style="justify-content:center; align-items: center; display: flex">김지홍</span>                                                                                                                      | <span style="justify-content:center; align-items: center; display: flex">남상림</span>                                                                                                                          |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <img width="200px" src="https://user-images.githubusercontent.com/54922803/227139823-d6c577b9-9206-4a2b-9e0c-427aecb39737.jpeg">                                                                            | <img width="200px" src="https://user-images.githubusercontent.com/54922803/227139864-32700bd9-a38b-4e00-ba2a-799e94912a46.jpeg">                                                                            | <img width="200px" src="https://user-images.githubusercontent.com/54922803/227139845-b502b414-5a07-4054-adb7-f466bd93594d.jpeg">                                                                                |
+| 👩🏻‍💻 학번: xxxx1633                                                                                                                                                                                           | 👩🏻‍💻 학번: xxxx1572                                                                                                                                                                                           | 👩🏻‍💻 학번: xxxx1584                                                                                                                                                                                               |
+| Team Leader, Data Mining, Server                                                                                                                                                                            | FrontEnd, BackEnd                                                                                                                                                                                           | FrontEnd, BackEnd, Design                                                                                                                                                                                       |
+| <img width="20px" style="align: center;" src="https://raw.githubusercontent.com/tandpfun/skill-icons/59059d9d1a2c092696dc66e00931cc1181a4ce1f/icons/Github-Dark.svg"> [young43](https://github.com/young43) | <img width="20px" style="align: center;" src="https://raw.githubusercontent.com/tandpfun/skill-icons/59059d9d1a2c092696dc66e00931cc1181a4ce1f/icons/Github-Dark.svg"> [Ziihong](https://github.com/Ziihong) | <img width="20px" style="align: center;" src="https://raw.githubusercontent.com/tandpfun/skill-icons/59059d9d1a2c092696dc66e00931cc1181a4ce1f/icons/Github-Dark.svg"> [sanglim00](https://github.com/sanglim00) |
 
 ### 4. 사용법
 
@@ -46,32 +27,3 @@
 ### 5. 기타
 
 추가적인 내용은 자유롭게 작성하세요.
-
-
-## Markdown을 사용하여 내용꾸미기
-
-Markdown은 작문을 스타일링하기위한 가볍고 사용하기 쉬운 구문입니다. 여기에는 다음을위한 규칙이 포함됩니다.
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-자세한 내용은 [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Support or Contact
-
-readme 파일 생성에 추가적인 도움이 필요하면 [도움말](https://help.github.com/articles/about-readmes/) 이나 [contact support](https://github.com/contact) 을 이용하세요.
