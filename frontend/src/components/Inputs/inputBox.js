@@ -1,10 +1,11 @@
 import React from 'react';
 import { InputWrap } from './styles';
+import { SubTitle } from '../Fonts/fonts';
 
 function InputBox(props) {
   return (
     <InputWrap>
-      <div>{props.title}</div>
+      <SubTitle>{props.title}</SubTitle>
       <input
         name={props.name}
         onClick={props.onClick}
