@@ -29,6 +29,7 @@ if __name__ == "__main__":
         crawl_data = eval(row[1])
         country_cnt += crawl_data
 
+        # '호텔': 665 -> 호텔 665번 나오게 됨
         word_list = list(Counter(crawl_data).elements())
         country_word_list.append(" ".join(word_list))
     db.close()
