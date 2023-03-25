@@ -3,7 +3,7 @@ import { Wrap } from './styles';
 import { useNavigate } from 'react-router-dom';
 import { Title } from '../Fonts/fonts';
 
-function Header(props) {
+const Header = (props) => {
   const navigator = useNavigate();
   return (
     <Wrap>
@@ -15,6 +15,6 @@ function Header(props) {
       <Title>{props.title}</Title>
     </Wrap>
   );
-}
+};
 
 export default Header;
