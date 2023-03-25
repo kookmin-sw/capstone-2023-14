@@ -2,7 +2,7 @@ import React from 'react';
 import { Wrap } from './styles';
 import { useNavigate } from 'react-router-dom';
 
-function Footer() {
+const Footer = () => {
   const navigator = useNavigate();
   return (
     <Wrap>
@@ -12,7 +12,7 @@ function Footer() {
       />
       <img
         src={process.env.PUBLIC_URL + '/images/Footer/recordIcon.svg'}
-        onClick={() => navigator('/')}
+        onClick={() => navigator('/record')}
       />
       <img
         src={process.env.PUBLIC_URL + '/images/Footer/boardIcon.svg'}
@@ -28,5 +28,5 @@ function Footer() {
       />
     </Wrap>
   );
-}
+};
 export default Footer;

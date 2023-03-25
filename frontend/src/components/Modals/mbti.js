@@ -2,7 +2,7 @@ import React from 'react';
 import { TypeWrap, Wrap } from './styles';
 import { SubTitle, Title } from '../Fonts/fonts';
 
-function Mbti(props) {
+const Mbti = (props) => {
   const CheckUserMBTI = (e) => {
     props.setUserInfo({ ...props.userInfo, mbti: e.target.id });
     props.setMbtiModal(false);
@@ -45,5 +45,5 @@ function Mbti(props) {
       </div>
     </Wrap>
   );
-}
+};
 export default Mbti;
