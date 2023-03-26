@@ -16,7 +16,7 @@ const Footer = () => {
       />
       <img
         src={process.env.PUBLIC_URL + '/images/Footer/boardIcon.svg'}
-        onClick={() => navigator('/')}
+        onClick={() => navigator('/board')}
       />
       <img
         src={process.env.PUBLIC_URL + '/images/Footer/notiIcon.svg'}
