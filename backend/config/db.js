@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+require('dotenv').config('../.env');
 
 const dbHost = process.env.DB_IP;
 const dbName = process.env.DB_NAME;
