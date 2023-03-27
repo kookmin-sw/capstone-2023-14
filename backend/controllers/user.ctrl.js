@@ -1,5 +1,8 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const db = require('../config/db');
+
+const secretKey = process.env.SECRET_KEY;
 
 const login = (req, res) => {
   const { email, password } = req.body;
@@ -19,14 +22,15 @@ const login = (req, res) => {
     bcrypt.compare(password, user.passwd, (error, isMatch) => {
       if (error) throw error;
 
-      isMatch = password === user.passwd ? true : false;
-
-      if (isMatch) {
-        res.status(200).json({ message: '로그인 성공' });
-      } else {
+      if (!isMatch) {
         res
           .status(401)
           .json({ message: '사용자 이름 또는 패스워드가 올바르지 않습니다.' });
+      } else {
+        const token = jwt.sign({ id: user.id }, secretKey);
+
+        res.cookie('token', token, { httpOnly: true });
+        res.status(200).json({ message: '로그인 성공', userId: user.id });
       }
     });
   });
