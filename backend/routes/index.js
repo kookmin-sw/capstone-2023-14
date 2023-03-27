@@ -9,5 +9,6 @@ router.get('/', (req, res) => {
 
 router.post('/api/login', user.login);
 router.post('/api/signup', user.signUp);
+router.post('/api/logout', user.logout);
 
 module.exports = router;

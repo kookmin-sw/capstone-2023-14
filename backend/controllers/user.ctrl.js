@@ -75,4 +75,11 @@ const signUp = (req, res) => {
   });
 };
 
-module.exports = { login, signUp };
+const logout = (req, res) => {
+  // 쿠키에서 토큰 삭제
+  res.clearCookie('token');
+
+  res.status(200).json({ success: true });
+};
+
+module.exports = { login, signUp, logout };
