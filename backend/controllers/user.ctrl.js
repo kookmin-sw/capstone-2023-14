@@ -58,20 +58,30 @@ const signUp = (req, res) => {
       return;
     }
 
-    bcrypt.hash(password, 10, async (error, hash) => {
+    bcrypt.hash(password, 10, async (error, password_hash) => {
       if (error) {
         return res.status(500).json({ error: 'Server error' });
       }
-    });
 
-    db.query(
-      'INSERT INTO member (email, id, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,?,?)',
-      [email, id, password, name, phone_number, gender, birth, mbti, profile],
-      (error, result) => {
-        if (error) throw error;
-        res.status(201).json({ success: true });
-      }
-    );
+      db.query(
+        'INSERT INTO member (email, id, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,?,?)',
+        [
+          email,
+          id,
+          password_hash,
+          name,
+          phone_number,
+          gender,
+          birth,
+          mbti,
+          profile,
+        ],
+        (error, result) => {
+          if (error) throw error;
+          res.status(201).json({ success: true });
+        }
+      );
+    });
   });
 };
 
