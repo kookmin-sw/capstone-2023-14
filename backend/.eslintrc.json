@@ -8,6 +8,7 @@
       "jsx": false
     }
   },
+  "parser": "@babel/eslint-parser",
   "env": {
     "browser": false,
     "node": true

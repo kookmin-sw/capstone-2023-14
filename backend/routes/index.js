@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-router.post('/login', user.login);
+router.post('/api/login', user.login);
+router.post('/api/signup', user.signUp);
 
 module.exports = router;
