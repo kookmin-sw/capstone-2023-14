@@ -13,7 +13,7 @@ const login = (req, res) => {
 
     // 조회된 사용자 정보 없을 때
     if (result.length === 0) {
-      res.status(401).json({ message: '등록되지 않은 사용자입니다.' });
+      res.status(401).json({ error: '등록되지 않은 사용자입니다.' });
       return;
     }
 
@@ -25,15 +25,54 @@ const login = (req, res) => {
       if (!isMatch) {
         res
           .status(401)
-          .json({ message: '사용자 이름 또는 패스워드가 올바르지 않습니다.' });
+          .json({ error: '사용자 이름 또는 패스워드가 올바르지 않습니다.' });
       } else {
         const token = jwt.sign({ id: user.id }, secretKey);
 
         res.cookie('token', token, { httpOnly: true });
-        res.status(200).json({ message: '로그인 성공', userId: user.id });
+        res.status(200).json({ success: true, userId: user.id });
       }
     });
   });
 };
 
-module.exports = { login };
+const signUp = (req, res) => {
+  const {
+    email,
+    id,
+    password,
+    name,
+    phone_number,
+    gender,
+    birth,
+    mbti,
+    profile,
+  } = req.body;
+
+  // 이메일 중복 검사
+  db.query('SELECT * FROM member WHERE email = ?', [email], (error, result) => {
+    if (error) throw error;
+
+    if (result.length > 0) {
+      res.status(409).json({ error: '이미 존재하는 이메일입니다.' });
+      return;
+    }
+
+    bcrypt.hash(password, 10, async (error, hash) => {
+      if (error) {
+        return res.status(500).json({ error: 'Server error' });
+      }
+    });
+
+    db.query(
+      'INSERT INTO member (email, id, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,?,?)',
+      [email, id, password, name, phone_number, gender, birth, mbti, profile],
+      (error, result) => {
+        if (error) throw error;
+        res.status(201).json({ success: true });
+      }
+    );
+  });
+};
+
+module.exports = { login, signUp };
