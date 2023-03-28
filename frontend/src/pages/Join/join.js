@@ -45,6 +45,8 @@ function Join() {
     mbti: '',
   });
 
+  const [passwordMessage, setPasswordMessage] = useState('');
+
   // 입력값 변화 적용
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -94,8 +96,11 @@ function Join() {
         />
         <ImgWrap>
           <label htmlFor={'uploadImg'}>
-            <img src={base64} />
-            <img src={process.env.PUBLIC_URL + '/images/Common/camera.svg'} />
+            <img src={base64} alt="" />
+            <img
+              src={process.env.PUBLIC_URL + '/images/Common/camera.svg'}
+              alt=""
+            />
           </label>
         </ImgWrap>
         <Title margin={'0 0 20px'}>회원정보입력</Title>
@@ -116,15 +121,29 @@ function Join() {
             title={'이메일'}
             onChange={handleOnChange}
             type={'email'}
+            name={'email'}
             value={userInfo.email}
           />
           <InputBox
             title={'비밀번호'}
             onChange={handleOnChange}
-            type={'new-password'}
+            type={'password'}
+            name={'password'}
             value={userInfo.password}
           />
-          <InputBox title={'비밀번호 확인'} type={'new-password'} />
+          <InputBox
+            title={'비밀번호 확인'}
+            type={'password'}
+            onChange={(event) => {
+              if (
+                userInfo.password.length !== 0 &&
+                userInfo.password === event.target.value
+              )
+                setPasswordMessage('비밀번호가 일치합니다.');
+              else setPasswordMessage('비밀번호가 일치하지 않습니다.');
+            }}
+          />
+          <span>{passwordMessage}</span>
           <div>
             <SubTitle margin={'0 0 10px'}>성별</SubTitle>
             <GenderWrap>
@@ -157,6 +176,7 @@ function Join() {
             <SubTitle margin={'0 0 10px'}>MBTI</SubTitle>
             <input
               type={'button'}
+              name={'mbti'}
               value={userInfo.mbti}
               onClick={() => {
                 setMbtiModal(true);
@@ -168,18 +188,21 @@ function Join() {
           <div>
             <img
               src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
+              alt=""
             />
             <span>전체선택</span>
           </div>
           <div>
             <img
               src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
+              alt=""
             />
             <span>개인정보 처리방침을 확인했습니다.</span>
           </div>
           <div>
             <img
               src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
+              alt=""
             />
             <span>서비스 이용방침을 확인했습니다.</span>
           </div>
