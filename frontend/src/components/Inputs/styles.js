@@ -23,7 +23,7 @@ export const InputWrap = styled.div`
 
     :hover,
     :focus-visible {
-      border: 2px solid #ef4e3e;
+      border: ${(props) => (props.disabled ? null : '2px solid #ef4e3e')};
       outline: none;
       transition: 0.5s ease;
     }
