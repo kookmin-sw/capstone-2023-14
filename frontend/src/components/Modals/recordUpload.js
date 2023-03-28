@@ -1,13 +1,29 @@
 import React, { useRef, useState } from 'react';
-import { ImgWrap, InputWrap, StarRatingWrap, Wrap } from './styles';
+import { DateWrap, ImgWrap, InputWrap, StarRatingWrap, Wrap } from './styles';
 import InputBox from '../Inputs/inputBox';
 import { SubTitle } from '../Fonts/fonts';
 import heic2any from 'heic2any';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const RecordUpload = (props) => {
   // user profile image
   const imgRef = useRef();
   const [base64, setBase64] = useState('');
+
+  // date-picker
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  const dateToString = (date) => {
+    return (
+      date.getFullYear() +
+      '-' +
+      (date.getMonth() + 1).toString().padStart(2, '0') +
+      '-' +
+      date.getDate().toString().padStart(2, '0')
+    );
+  };
 
   // star rating
   const [rating, setRating] = useState();
@@ -138,7 +154,31 @@ const RecordUpload = (props) => {
             </StarRatingWrap>
           </div>
           <InputBox title={'여행지'} small />
-          <InputBox title={'여행기간'} small />
+          <div>
+            <SubTitle margin={'0 0 10px'}>여행기간</SubTitle>
+            <DateWrap>
+              <DatePicker
+                selected={startDate}
+                maxDate={new Date()}
+                onChange={(date) => {
+                  setStartDate(date);
+                }}
+                dateFormat="yyyy-MM-dd"
+              />
+              <span>-</span>
+              <DatePicker
+                selected={endDate}
+                selectsEnd
+                startDate={startDate}
+                minDate={startDate}
+                maxDate={new Date()}
+                onChange={(date) => {
+                  setEndDate(date);
+                }}
+                dateFormat="yyyy-MM-dd"
+              />
+            </DateWrap>
+          </div>
           <InputBox title={'총 여행경비'} small />
           <div>
             <SubTitle margin={'0 0 10px'}>나의 기록</SubTitle>

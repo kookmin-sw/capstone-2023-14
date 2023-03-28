@@ -106,3 +106,23 @@ export const StarRatingWrap = styled.div`
     height: fit-content;
   }
 `;
+
+export const DateWrap = styled.div`
+  display: flex;
+  align-items: center;
+  text-align: center;
+  border: 2px solid rgb(224, 224, 224);
+  border-radius: 30px;
+  padding: 8px 12px;
+
+  input {
+    all: unset;
+    width: 100% !important;
+  }
+
+  :hover,
+  :focus-visible {
+    border: 2px solid rgb(239, 78, 62);
+    transition: all 0.5s ease 0s;
+  }
+`;
