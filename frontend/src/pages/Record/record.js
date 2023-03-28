@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/Header/header';
 import { Title } from '../../components/Fonts/fonts';
 import RecordList from '../../components/Records/recordList';
 import Footer from '../../components/Footer/footer';
-import { Wrap } from './styles';
+import { FloadingButton, Wrap } from './styles';
+import RecordUpload from '../../components/Modals/recordUpload';
 
 function Join() {
+  const [upload, setUpload] = useState(false);
+
   return (
     <div>
       <Header title={'record'} />
@@ -20,7 +23,9 @@ function Join() {
           <RecordList />
           <RecordList />
         </div>
+        <FloadingButton onClick={() => setUpload(true)}>+</FloadingButton>
       </Wrap>
+      {upload ? <RecordUpload setUpload={setUpload} /> : null}
       <Footer />
     </div>
   );
