@@ -2,7 +2,7 @@ import React from 'react';
 import { InputWrap } from './styles';
 import { SubTitle } from '../Fonts/fonts';
 
-function InputBox(props) {
+const InputBox = (props) => {
   return (
     <InputWrap>
       <SubTitle>{props.title}</SubTitle>
@@ -16,5 +16,5 @@ function InputBox(props) {
       />
     </InputWrap>
   );
-}
+};
 export default InputBox;
