@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 
-export const Wrap = styled.div`
+const Common = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const Wrap = styled(Common)`
   z-index: 99;
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 0;
   inset: 0;
-  display: flex;
   justify-content: center;
-  align-items: center;
   margin: auto;
   max-width: 480px;
 
@@ -83,22 +86,26 @@ export const InputWrap = styled.div`
     margin: auto;
   }
 
-  textarea {
-    all: unset;
-    resize: none;
-    width: calc(100% - 12px);
-    padding: 4px;
-    height: 120px;
-    border: 2px solid rgb(224, 224, 224);
-    border-radius: 12px;
-    margin-bottom: 20px;
+  img {
+    width: ${(props) => (props.small ? '18px' : null)};
   }
 `;
 
-export const StarRatingWrap = styled.div`
-  display: flex;
+export const Textarea = styled.textarea`
+  all: unset;
+  resize: none;
+  width: calc(100% - 12px);
+  padding: 4px;
+  height: 120px;
+  border: 2px solid rgb(224, 224, 224);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  background-color: ${(props) =>
+    props.disabled ? 'rgba(224, 224, 224, 0.2)' : null};
+`;
+
+export const StarRatingWrap = styled(Common)`
   justify-content: space-between;
-  align-items: center;
 
   > select {
     padding: 2px 4px;
@@ -107,9 +114,7 @@ export const StarRatingWrap = styled.div`
   }
 `;
 
-export const DateWrap = styled.div`
-  display: flex;
-  align-items: center;
+export const DateWrap = styled(Common)`
   text-align: center;
   border: 2px solid rgb(224, 224, 224);
   border-radius: 30px;

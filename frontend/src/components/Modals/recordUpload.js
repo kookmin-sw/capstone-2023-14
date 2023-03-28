@@ -1,5 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { DateWrap, ImgWrap, InputWrap, StarRatingWrap, Wrap } from './styles';
+import {
+  DateWrap,
+  ImgWrap,
+  InputWrap,
+  StarRatingWrap,
+  Textarea,
+  Wrap,
+} from './styles';
 import InputBox from '../Inputs/inputBox';
 import { SubTitle } from '../Fonts/fonts';
 import heic2any from 'heic2any';
@@ -14,16 +21,6 @@ const RecordUpload = (props) => {
   // date-picker
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-
-  const dateToString = (date) => {
-    return (
-      date.getFullYear() +
-      '-' +
-      (date.getMonth() + 1).toString().padStart(2, '0') +
-      '-' +
-      date.getDate().toString().padStart(2, '0')
-    );
-  };
 
   // star rating
   const [rating, setRating] = useState();
@@ -182,7 +179,7 @@ const RecordUpload = (props) => {
           <InputBox title={'총 여행경비'} small />
           <div>
             <SubTitle margin={'0 0 10px'}>나의 기록</SubTitle>
-            <textarea />
+            <Textarea />
           </div>
           <button onClick={HandleInfoSave}>저장</button>
         </InputWrap>
