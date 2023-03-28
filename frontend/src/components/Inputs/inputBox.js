@@ -4,7 +4,7 @@ import { SubTitle } from '../Fonts/fonts';
 
 const InputBox = (props) => {
   return (
-    <InputWrap>
+    <InputWrap small={props.small}>
       <SubTitle>{props.title}</SubTitle>
       <input
         name={props.name}
