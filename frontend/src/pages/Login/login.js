@@ -17,8 +17,6 @@ function Login() {
     password: '',
   });
 
-  useEffect(() => {}, [inputInfo]);
-
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputInfo({
@@ -47,10 +45,6 @@ function Login() {
       });
   };
 
-  const handleClickSignUp = () => {
-    navigator('/join');
-  };
-
   return (
     <Wrap>
       <div>
@@ -58,11 +52,18 @@ function Login() {
       </div>
       <div>
         <BlockWrap>
-          <InputBox title={'이메일'} onChange={handleOnChange} name="email" />
+          <InputBox
+            title={'이메일'}
+            onChange={handleOnChange}
+            name="email"
+            value={inputInfo.email}
+          />
           <InputBox
             title={'비밀번호'}
             onChange={handleOnChange}
+            type="password"
             name="password"
+            value={inputInfo.password}
           />
         </BlockWrap>
         <Row justify={'space-between'} margin={'18px 0 40px'}>
@@ -88,7 +89,7 @@ function Login() {
         </Row>
         <ButtonWrap>
           <FullButton btnName="로그인" onClick={handleClickLogin} />
-          <StrokeButton btnName="회원가입" onClick={handleClickSignUp} />
+          <StrokeButton btnName="회원가입" onClick={() => navigator('/join')} />
         </ButtonWrap>
       </div>
     </Wrap>
