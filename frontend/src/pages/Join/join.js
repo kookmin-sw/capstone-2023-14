@@ -20,6 +20,7 @@ import FullButton from '../../components/Buttons/fullButton';
 import Header from '../../components/Header/header';
 import InputBox from '../../components/Inputs/inputBox';
 import Mbti from '../../components/Modals/mbti';
+import axios from 'axios';
 
 function Join() {
   const navigator = useNavigate();
@@ -36,13 +37,23 @@ function Join() {
 
   // database에 저장할 유저의 회원정보
   const [userInfo, setUserInfo] = useState({
+    // name: '',
+    // phone: '',
+    // email: '',
+    // password: '',
+    // gender: 'man',
+    // birthday: '',
+    // mbti: '',
+
+    email: '',
+    id: '',
+    password: '',
     name: '',
     phone: '',
-    email: '',
-    password: '',
     gender: 'man',
     birthday: '',
     mbti: '',
+    profile: '', // image
   });
 
   const [passwordMessage, setPasswordMessage] = useState('');
@@ -79,6 +90,27 @@ function Join() {
     reader.onloadend = async () => {
       setBase64(reader.result);
     };
+  };
+
+  const handleClickSignUp = async () => {
+    await axios({
+      url: '/api/signup',
+      method: 'post',
+      baseURL: 'http://localhost:5001',
+      data: userInfo,
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          console.log('회원가입 성공');
+          alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
+          navigator('/');
+        }
+      })
+      .catch((error) => {
+        if (error.response.status === 409) {
+          alert('이미 존재하는 이메일입니다.');
+        }
+      });
   };
 
   return (
@@ -208,13 +240,7 @@ function Join() {
           </div>
         </TermsWrap>
         <BlockWrap>
-          <FullButton
-            btnName="회원가입"
-            onClick={() => {
-              alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
-              navigator('/');
-            }}
-          />
+          <FullButton btnName="회원가입" onClick={handleClickSignUp} />
           <StrokeButton btnName="뒤로가기" onClick={() => navigator(-1)} />
         </BlockWrap>
       </Wrap>
