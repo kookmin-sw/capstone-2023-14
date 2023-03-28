@@ -77,7 +77,6 @@ def getCountry():
     # print(user_info)
 
     travel_cosim = cosine_similarity(user_ratings, cosine_sim)
-    _input = 'wlghddl9@naver.com'
     _index = user_info[_input]
     # 본인이 갔다왔던 여행지는 제외
     except_index = np.where(user_data[_input] > 0)
