@@ -9,7 +9,7 @@ from datetime import datetime
 
 from konlpy.tag import Komoran, Okt, Mecab
 from database import Database
-
+import platform
 
 
 #데이터 전처리 함수
@@ -24,7 +24,10 @@ def preprocessing(review):
 
     # Mecab 설치 (Komoran보다 훨씬 빠름)
     # https://velog.io/@jyong0719/konlpy-mecab-%EC%84%A4%EC%B9%98-window
-    mecab = Mecab(dicpath=os.environ.get('MECAB_DIR'))
+    if platform.system() == "Linux":
+        mecab = Mecab()
+    else:
+        mecab = Mecab(dicpath=os.environ.get('MECAB_DIR'))
     word_review = mecab.nouns(review_text)
 
     #불용어 제거하기
@@ -77,9 +80,9 @@ if __name__ == "__main__":
         wc = dict(Counter(word_set).most_common())
 
         wc = dict(filter(lambda x:x[1] > 10, wc.items()))   # 10번 이상 들어간 값만 추출
-        print(wc)
-        print(f"{country_id}_{country_name} : LENGTH={len(str(wc))}")
-        print("="*50)
+        # print(wc)
+        # print(f"{country_id}_{country_name} : LENGTH={len(str(wc))}")
+        # print("="*50)
 
 
         # Database 데이터 insert (값이 있으면 UPDATE)
