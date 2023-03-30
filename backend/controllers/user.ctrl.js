@@ -48,6 +48,7 @@ const signUp = (req, res) => {
     mbti,
     profile,
   } = req.body;
+  console.log('Req.body', req.body);
 
   // 이메일 중복 검사
   db.query('SELECT * FROM member WHERE email = ?', [email], (error, result) => {

@@ -37,20 +37,12 @@ function Join() {
 
   // database에 저장할 유저의 회원정보
   const [userInfo, setUserInfo] = useState({
-    // name: '',
-    // phone: '',
-    // email: '',
-    // password: '',
-    // gender: 'man',
-    // birthday: '',
-    // mbti: '',
-
     email: '',
     id: '',
     password: '',
     name: '',
     phone: '',
-    gender: 'man',
+    gender: 'M',
     birthday: '',
     mbti: '',
     profile: '', // image
@@ -61,10 +53,20 @@ function Join() {
   // 입력값 변화 적용
   const handleOnChange = (e) => {
     const { name, value } = e.target;
+
+    // 전화번호 정규식
+    if (name === 'phone') {
+      const regex = /^[0-9\b -]{0,11}$/;
+      if (!regex.test(value)) {
+        return;
+      }
+    }
+
     setUserInfo({
       ...userInfo,
       [name]: value,
     });
+    console.log(userInfo);
   };
 
   // 프로필 사진 업로드
@@ -180,14 +182,14 @@ function Join() {
             <SubTitle margin={'0 0 10px'}>성별</SubTitle>
             <GenderWrap>
               <GenderButton
-                onClick={() => setUserInfo({ ...userInfo, gender: 'man' })}
-                checked={userInfo.gender === 'man' ? true : false}
+                onClick={() => setUserInfo({ ...userInfo, gender: 'M' })}
+                checked={userInfo.gender === 'M' ? true : false}
               >
                 남자
               </GenderButton>
               <GenderButton
-                onClick={() => setUserInfo({ ...userInfo, gender: 'woman' })}
-                checked={userInfo.gender === 'woman' ? true : false}
+                onClick={() => setUserInfo({ ...userInfo, gender: 'F' })}
+                checked={userInfo.gender === 'F' ? true : false}
               >
                 여자
               </GenderButton>
