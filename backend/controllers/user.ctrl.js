@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../config/db');
+const formidable = require('formidable');
 
 const secretKey = process.env.SECRET_KEY;
 
@@ -37,52 +38,48 @@ const login = (req, res) => {
 };
 
 const signUp = (req, res) => {
-  const {
-    email,
-    id,
-    password,
-    name,
-    phone_number,
-    gender,
-    birth,
-    mbti,
-    profile,
-  } = req.body;
-  console.log('Req.body', req.body);
+  const form = new formidable.IncomingForm();
+  form.parse(req, (err, user) => {
+    if (err) throw err;
 
-  // 이메일 중복 검사
-  db.query('SELECT * FROM member WHERE email = ?', [email], (error, result) => {
-    if (error) throw error;
+    // 이메일 중복 검사
+    db.query(
+      'SELECT * FROM member WHERE email = ?',
+      [user.email],
+      (error, result) => {
+        if (error) throw error;
 
-    if (result.length > 0) {
-      res.status(409).json({ error: '이미 존재하는 이메일입니다.' });
-      return;
-    }
-
-    bcrypt.hash(password, 10, async (error, password_hash) => {
-      if (error) {
-        return res.status(500).json({ error: 'Server error' });
-      }
-
-      db.query(
-        'INSERT INTO member (email, id, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,?,?)',
-        [
-          email,
-          id,
-          password_hash,
-          name,
-          phone_number,
-          gender,
-          birth,
-          mbti,
-          profile,
-        ],
-        (error, result) => {
-          if (error) throw error;
-          res.status(201).json({ success: true });
+        if (result.length > 0) {
+          res.status(409).json({ error: '이미 존재하는 이메일입니다.' });
+          return;
         }
-      );
-    });
+
+        bcrypt.hash(user.password, 10, async (error, password_hash) => {
+          if (error) {
+            return res.status(500).json({ error: 'Server error' });
+          }
+
+          db.query(
+            'INSERT INTO member (email, id, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,?,FROM_BASE64(?))',
+            [
+              user.email,
+              user.id,
+              password_hash,
+              user.name,
+              user.phone,
+              user.gender,
+              user.birth,
+              user.mbti,
+              user.profile,
+            ],
+            (error, result) => {
+              if (error) throw error;
+              res.status(201).json({ success: true });
+            }
+          );
+        });
+      }
+    );
   });
 };
 

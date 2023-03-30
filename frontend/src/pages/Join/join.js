@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import heic2any from 'heic2any';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
 import {
   ImgWrap,
   BlockWrap,
@@ -45,7 +44,6 @@ function Join() {
     gender: 'M',
     birthday: '',
     mbti: '',
-    profile: '', // image
   });
 
   const [passwordMessage, setPasswordMessage] = useState('');
@@ -66,7 +64,6 @@ function Join() {
       ...userInfo,
       [name]: value,
     });
-    console.log(userInfo);
   };
 
   // 프로필 사진 업로드
@@ -95,11 +92,22 @@ function Join() {
   };
 
   const handleClickSignUp = async () => {
+    const signUpData = new FormData();
+    signUpData.append('profile', base64);
+    signUpData.append('email', userInfo.email);
+    signUpData.append('id', userInfo.id);
+    signUpData.append('password', userInfo.password);
+    signUpData.append('name', userInfo.name);
+    signUpData.append('phone', userInfo.phone);
+    signUpData.append('gender', userInfo.gender);
+    signUpData.append('birthday', userInfo.birthday);
+    signUpData.append('mbti', userInfo.mbti);
+
     await axios({
       url: '/api/signup',
       method: 'post',
       baseURL: 'http://localhost:5001',
-      data: userInfo,
+      data: signUpData,
     })
       .then((response) => {
         if (response.status === 201) {
