@@ -3,7 +3,8 @@ import Header from '../../components/Header/header';
 import Footer from '../../components/Footer/footer';
 import { useParams } from 'react-router-dom';
 import ImgSlider from '../../components/Slider';
-import { Wrap, Title, List, Item } from './styles';
+import { InfoWrap, UserWrap, Wrap } from './styles';
+import { Title, SubTitle, Small, Normal } from '../../components/Fonts/fonts';
 
 function Detail() {
   const params = useParams();
@@ -33,43 +34,53 @@ function Detail() {
   };
 
   return (
-    <Wrap>
-      {' '}
+    <div>
       <Header title="Detail" />
       <ImgSlider
         Img1={Info.thumbnailList[0]}
         Img2={Info.thumbnailList[1]}
         Img3={Info.thumbnailList[2]}
       />
-      <div className="Info" style={{ paddingBottom: '15px' }}>
-        <Title>{destination}</Title>
-        <p style={{ marginTop: '0' }}>{Info.introduction}</p>
-        <div>날씨: {Info.weather}</div>
-        <div>환율: {Info.exchangeRate}</div>
-        <div>소요시간: {Info.timeTaken}</div>
-        <div>비자유무: {Info.visa}</div>
-      </div>
-      <hr />
-      <Title>동행인 추천</Title>
-      <List>
-        {/* 동명이인일 경우, 해당 key 부적절 */}
-        {Info.companionList.map((companion) => (
-          <div key={companion.name}>
-            <Item>
-              <div>
-                <img
-                  src="https://mblogthumb-phinf.pstatic.net/MjAxODAzMDNfMjU4/MDAxNTIwMDQxODA4Mjc0.gR3L5xx3IbpACbvRRF9j9xjJmO-EPAY35oF1AdBnDcog.WZyeqFi6cMmH-v-R-ec44Ny6ZgVyAJIYMT78p4Rxbkwg.PNG.osy2201/2_%2850%ED%8D%BC%EC%84%BC%ED%8A%B8_%ED%9A%8C%EC%83%89%29_%ED%9A%8C%EC%83%89_%EB%8B%A8%EC%83%89_%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B4_180303.png?type=w800" // 사용자 프로필 이미지
-                  alt="profile"
-                />
-              </div>
-              {companion.name}
-              <span>{companion.mbti}</span>
-            </Item>
+      <Wrap>
+        <Title margin={'20px 0 12px'}>{destination}</Title>
+        <InfoWrap>
+          <div>{Info.introduction}</div>
+          <div>
+            <div>
+              <SubTitle>날씨</SubTitle>
+              <div>{Info.weather}</div>
+            </div>
+            <div>
+              <SubTitle>환율</SubTitle>
+              <div>{Info.exchangeRate}</div>
+            </div>
+            <div>
+              <SubTitle>소요시간</SubTitle>
+              <div>{Info.timeTaken}</div>
+            </div>
+            <div>
+              <SubTitle>비자유무</SubTitle>
+              <div>{Info.visa}</div>
+            </div>
           </div>
-        ))}
-      </List>
+        </InfoWrap>
+        <div>
+          <Title margin={'0 0 20px'}>동행인 추천</Title>
+          {/* 동명이인일 경우, 해당 key 부적절 */}
+          {Info.companionList.map((companion) => (
+            <UserWrap key={companion.name}>
+              <img
+                src="https://mblogthumb-phinf.pstatic.net/MjAxODAzMDNfMjU4/MDAxNTIwMDQxODA4Mjc0.gR3L5xx3IbpACbvRRF9j9xjJmO-EPAY35oF1AdBnDcog.WZyeqFi6cMmH-v-R-ec44Ny6ZgVyAJIYMT78p4Rxbkwg.PNG.osy2201/2_%2850%ED%8D%BC%EC%84%BC%ED%8A%B8_%ED%9A%8C%EC%83%89%29_%ED%9A%8C%EC%83%89_%EB%8B%A8%EC%83%89_%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B4_180303.png?type=w800" // 사용자 프로필 이미지
+                alt="profile"
+              />
+              <Normal>{companion.name}</Normal>
+              <Small color={'#D9D9D9'}>{companion.mbti}</Small>
+            </UserWrap>
+          ))}
+        </div>
+      </Wrap>
       <Footer />
-    </Wrap>
+    </div>
   );
 }
 
