@@ -8,4 +8,8 @@ export const Wrap = styled.div`
   @media screen and (max-width: 400px) {
     padding: 0 20px;
   }
+
+  > div:not(:first-child) {
+    margin-bottom: 16px;
+  }
 `;
