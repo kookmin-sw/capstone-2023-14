@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import re #추가
 from dotenv import load_dotenv
@@ -40,7 +42,7 @@ def preprocessing(review):
 if __name__ == "__main__":
     # load .env
     load_dotenv()
-    os.environ['JAVA_HOME'] = os.environ.get('JAVA_HOME')
+    # os.environ['JAVA_HOME'] = os.environ.get('JAVA_HOME')
 
     # ./blog_data/ 폴더 밑에 있는 크롤링 csv파일 로드
     crawl_path = './blog_data/'
@@ -67,8 +69,9 @@ if __name__ == "__main__":
                 final_word_list = preprocessing(content)
                 word_set.extend(final_word_list)
             except Exception as e:
-                # print(e)
-                pass
+                if str(e).find('expected string or bytes-like object') != -1:
+                    continue
+                print(e)
 
 
         wc = dict(Counter(word_set).most_common())

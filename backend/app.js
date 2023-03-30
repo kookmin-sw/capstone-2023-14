@@ -11,6 +11,7 @@ const corsOptions = {
   credential: true, // 사용자 인증이 필요한 리소스(쿠키 ..등) 접근
 };
 
+
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json()); // JSON 형식의 요청 처리

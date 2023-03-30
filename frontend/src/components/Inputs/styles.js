@@ -15,13 +15,15 @@ export const InputWrap = styled.div`
   > input {
     border: 2px solid #e0e0e0;
     border-radius: 30px;
-    padding: 12px 15px;
     font-weight: 400;
-    font-size: 18px;
+    ${(props) =>
+      props.small
+        ? 'font-size: 14px; padding: 8px 12px;'
+        : 'font-size: 18px; padding: 12px 15px;'}
 
     :hover,
     :focus-visible {
-      border: 2px solid #ef4e3e;
+      border: ${(props) => (props.disabled ? null : '2px solid #ef4e3e')};
       outline: none;
       transition: 0.5s ease;
     }

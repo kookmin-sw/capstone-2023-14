@@ -7,6 +7,8 @@ import Detail from './pages/Detail';
 import Record from './pages/Record/record';
 import Board from './pages/Board/board';
 import BoardContent from './pages/Board/boardContent';
+import MyPage from './pages/MyPage/myPage';
+import Setting from './pages/Setting/setting';
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
         <Route path="/board" element={<Board />} />
         <Route path="/board/:id" element={<BoardContent />} />
         <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/setting" element={<Setting />} />
       </Routes>
     </div>
   );

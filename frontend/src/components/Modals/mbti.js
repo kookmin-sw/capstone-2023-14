@@ -9,7 +9,7 @@ const Mbti = (props) => {
   };
 
   return (
-    <Wrap>
+    <Wrap padding>
       <div>
         <Title margin={'0 0 24px'}>본인의 MBTI를 선택하세요 !</Title>
         <div>

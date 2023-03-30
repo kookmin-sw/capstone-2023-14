@@ -16,9 +16,15 @@ export const Wrap = styled.div`
   font-size: 20px;
   line-height: 24px;
 
-  > img {
+  > img:first-child {
     cursor: pointer;
     position: absolute;
     left: 20px;
+  }
+
+  > img:last-child {
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
   }
 `;

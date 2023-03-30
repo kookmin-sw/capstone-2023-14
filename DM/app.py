@@ -1,29 +1,33 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import math
-import numpy as np
-import pandas as pd
+from flask import Flask, jsonify, request
+from flask_restx import Resource, Api, reqparse
 
+import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 from collections import Counter
 
+
 from database import Database
 
-
+app = Flask(__name__)
+api = Api(app)
+app.config['DEBUG'] = True
 np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 
+@app.route('/api/country', methods=['GET'])
+def getCountry():
+    _input = request.args['email']
 
-
-if __name__ == "__main__":
     # Database 접속 -> 크롤링 요약 데이터 가져오기
     db = Database()
     res = db.select('''
-        select c.id, c.name, cd.contents
-        from country_data as cd, country as c
-        where cd.id=c.id
-        order by 1;
-    ''')
+            select c.id, c.name, cd.contents
+            from country_data as cd, country as c
+            where cd.id=c.id
+            order by 1;
+        ''')
 
     country_word_list = []
     country_cnt = Counter([])
@@ -38,7 +42,6 @@ if __name__ == "__main__":
         word_list = list(Counter(crawl_data).elements())
         country_word_list.append(" ".join(word_list))
 
-
     country_name = np.array(country_name)
 
     vectorizer = TfidfVectorizer()  # 상위 500단어 추출
@@ -51,10 +54,10 @@ if __name__ == "__main__":
     user_info = dict()  # 이메일과 index 매칭
     user_data = dict()
     res = db.select('''
-        select user_id, country_id, rating 
-        from member_rating
-        order by 1, 2;
-    ''')
+            select user_id, country_id, rating 
+            from member_rating
+            order by 1, 2;
+        ''')
 
     # 'seo5220@naver.com': [0, 0, 0, 0, 0, 0, 0, 0, 0,
     for item in res:
@@ -76,15 +79,19 @@ if __name__ == "__main__":
     # print(user_info)
 
     travel_cosim = cosine_similarity(user_ratings, cosine_sim)
-    _input = 'wlghddl9@naver.com'
     _index = user_info[_input]
     # 본인이 갔다왔던 여행지는 제외
     except_index = np.where(user_data[_input] > 0)
     travel_cosim[_index][except_index] = 0
 
     score_indics = np.argsort(travel_cosim[_index])[::-1]
-    print(f"{country_name[score_indics]}")
-
-
+    output = country_name[score_indics][:10]
 
     db.close()
+
+    return jsonify({
+        'result': list(output)
+    })
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')

@@ -15,6 +15,10 @@ export const RecordWrap = styled.div`
     transition: all 0.5s ease;
   }
 
+  img {
+    width: 18px;
+  }
+
   > img {
     width: 64px;
     height: 64px;

@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os
 import pymysql
 from dotenv import load_dotenv
@@ -9,7 +12,7 @@ class Database():
             host=os.environ.get('DB_IP'),
             user=os.environ.get('DB_USER'),
             password=os.environ.get('DB_PASSWD'),
-            db='capstone',
+            db=os.environ.get('DB_NAME'),
             # charset='utf-8'
         )
         self.cur = self.conn.cursor()

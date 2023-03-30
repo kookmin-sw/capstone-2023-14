@@ -24,7 +24,7 @@ const Footer = () => {
       />
       <img
         src={process.env.PUBLIC_URL + '/images/Footer/mypageIcon.svg'}
-        onClick={() => navigator('/')}
+        onClick={() => navigator('/mypage')}
       />
     </Wrap>
   );
