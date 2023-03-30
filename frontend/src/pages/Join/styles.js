@@ -104,3 +104,10 @@ export const InfoWrap = styled.div`
     }
   }
 `;
+
+export const Row = styled.div`
+  display: flex;
+  gap: ${(props) => (props.gap ? props.gap : null)};
+  justify-content: ${(props) => (props.justify ? props.justify : null)};
+  margin: ${(props) => (props.margin ? props.margin : null)};
+`;

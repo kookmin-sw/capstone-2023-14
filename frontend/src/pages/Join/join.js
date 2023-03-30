@@ -11,6 +11,7 @@ import {
   GenderWrap,
   GenderButton,
   TermsWrap,
+  Row,
 } from './styles';
 import { Title, SubTitle } from '../../components/Fonts/fonts';
 
@@ -47,6 +48,14 @@ function Join() {
   });
 
   const [passwordMessage, setPasswordMessage] = useState('');
+
+  const [policy, setPolicy] = useState({
+    privacy: false,
+    terms: false,
+  });
+
+  // const [privacy, setPrivacy] = useState(false);
+  // const [terms, setTerms] = useState(false);
 
   // 입력값 변화 적용
   const handleOnChange = (e) => {
@@ -227,27 +236,75 @@ function Join() {
           </InfoWrap>
         </BlockWrap>
         <TermsWrap>
-          <div>
-            <img
-              src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
-              alt=""
-            />
+          <Row
+            gap={'8px'}
+            onClick={() => {
+              if (!policy.privacy || !policy.terms)
+                setPolicy((policy) => ({
+                  ...policy,
+                  privacy: true,
+                  terms: true,
+                }));
+              else {
+                setPolicy((policy) => ({
+                  ...policy,
+                  privacy: !policy.privacy,
+                  terms: !policy.terms,
+                }));
+              }
+            }}
+          >
+            {policy.privacy && policy.terms ? (
+              <img
+                src={process.env.PUBLIC_URL + '/images/Common/checked.svg'}
+                alt=""
+              />
+            ) : (
+              <img
+                src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
+                alt=""
+              />
+            )}
             <span>전체선택</span>
-          </div>
-          <div>
-            <img
-              src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
-              alt=""
-            />
+          </Row>
+          <Row
+            gap={'8px'}
+            onClick={() => {
+              setPolicy((policy) => ({ ...policy, privacy: !policy.privacy }));
+            }}
+          >
+            {policy.privacy ? (
+              <img
+                src={process.env.PUBLIC_URL + '/images/Common/checked.svg'}
+                alt=""
+              />
+            ) : (
+              <img
+                src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
+                alt=""
+              />
+            )}
             <span>개인정보 처리방침을 확인했습니다.</span>
-          </div>
-          <div>
-            <img
-              src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
-              alt=""
-            />
+          </Row>
+          <Row
+            gap={'8px'}
+            onClick={() => {
+              setPolicy((policy) => ({ ...policy, terms: !policy.terms }));
+            }}
+          >
+            {policy.terms ? (
+              <img
+                src={process.env.PUBLIC_URL + '/images/Common/checked.svg'}
+                alt=""
+              />
+            ) : (
+              <img
+                src={process.env.PUBLIC_URL + '/images/Common/noChecked.svg'}
+                alt=""
+              />
+            )}
             <span>서비스 이용방침을 확인했습니다.</span>
-          </div>
+          </Row>
         </TermsWrap>
         <BlockWrap>
           <FullButton btnName="회원가입" onClick={handleClickSignUp} />
