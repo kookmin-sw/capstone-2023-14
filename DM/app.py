@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from flask import Flask, jsonify, request
 from flask_restx import Resource, Api, reqparse
 

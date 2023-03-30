@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # 네이버 검색 API 예제 - 블로그 검색
 import os,sys
 import requests
