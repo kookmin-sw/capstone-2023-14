@@ -19,6 +19,11 @@ export const SubTitle = styled(DefaultFontStyle)`
   font-weight: 700;
 `;
 
+export const SmallTitle = styled(DefaultFontStyle)`
+  font-size: 14px;
+  font-weight: 700;
+`;
+
 export const Normal = styled(DefaultFontStyle)`
   font-size: 16px;
 `;

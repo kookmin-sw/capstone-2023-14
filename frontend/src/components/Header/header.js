@@ -15,6 +15,11 @@ const Header = (props) => {
       <Title>{props.title}</Title>
       {props.title === 'record' ? (
         <img src={process.env.PUBLIC_URL + '/images/Common/hamburger.svg'} />
+      ) : props.title === 'mypage' ? (
+        <img
+          src={process.env.PUBLIC_URL + '/images/Common/settingIcon.svg'}
+          onClick={() => navigator('/setting')}
+        />
       ) : null}
     </Wrap>
   );
