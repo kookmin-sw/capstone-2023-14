@@ -102,6 +102,12 @@ export const Textarea = styled.textarea`
   margin-bottom: 20px;
   background-color: ${(props) =>
     props.disabled ? 'rgba(224, 224, 224, 0.2)' : null};
+  :hover,
+  :focus-visible {
+    border: ${(props) => (props.disabled ? null : '2px solid #ef4e3e')};
+    outline: none;
+    transition: 0.5s ease;
+  }
 `;
 
 export const StarRatingWrap = styled(Common)`
