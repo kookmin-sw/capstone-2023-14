@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import random
+
 from flask import Flask, jsonify, request
 from flask_restx import Resource, Api, reqparse
 
@@ -79,12 +81,20 @@ def getCountry():
     # print(user_info)
 
     travel_cosim = cosine_similarity(user_ratings, cosine_sim)
-    _index = user_info[_input]
-    # 본인이 갔다왔던 여행지는 제외
-    except_index = np.where(user_data[_input] > 0)
-    travel_cosim[_index][except_index] = 0
 
-    score_indics = np.argsort(travel_cosim[_index])[::-1]
+    if _input in user_info:
+        _index = user_info[_input]
+        # 본인이 갔다왔던 여행지는 제외
+        except_index = np.where(user_data[_input] > 0)
+        travel_cosim[_index][except_index] = 0
+
+        score_indics = np.argsort(travel_cosim[_index])[::-1]
+    else:
+        # 아예 평가를 하지 않았던 여행자 Case
+        # 랜덤 Index로 처리하게 되었음. 추후 보완 필요
+        ran_index = random.randint(0, len(country_name))
+        score_indics = np.argsort(cosine_sim[ran_index])[::-1]
+
     output = country_name[score_indics][:10]
 
     db.close()
