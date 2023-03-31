@@ -7,6 +7,12 @@
 
 '함께할래?' 는 이전에 가봤던 여행지 선호도와 본인의 취향에 기반하여 비슷한 여행지를 추천하고, 자신의 여행 성향과 유사한 동행인을 쉽고 간편하게 추천해주는 서비스입니다.
 
+Many people started to travel again as their expectation for travel which was suppressed during pandemic increased with the pandemic coming to an end. However, they are unsure about their destination and itinerary. It is very hard to find someone who meets travel conditions such as travel period and travel expenses.
+
+Currently, there are many ways to find companion(ex. through a travel related cafe ) but but there is a hassle of having to write a recruitment writing or find a person who seems to fit me. Therefore, We would like to solve the inconvenience by recommending a companion who seems to fit user well through the similarity recommendation system.
+
+‘Do you want to join me?’ is a service that recommends similar destinations based on your preference for travel destinations and your taste, and conveniently recommends companions similar to your travel tendency.
+
 ### 2. 소개 영상
 
 프로젝트 소개하는 영상을 추가하세요
