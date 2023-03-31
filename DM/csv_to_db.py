@@ -64,7 +64,8 @@ if __name__ == "__main__":
         country_id = res[0][0]
 
         # pandas csv 파일 읽기
-        data = pd.read_csv(crawl_path + file)
+        # Buffer overflow 관련 오류로 lineterminator 파라미터 추가
+        data = pd.read_csv(crawl_path + file, lineterminator='\n'))
         word_set = []
 
         for idx, content in enumerate(data['contents']):
