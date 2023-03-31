@@ -36,4 +36,3 @@ export const BlockWrap = styled.div`
     margin-bottom: 12px;
   }
 `;
-export const ButtonWrap = styled(BlockWrap)``;

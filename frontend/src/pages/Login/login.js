@@ -3,9 +3,8 @@ import StrokeButton from '../../components/Buttons/strokeButton';
 import FullButton from '../../components/Buttons/fullButton';
 import InputBox from '../../components/Inputs/inputBox';
 import { useNavigate } from 'react-router-dom';
-// import Header from '../../components/Header/header';
-// import Footer from '../../components/Footer/footer';
-import { BlockWrap, ButtonWrap, Wrap, Row } from './styles';
+
+import { BlockWrap, Wrap, Row } from './styles';
 import { Normal } from '../../components/Fonts/fonts';
 import axios from 'axios';
 
@@ -87,10 +86,10 @@ function Login() {
             <Normal>자동로그인</Normal>
           </Row>
         </Row>
-        <ButtonWrap>
+        <div>
           <FullButton btnName="로그인" onClick={handleClickLogin} />
           <StrokeButton btnName="회원가입" onClick={() => navigator('/join')} />
-        </ButtonWrap>
+        </div>
       </div>
     </Wrap>
   );
