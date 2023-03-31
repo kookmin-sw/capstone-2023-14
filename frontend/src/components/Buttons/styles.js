@@ -13,6 +13,7 @@ const DefaultSetting = styled.div`
 export const FullColor = styled(DefaultSetting)`
   background: #ef4e3e;
   color: #ffffff;
+  margin-bottom: 12px;
 `;
 
 export const StrokeColor = styled(DefaultSetting)`

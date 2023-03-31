@@ -11,7 +11,7 @@ const Item = (props) => {
   };
 
   return (
-    <Flex padding>
+    <Flex padding onClick={props.onClick}>
       <Flex gap>
         <img src={props.img} />
         <Normal>{props.text}</Normal>

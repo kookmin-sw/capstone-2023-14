@@ -3,6 +3,7 @@ import styled from 'styled-components';
 const DefaultFontStyle = styled.div`
   margin: ${(props) => (props.margin ? props.margin : null)};
   padding: ${(props) => (props.padding ? props.padding : null)};
+  font-size: ${(props) => (props.size ? props.size : null)};
   font-weight: ${(props) => (props.weight ? props.weight : null)};
   text-align: ${(props) => (props.align ? props.align : null)};
   cursor: ${(props) => (props.cursor ? props.cursor : null)};
@@ -10,7 +11,7 @@ const DefaultFontStyle = styled.div`
 `;
 
 export const Title = styled(DefaultFontStyle)`
-  font-size: 18px;
+  font-size: ${(props) => (props.size ? props.size : '18px')};
   font-weight: 700;
 `;
 

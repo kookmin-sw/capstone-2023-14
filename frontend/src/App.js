@@ -9,6 +9,7 @@ import Board from './pages/Board/board';
 import BoardContent from './pages/Board/boardContent';
 import MyPage from './pages/MyPage/myPage';
 import Setting from './pages/Setting/setting';
+import TasteSetting from './pages/Setting/tasteSetting';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/setting" element={<Setting />} />
+        <Route path="/taste" element={<TasteSetting />} />
       </Routes>
     </div>
   );
