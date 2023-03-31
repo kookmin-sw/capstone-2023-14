@@ -2,14 +2,14 @@ import React from 'react';
 import { TypeWrap, Wrap } from './styles';
 import { SubTitle, Title } from '../Fonts/fonts';
 
-function Mbti(props) {
+const Mbti = (props) => {
   const CheckUserMBTI = (e) => {
     props.setUserInfo({ ...props.userInfo, mbti: e.target.id });
     props.setMbtiModal(false);
   };
 
   return (
-    <Wrap>
+    <Wrap padding>
       <div>
         <Title margin={'0 0 24px'}>본인의 MBTI를 선택하세요 !</Title>
         <div>
@@ -45,5 +45,5 @@ function Mbti(props) {
       </div>
     </Wrap>
   );
-}
+};
 export default Mbti;

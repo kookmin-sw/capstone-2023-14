@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import re #추가
 from dotenv import load_dotenv
@@ -7,7 +9,7 @@ from datetime import datetime
 
 from konlpy.tag import Komoran, Okt, Mecab
 from database import Database
-
+import platform
 
 
 #데이터 전처리 함수
@@ -22,7 +24,10 @@ def preprocessing(review):
 
     # Mecab 설치 (Komoran보다 훨씬 빠름)
     # https://velog.io/@jyong0719/konlpy-mecab-%EC%84%A4%EC%B9%98-window
-    mecab = Mecab(dicpath=os.environ.get('MECAB_DIR'))
+    if platform.system() == "Linux":
+        mecab = Mecab()
+    else:
+        mecab = Mecab(dicpath=os.environ.get('MECAB_DIR'))
     word_review = mecab.nouns(review_text)
 
     #불용어 제거하기
@@ -40,7 +45,7 @@ def preprocessing(review):
 if __name__ == "__main__":
     # load .env
     load_dotenv()
-    os.environ['JAVA_HOME'] = os.environ.get('JAVA_HOME')
+    # os.environ['JAVA_HOME'] = os.environ.get('JAVA_HOME')
 
     # ./blog_data/ 폴더 밑에 있는 크롤링 csv파일 로드
     crawl_path = './blog_data/'
@@ -67,16 +72,17 @@ if __name__ == "__main__":
                 final_word_list = preprocessing(content)
                 word_set.extend(final_word_list)
             except Exception as e:
-                # print(e)
-                pass
+                if str(e).find('expected string or bytes-like object') != -1:
+                    continue
+                print(e)
 
 
         wc = dict(Counter(word_set).most_common())
 
         wc = dict(filter(lambda x:x[1] > 10, wc.items()))   # 10번 이상 들어간 값만 추출
-        print(wc)
-        print(f"{country_id}_{country_name} : LENGTH={len(str(wc))}")
-        print("="*50)
+        # print(wc)
+        # print(f"{country_id}_{country_name} : LENGTH={len(str(wc))}")
+        # print("="*50)
 
 
         # Database 데이터 insert (값이 있으면 UPDATE)

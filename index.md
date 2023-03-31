@@ -1,37 +1,29 @@
-## Welcome to GitHub Pages
+### 1. 프로젝트 소개
 
-You can use the [editor on GitHub](https://github.com/kookmin-sw/cap-template/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+팬데믹 당시 억눌려있었던 여행에 대한 갈망이 엔데믹 이후 증가하면서 많은 분들이 다시 여행을 가기 시작했습니다. 그러나 정작 본인이 가고픈 다음 여행지를 모를 때도 있을뿐더러, 나와 여행 기간, 예상 경비 등 조건이 맞는 지인을 찾기 힘들 때가 있습니다.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+현재 동행인을 찾는 방법으로는 여행 관련 카페를 통한 경우가 많은데 본인이 직접 모집 글을 작성하거나, 나와 맞을 것 같은 상대방을 직접 찾아야 하는 번거로움이 있습니다. 
+따라서 유사도 추천 시스템을 통해 나와 잘 맞을 것 같은 동행인을 추천해줌으로써 번거로움을 해결하고자 합니다.
 
-### Markdown
+'함께할래?' 는 이전에 가봤던 여행지 선호도와 본인의 취향에 기반하여 비슷한 여행지를 추천하고, 자신의 여행 성향과 유사한 동행인을 쉽고 간편하게 추천해주는 서비스입니다.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### 2. 소개 영상
 
-```markdown
-Syntax highlighted code block
+프로젝트 소개하는 영상을 추가하세요
 
-# Header 1
-## Header 2
-### Header 3
+### 3. 팀 소개
 
-- Bulleted
-- List
+| <span style="justify-content:center; align-items: center; display: flex;">윤서영</span>                                                                                                                     | <span style="justify-content:center; align-items: center; display: flex">김지홍</span>                                                                                                                      | <span style="justify-content:center; align-items: center; display: flex">남상림</span>                                                                                                                          |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <img width="200px" src="https://user-images.githubusercontent.com/54922803/227139823-d6c577b9-9206-4a2b-9e0c-427aecb39737.jpeg">                                                                            | <img width="200px" src="https://user-images.githubusercontent.com/54922803/227139864-32700bd9-a38b-4e00-ba2a-799e94912a46.jpeg">                                                                            | <img width="200px" src="https://user-images.githubusercontent.com/54922803/227139845-b502b414-5a07-4054-adb7-f466bd93594d.jpeg">                                                                                |
+| 👩🏻‍💻 학번: xxxx1633                                                                                                                                                                                           | 👩🏻‍💻 학번: xxxx1572                                                                                                                                                                                           | 👩🏻‍💻 학번: xxxx1584                                                                                                                                                                                               |
+| Team Leader, Data Mining, Server                                                                                                                                                                            | FrontEnd, BackEnd                                                                                                                                                                                           | FrontEnd, BackEnd, Design                                                                                                                                                                                       |
+| <img width="20px" style="align: center;" src="https://raw.githubusercontent.com/tandpfun/skill-icons/59059d9d1a2c092696dc66e00931cc1181a4ce1f/icons/Github-Dark.svg"> [young43](https://github.com/young43) | <img width="20px" style="align: center;" src="https://raw.githubusercontent.com/tandpfun/skill-icons/59059d9d1a2c092696dc66e00931cc1181a4ce1f/icons/Github-Dark.svg"> [Ziihong](https://github.com/Ziihong) | <img width="20px" style="align: center;" src="https://raw.githubusercontent.com/tandpfun/skill-icons/59059d9d1a2c092696dc66e00931cc1181a4ce1f/icons/Github-Dark.svg"> [sanglim00](https://github.com/sanglim00) |
 
-1. Numbered
-2. List
+### 4. 사용법
 
-**Bold** and _Italic_ and `Code` text
+소스코드제출시 설치법이나 사용법을 작성하세요.
 
-[Link](url) and ![Image](src)
-```
+### 5. 기타
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/kookmin-sw/cap-template/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+추가적인 내용은 자유롭게 작성하세요.

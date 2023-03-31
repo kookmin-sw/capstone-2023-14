@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # 네이버 검색 API 예제 - 블로그 검색
 import os,sys
 import requests
@@ -64,19 +66,18 @@ if __name__ == "__main__":
         # 진행된 정보 가져오기 (파일명 제일 앞에있는 번호를 기준)
         last_index = 0
         crawl_dir = './blog_data'
-        file_list = os.listdir('./blog_data')
-
-        if len(file_list) > 0:
-            last_index = sorted(file_list, key=lambda x: int(x.split('_')[0]), reverse=True)[0].split('_')[0]
-            last_index = int(last_index)
-            print(f"{last_index}_{country_list[last_index]} 까지 진행했음")
-            print('='*50)
+        # file_list = os.listdir('./blog_data')
+        # if len(file_list) > 0:
+        #     last_index = sorted(file_list, key=lambda x: int(x.split('_')[0]), reverse=True)[0].split('_')[0]
+        #     last_index = int(last_index)
+        #     print(f"{last_index}_{country_list[last_index]} 까지 진행했음")
+        #     print('='*50)
         # print(f"Last Index : {last_index}")
 
 
         for idx, country in enumerate(country_list):
-            if last_index > 0 and idx <= last_index: continue
-            print(f"=============== {idx}_{country} 진행중 ===============")
+            # if last_index > 0 and idx <= last_index: continue
+            # print(f"=============== {idx}_{country} 진행중 ===============")
 
             review_list = []
             # 네이버 검색 API는 최대 100개까지 밖에 볼 수 없기때문에 for문을 돌려서 총 1000개의 블로그를 조회

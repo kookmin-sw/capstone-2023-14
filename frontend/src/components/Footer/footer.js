@@ -2,7 +2,7 @@ import React from 'react';
 import { Wrap } from './styles';
 import { useNavigate } from 'react-router-dom';
 
-function Footer() {
+const Footer = () => {
   const navigator = useNavigate();
   return (
     <Wrap>
@@ -12,11 +12,11 @@ function Footer() {
       />
       <img
         src={process.env.PUBLIC_URL + '/images/Footer/recordIcon.svg'}
-        onClick={() => navigator('/')}
+        onClick={() => navigator('/record')}
       />
       <img
         src={process.env.PUBLIC_URL + '/images/Footer/boardIcon.svg'}
-        onClick={() => navigator('/')}
+        onClick={() => navigator('/board')}
       />
       <img
         src={process.env.PUBLIC_URL + '/images/Footer/notiIcon.svg'}
@@ -24,9 +24,9 @@ function Footer() {
       />
       <img
         src={process.env.PUBLIC_URL + '/images/Footer/mypageIcon.svg'}
-        onClick={() => navigator('/')}
+        onClick={() => navigator('/mypage')}
       />
     </Wrap>
   );
-}
+};
 export default Footer;

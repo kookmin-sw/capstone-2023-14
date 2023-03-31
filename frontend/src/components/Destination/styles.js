@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   position: relative;
   width: 100%;
+  cursor: pointer;
 `;
 
 export const destinationImg = styled.img`
@@ -23,7 +24,7 @@ export const destinationTitle = styled.span`
 
 export const destinationBottom = styled.div`
   position: absolute;
-  width: 96%;
+  width: 92%;
   height: 8vh;
   z-index: 1;
   color: white;
@@ -31,5 +32,5 @@ export const destinationBottom = styled.div`
   font-weight: bold;
   background-color: rgb(0, 0, 0, 0.5);
   border-radius: 0 0 15px 15px;
-  padding: 3% 0px 0px 4%;
+  padding: 3% 4%;
 `;
