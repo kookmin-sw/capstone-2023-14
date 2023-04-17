@@ -4,7 +4,7 @@ import math
 import numpy as np
 import pandas as pd
 import pickle
-
+import random
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 from collections import Counter
@@ -72,15 +72,22 @@ if __name__ == "__main__":
     # print(user_info)
 
     travel_cosim = cosine_similarity(user_ratings, cosine_sim)
-    _input = 'seo5220@naver.com'
-    _index = user_info[_input]
-    # 본인이 갔다왔던 여행지는 제외
-    except_index = np.where(user_data[_input] > 0)
-    travel_cosim[_index][except_index] = 0
+    _input = 'seo52201@naver.com'
+    if _input in user_info:
+        _index = user_info[_input]
+        # 본인이 갔다왔던 여행지는 제외
+        except_index = np.where(user_data[_input] > 0)
+        travel_cosim[_index][except_index] = 0
 
-    score_indics = np.argsort(travel_cosim[_index])[::-1]
-    print(f"{country_name[score_indics]}")
+        score_indics = np.argsort(travel_cosim[_index])[::-1]
+    else:
+        # 아예 평가를 하지 않았던 여행자 Case
+        # 랜덤 Index로 처리하게 되었음. 추후 보완 필요
+        ran_index = random.randint(0, len(country_name))
+        score_indics = np.argsort(cosine_sim[ran_index])[::-1]
 
+    output = country_name[score_indics][:10]
+    print(output)
 
 
     db.close()
