@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import random
+import pickle
 
 from flask import Flask, jsonify, request
 from flask_restx import Resource, Api, reqparse
@@ -40,17 +41,14 @@ def getCountry():
         crawl_data = eval(row[2])
         country_cnt += crawl_data
 
-        # '호텔': 665 -> 호텔 665번 나오게 됨
-        word_list = list(Counter(crawl_data).elements())
-        country_word_list.append(" ".join(word_list))
-
     country_name = np.array(country_name)
 
-    vectorizer = TfidfVectorizer()  # 상위 500단어 추출
-    tfidf_matrix = vectorizer.fit_transform(country_word_list)
 
-    cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
-    cosine_sim = np.array(cosine_sim)
+    # Cosine 벡터 pickle로부터 get
+    with open('data.pickle', 'rb') as f:
+        cosine_sim = pickle.load(f)
+
+
 
     # 사용자 별점정보 조회
     user_info = dict()  # 이메일과 index 매칭

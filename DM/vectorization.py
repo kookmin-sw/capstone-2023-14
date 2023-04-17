@@ -3,6 +3,7 @@
 import math
 import numpy as np
 import pandas as pd
+import pickle
 
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
@@ -18,12 +19,14 @@ np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 if __name__ == "__main__":
     # Database 접속 -> 크롤링 요약 데이터 가져오기
     db = Database()
+    # Database 접속 -> 크롤링 요약 데이터 가져오기
+    db = Database()
     res = db.select('''
-        select c.id, c.name, cd.contents
-        from country_data as cd, country as c
-        where cd.id=c.id
-        order by 1;
-    ''')
+                select c.id, c.name, cd.contents
+                from country_data as cd, country as c
+                where cd.id=c.id
+                order by 1;
+            ''')
 
     country_word_list = []
     country_cnt = Counter([])
@@ -34,18 +37,11 @@ if __name__ == "__main__":
         crawl_data = eval(row[2])
         country_cnt += crawl_data
 
-        # '호텔': 665 -> 호텔 665번 나오게 됨
-        word_list = list(Counter(crawl_data).elements())
-        country_word_list.append(" ".join(word_list))
-
-
     country_name = np.array(country_name)
 
-    vectorizer = TfidfVectorizer()  # 상위 500단어 추출
-    tfidf_matrix = vectorizer.fit_transform(country_word_list)
-
-    cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
-    cosine_sim = np.array(cosine_sim)
+    # Cosine 벡터 pickle로부터 get
+    with open('data.pickle', 'rb') as f:
+        cosine_sim = pickle.load(f)
 
     # 사용자 별점정보 조회
     user_info = dict()  # 이메일과 index 매칭
@@ -76,7 +72,7 @@ if __name__ == "__main__":
     # print(user_info)
 
     travel_cosim = cosine_similarity(user_ratings, cosine_sim)
-    _input = 'wlghddl9@naver.com'
+    _input = 'seo5220@naver.com'
     _index = user_info[_input]
     # 본인이 갔다왔던 여행지는 제외
     except_index = np.where(user_data[_input] > 0)

@@ -6,10 +6,15 @@ from dotenv import load_dotenv
 import pandas as pd
 from collections import Counter
 from datetime import datetime
+import pickle
 
 from konlpy.tag import Komoran, Okt, Mecab
 from database import Database
 import platform
+
+import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 
 
 #데이터 전처리 함수
@@ -55,6 +60,8 @@ if __name__ == "__main__":
     # Database에서 country id 가져오기
     db = Database()
 
+    country_word_list = []
+
     for file in file_list:
         country_name = file.split('_')[1]
         res = db.select(f'select id from country where name="{country_name}"')
@@ -65,7 +72,7 @@ if __name__ == "__main__":
 
         # pandas csv 파일 읽기
         # Buffer overflow 관련 오류로 lineterminator 파라미터 추가
-        data = pd.read_csv(crawl_path + file, lineterminator='\n')
+        data = pd.read_csv(crawl_path + file)
         word_set = []
 
         for idx, content in enumerate(data['contents']):
@@ -77,24 +84,32 @@ if __name__ == "__main__":
                     continue
                 print(e)
 
-
-        wc = dict(Counter(word_set).most_common())
-
-        wc = dict(filter(lambda x:x[1] > 10, wc.items()))   # 10번 이상 들어간 값만 추출
         # print(wc)
-        # print(f"{country_id}_{country_name} : LENGTH={len(str(wc))}")
-        # print("="*50)
+        wc = dict(Counter(word_set).most_common())
+        wc = dict(filter(lambda x:x[1] > 10, wc.items()))   # 10번 이상 들어간 값만 추출
+        country_word_list.append(" ".join(word_set))    #  pickle로 저장할 데이터
 
+        print(f"{country_id}_{country_name} : LENGTH={len(str(wc))}")
+        print("=" * 50)
 
         # Database 데이터 insert (값이 있으면 UPDATE)
         cur_time = datetime.today().strftime("%Y/%m/%d %H:%M:%S")
         query = f'INSERT INTO country_data VALUES({country_id}, "{str(wc)}", now())' \
                 f'ON DUPLICATE KEY UPDATE id="{country_id}", contents="{str(wc)}", upload_time=now();'
 
-        db.query(query)
-
-
-
+        # db.query(query)
 
     db.close()
 
+
+    # TF-IDF벡터 pickle 파일로 저장
+    vectorizer = TfidfVectorizer(max_features=500)  # 상위 500단어 추출
+    tfidf_matrix = vectorizer.fit_transform(country_word_list)
+
+    cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+    cosine_sim = np.array(cosine_sim)
+
+    # Cosine 벡터 pickle로 저장
+    with open('data.pickle', 'wb') as f:
+        pickle.dump(cosine_sim, f)
+        print('data.pickle 저장 완료')
