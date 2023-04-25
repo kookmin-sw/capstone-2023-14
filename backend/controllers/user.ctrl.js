@@ -54,16 +54,15 @@ const signUp = (req, res) => {
           return;
         }
 
-        bcrypt.hash(user.password, 10, async (error, password_hash) => {
+        bcrypt.hash(user.password, 10, (error, password_hash) => {
           if (error) {
             return res.status(500).json({ error: 'Server error' });
           }
 
           db.query(
-            'INSERT INTO member (email, id, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,?,FROM_BASE64(?))',
+            'INSERT INTO member (email, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,FROM_BASE64(?))',
             [
               user.email,
-              user.id,
               password_hash,
               user.name,
               user.phone,
