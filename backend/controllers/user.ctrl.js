@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 const formidable = require('formidable');
 
-const secretKey = process.env.SECRET_KEY;
+const secretKey = process.env.HASH_SECRET_KEY;
 
 const login = (req, res) => {
   const { email, password } = req.body;
