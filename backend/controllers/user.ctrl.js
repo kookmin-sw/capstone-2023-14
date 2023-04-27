@@ -1,7 +1,7 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const db = require('../config/db');
-const formidable = require('formidable');
+import bcrypt from 'bcrypt';
+import jsonwebtoken from 'jsonwebtoken';
+import db from '../config/db.js';
+import formidable from 'formidable';
 
 const secretKey = process.env.HASH_SECRET_KEY;
 
@@ -28,7 +28,7 @@ const login = (req, res) => {
           .status(401)
           .json({ error: '사용자 이름 또는 패스워드가 올바르지 않습니다.' });
       } else {
-        const token = jwt.sign({ id: user.id }, secretKey);
+        const token = jsonwebtoken.sign({ id: user.id }, secretKey);
 
         res.cookie('token', token, { httpOnly: true });
         res.status(200).json({ success: true, userId: user.id });
@@ -89,4 +89,4 @@ const logout = (req, res) => {
   res.status(200).json({ success: true });
 };
 
-module.exports = { login, signUp, logout };
+export default { login, signUp, logout };

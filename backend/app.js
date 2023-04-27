@@ -1,16 +1,15 @@
-const express = require('express');
-const app = express();
+import express from 'express';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import routes from './routes/index.js';
 
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const routes = require('./routes');
-const cors = require('cors');
+const app = express();
 
 const corsOptions = {
   origin: 'http://localhost:3000',
   credential: true, // 사용자 인증이 필요한 리소스(쿠키 ..등) 접근
 };
-
 
 // Middleware
 app.use(cors(corsOptions));

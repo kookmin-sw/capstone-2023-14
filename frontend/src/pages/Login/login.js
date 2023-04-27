@@ -26,7 +26,7 @@ function Login() {
 
   const handleClickLogin = async () => {
     await axios
-      .post('http://localhost:5001/api/login', { inputInfo })
+      .post('http://localhost:5001/api/login', inputInfo)
       .then((response) => {
         // 로그인 성공했을 때
         if (response.status === 200 && response.data.success) {

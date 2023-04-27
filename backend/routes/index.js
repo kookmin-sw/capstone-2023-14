@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express';
+import user from '../controllers/user.ctrl.js';
+import chat from '../controllers/openai.ctrl.js';
 
-const user = require('../controllers/user.ctrl');
-const openai = require('../controllers/openai.ctrl.js');
+const router = express.Router();
 
 router.get('/', (req, res) => {
   res.send('Hello World!');
@@ -12,6 +12,6 @@ router.post('/api/login', user.login);
 router.post('/api/signup', user.signUp);
 router.post('/api/logout', user.logout);
 
-router.post('/chat', openai.chat);
+router.post('/chat', chat);
 
-module.exports = router;
+export default router;
