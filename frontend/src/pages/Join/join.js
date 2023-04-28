@@ -100,7 +100,7 @@ function Join() {
     };
   };
 
-  const handleClickSignUp = async () => {
+  const handleClickSignUp = async (event) => {
     const signUpData = new FormData();
     signUpData.append('profile', base64);
     signUpData.append('email', userInfo.email);
@@ -112,12 +112,8 @@ function Join() {
     signUpData.append('birthday', userInfo.birthday);
     signUpData.append('mbti', userInfo.mbti);
 
-    await axios({
-      url: '/api/signup',
-      method: 'post',
-      baseURL: 'http://localhost:5001',
-      data: signUpData,
-    })
+    await axios
+      .post('http://localhost:5001/api/signup', signUpData)
       .then((response) => {
         if (response.status === 201) {
           console.log('회원가입 성공');

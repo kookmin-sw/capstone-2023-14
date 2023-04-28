@@ -1,5 +1,6 @@
-const mysql = require('mysql');
-require('dotenv').config('../.env');
+import mysql from 'mysql';
+import dotenv from 'dotenv';
+dotenv.config('../.env');
 
 const dbHost = process.env.DB_IP;
 const dbName = process.env.DB_NAME;
@@ -23,4 +24,4 @@ db.connect((err) => {
   console.log('db 연결 성공');
 });
 
-module.exports = db;
+export default db;

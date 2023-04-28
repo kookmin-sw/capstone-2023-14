@@ -1,9 +1,9 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const db = require('../config/db');
-const formidable = require('formidable');
+import bcrypt from 'bcrypt';
+import jsonwebtoken from 'jsonwebtoken';
+import db from '../config/db.js';
+import formidable from 'formidable';
 
-const secretKey = process.env.SECRET_KEY;
+const secretKey = process.env.HASH_SECRET_KEY;
 
 const login = (req, res) => {
   const { email, password } = req.body;
@@ -28,7 +28,7 @@ const login = (req, res) => {
           .status(401)
           .json({ error: '사용자 이름 또는 패스워드가 올바르지 않습니다.' });
       } else {
-        const token = jwt.sign({ id: user.id }, secretKey);
+        const token = jsonwebtoken.sign({ id: user.id }, secretKey);
 
         res.cookie('token', token, { httpOnly: true });
         res.status(200).json({ success: true, userId: user.id });
@@ -54,16 +54,15 @@ const signUp = (req, res) => {
           return;
         }
 
-        bcrypt.hash(user.password, 10, async (error, password_hash) => {
+        bcrypt.hash(user.password, 10, (error, password_hash) => {
           if (error) {
             return res.status(500).json({ error: 'Server error' });
           }
 
           db.query(
-            'INSERT INTO member (email, id, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,?,FROM_BASE64(?))',
+            'INSERT INTO member (email, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,FROM_BASE64(?))',
             [
               user.email,
-              user.id,
               password_hash,
               user.name,
               user.phone,
@@ -90,4 +89,4 @@ const logout = (req, res) => {
   res.status(200).json({ success: true });
 };
 
-module.exports = { login, signUp, logout };
+export default { login, signUp, logout };
