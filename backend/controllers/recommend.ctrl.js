@@ -12,12 +12,6 @@ const destination = (req, res) => {
     (error, result) => {
       if (error) throw error;
 
-      //res.send(result[0].picture1);
-      // console.log(result[0].picture1);
-      //   let blob = new Blob([new ArrayBuffer(result[0].picture1)], {
-      //     type: 'image/png',
-      //   });
-      //   let blob = new ArrayBuffer(result[0].picture1);
       let buff = Buffer.from(result[0].picture1, 'binary');
       res.send(buff.toString('base64'));
     }
