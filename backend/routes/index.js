@@ -1,5 +1,6 @@
 import express from 'express';
-import user from '../controllers/user.ctrl.js';
+import auth from '../controllers/auth.ctrl.js';
+import users from '../controllers/users.ctrl.js';
 import chat from '../controllers/openai.ctrl.js';
 import destination from '../controllers/recommend.ctrl.js';
 
@@ -9,11 +10,12 @@ router.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-router.post('/api/login', user.login);
-router.post('/api/signup', user.signUp);
-router.post('/api/logout', user.logout);
+router.post('/api/login', auth.login);
+router.post('/api/signup', auth.signUp);
+router.post('/api/logout', auth.logout);
 
 router.post('/chat', chat);
 router.post('/api/recommend', destination);
+router.post('/api/hashtag-taste', users);
 
 export default router;
