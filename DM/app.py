@@ -5,6 +5,7 @@ import pickle
 
 from flask import Flask, jsonify, request
 from flask_restx import Resource, Api, reqparse
+from flask_cors import CORS
 
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
@@ -17,6 +18,8 @@ from database import Database
 app = Flask(__name__)
 api = Api(app)
 app.config['DEBUG'] = True
+CORS(app)
+
 np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 
 @app.route('/dm/recommend', methods=['GET'])
@@ -102,4 +105,4 @@ def getCountry():
     })
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5000)
