@@ -16,6 +16,8 @@ router.post('/api/logout', auth.logout);
 
 router.post('/chat', chat);
 router.post('/api/recommend', destination);
-router.post('/api/hashtag-taste', users);
+
+router.post('/api/hashtag-taste', users.saveTaste);
+router.post('/api/record-write', users.saveRecord);
 
 export default router;
