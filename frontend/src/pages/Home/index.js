@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from '../../components/Footer/footer';
 import Destination from '../../components/Destination';
 import { Wrap } from './styles';
 import { useNavigate } from 'react-router-dom';
 import { Title } from '../../components/Fonts/fonts';
-import { useState } from 'react';
 import axios from 'axios';
 
 function Home() {
@@ -12,55 +11,34 @@ function Home() {
   const [recommendList, setRecommendList] = useState([]);
 
   useEffect(() => {
-    const fetchData = () => {
-      // 추천 받은 여행지. JSON 형태
+    const fetchData = async () => {
       const response = {
-        city1: '보라카이',
-        city2: '도쿄',
-        city3: '방콕',
+        result: ['보라카이', '도쿄', '방콕'],
       };
       const cityList = Object.keys(response);
-      cityList.forEach((city) => {
-        addRecommendList(response[city]);
-      });
+      const newRecommendList = response[cityList].map((city) => ({
+        title: city,
+        imgUrl: '',
+        companion: '',
+      }));
+      setRecommendList(newRecommendList);
+
+      const updateImage = await Promise.all(
+        newRecommendList.map(async (destination) => {
+          const response = await axios.post(
+            'http://localhost:5001/api/recommend',
+            {
+              city: destination.title,
+            },
+          );
+          return { ...destination, imgUrl: response.data };
+        }),
+      );
+      setRecommendList(updateImage);
     };
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    const getImage = () => {
-      recommendList.forEach(async (destination) => {
-        const response = await axios.post(
-          'http://localhost:5001/api/recommend',
-          {
-            city: destination.title,
-          },
-        );
-        updateRecommendList(destination.title, response.data);
-      });
-    };
-    getImage();
-  }, [recommendList]);
-
-  const addRecommendList = (destination) => {
-    setRecommendList((prevList) => [
-      ...prevList,
-      {
-        title: destination,
-        imgUrl: '',
-        companion: '',
-      },
-    ]);
-  };
-
-  const updateRecommendList = (destination, url) => {
-    setRecommendList(
-      recommendList.map((item) =>
-        item.title === destination ? { ...item, imgUrl: url } : item,
-      ),
-    );
-  };
 
   const handleClickDestination = (event) => {
     event.preventDefault();
