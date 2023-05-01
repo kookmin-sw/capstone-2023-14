@@ -23,25 +23,15 @@ function Home() {
       );
 
       const cityList = response.data.result;
-      const newRecommendList = cityList.map((city) => ({
-        title: city,
-        imgUrl: '',
-        companion: '',
-      }));
-      setRecommendList(newRecommendList);
 
-      const updateImage = await Promise.all(
-        newRecommendList.map(async (destination) => {
-          const response = await axios.post(
-            'http://localhost:5001/api/get-image',
-            {
-              city: destination.title,
-            },
-          );
-          return { ...destination, imgUrl: response.data };
-        }),
+      const newRecommendList = await axios.post(
+        'http://localhost:5001/api/get-image',
+        {
+          cityList: cityList,
+        },
       );
-      setRecommendList(updateImage);
+      setRecommendList(newRecommendList.data);
+
       setIsLoading(false);
     };
 

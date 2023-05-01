@@ -2,18 +2,26 @@ import db from '../config/db.js';
 import { Blob } from 'buffer';
 
 const getFirstImage = (req, res) => {
-  const { city } = req.body;
+  const { cityList } = req.body;
 
   db.query(
     `SELECT c.name, cd.*
     FROM country_detail as cd, country as c
-    where cd.id=c.id and c.name = ?`,
-    [city],
+    where cd.id=c.id and c.name in (?) order by field(c.name, ?);`,
+    [cityList, cityList],
     (error, result) => {
       if (error) throw error;
 
-      let buff = Buffer.from(result[0].picture1, 'binary');
-      res.send(buff.toString('base64'));
+      let newRecommendList = [];
+      result.map((city) => {
+        let buff = Buffer.from(city.picture1, 'binary');
+        newRecommendList.push({
+          title: city.name,
+          imgUrl: buff.toString('base64'),
+          companion: '',
+        });
+      });
+      res.send(newRecommendList);
     }
   );
 };
