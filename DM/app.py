@@ -3,7 +3,7 @@
 import random
 import pickle
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_restx import Resource, Api, reqparse
 from flask_cors import CORS
 
@@ -21,6 +21,19 @@ app.config['DEBUG'] = True
 CORS(app)
 
 np.set_printoptions(threshold=np.inf, linewidth=np.inf)
+
+
+def build_preflight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add('Access-Control-Allow-Headers', "*")
+    response.headers.add('Access-Control-Allow-Methods', "*")
+    return response
+
+
+def build_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 @app.route('/dm/recommend', methods=['GET'])
 def getCountry():
