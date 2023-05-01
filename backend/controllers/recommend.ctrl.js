@@ -1,7 +1,7 @@
 import db from '../config/db.js';
 import { Blob } from 'buffer';
 
-const destination = (req, res) => {
+const getFirstImage = (req, res) => {
   const { city } = req.body;
 
   db.query(
@@ -18,4 +18,19 @@ const destination = (req, res) => {
   );
 };
 
-export default destination;
+const getInfo = (req, res) => {
+  const { city } = req.body;
+
+  db.query(
+    `SELECT c.name, cd.*
+  FROM country_detail as cd, country as c
+  where cd.id=c.id and c.name = ?`,
+    [city],
+    (error, result) => {
+      if (error) throw error;
+      res.send(result[0]);
+    }
+  );
+};
+
+export default { getFirstImage, getInfo };

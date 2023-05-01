@@ -32,9 +32,8 @@ function Home() {
 
       const updateImage = await Promise.all(
         newRecommendList.map(async (destination) => {
-          console.log(destination);
           const response = await axios.post(
-            'http://localhost:5001/api/recommend',
+            'http://localhost:5001/api/get-image',
             {
               city: destination.title,
             },
