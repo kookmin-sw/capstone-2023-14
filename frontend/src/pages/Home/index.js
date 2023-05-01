@@ -11,15 +11,19 @@ function Home() {
   const [recommendList, setRecommendList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [userEmail, setUserEmail] = useState('test');
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const response = {
-        result: ['보라카이', '도쿄', '방콕', '영국', '오사카'],
-      };
-      const cityList = Object.keys(response);
-      const newRecommendList = response[cityList].map((city) => ({
+
+      const response = await axios.get(
+        `http://3.38.84.113:5000/dm/recommend?email=${userEmail}`,
+        { withCredentials: true },
+      );
+
+      const cityList = response.data.result;
+      const newRecommendList = cityList.map((city) => ({
         title: city,
         imgUrl: '',
         companion: '',
@@ -28,6 +32,7 @@ function Home() {
 
       const updateImage = await Promise.all(
         newRecommendList.map(async (destination) => {
+          console.log(destination);
           const response = await axios.post(
             'http://localhost:5001/api/recommend',
             {
