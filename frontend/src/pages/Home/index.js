@@ -9,11 +9,14 @@ import axios from 'axios';
 function Home() {
   const navigator = useNavigate();
   const [recommendList, setRecommendList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       const response = {
-        result: ['보라카이', '도쿄', '방콕'],
+        result: ['보라카이', '도쿄', '방콕', '영국', '오사카'],
       };
       const cityList = Object.keys(response);
       const newRecommendList = response[cityList].map((city) => ({
@@ -35,9 +38,26 @@ function Home() {
         }),
       );
       setRecommendList(updateImage);
+      setIsLoading(false);
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          return 0;
+        }
+        const diff = Math.random() * 10;
+        return Math.min(oldProgress + diff, 100);
+      });
+    }, 500);
+
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   const handleClickDestination = (event) => {
@@ -45,6 +65,31 @@ function Home() {
     const id = event.currentTarget.querySelector('span').innerText; // 나라명
     navigator(`/detail/${id}`);
   };
+
+  if (isLoading) {
+    return (
+      <>
+        <h2>Loading...</h2>
+        <div
+          style={{
+            border: '1px solid gray',
+            width: '100%',
+            height: '20px',
+            borderRadius: '30px',
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: '#ef4e3e',
+              width: `${progress}%`,
+              height: '100%',
+              borderRadius: '30px',
+            }}
+          />
+        </div>
+      </>
+    );
+  }
 
   return (
     <div>
