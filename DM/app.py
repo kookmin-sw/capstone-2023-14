@@ -18,7 +18,7 @@ from database import Database
 app = Flask(__name__)
 api = Api(app)
 app.config['DEBUG'] = True
-cors = CORS(app, resources={r"/dm/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/dm/*": {"origins": "*"}}, supports_credentials=True)
 
 np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 
