@@ -19,8 +19,6 @@ np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 if __name__ == "__main__":
     # Database 접속 -> 크롤링 요약 데이터 가져오기
     db = Database()
-    # Database 접속 -> 크롤링 요약 데이터 가져오기
-    db = Database()
     res = db.select('''
                 select c.id, c.name, cd.contents
                 from country_data as cd, country as c

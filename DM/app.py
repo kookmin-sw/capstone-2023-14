@@ -19,7 +19,7 @@ api = Api(app)
 app.config['DEBUG'] = True
 np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 
-@app.route('/api/country', methods=['GET'])
+@app.route('/dm/recommend', methods=['GET'])
 def getCountry():
     _input = request.args['email']
 
