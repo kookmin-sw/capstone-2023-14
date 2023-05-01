@@ -18,22 +18,10 @@ from database import Database
 app = Flask(__name__)
 api = Api(app)
 app.config['DEBUG'] = True
-CORS(app)
+cors = CORS(app, resources={r"/dm/*": {"origins": "*"}})
 
 np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 
-
-def build_preflight_response():
-    response = make_response()
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    response.headers.add('Access-Control-Allow-Headers', "*")
-    response.headers.add('Access-Control-Allow-Methods', "*")
-    return response
-
-
-def build_actual_response(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response
 
 @app.route('/dm/recommend', methods=['GET'])
 def getCountry():
