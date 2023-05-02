@@ -19,6 +19,7 @@ function App() {
       style={{
         maxWidth: '480px',
         margin: '0 auto',
+        height: '100vh',
         minHeight: '100%',
         width: 'auto',
         position: 'relative',
