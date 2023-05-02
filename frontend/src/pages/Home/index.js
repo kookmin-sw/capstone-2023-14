@@ -24,14 +24,20 @@ function Home() {
 
       const cityList = response.data.result;
 
-      const newRecommendList = await axios.post(
+      const cityInfoList = await axios.post(
         'http://localhost:5001/api/get-image',
         {
           cityList: cityList,
         },
       );
-      setRecommendList(newRecommendList.data);
 
+      const newRecommendList = cityInfoList.data.map((dest) => ({
+        title: dest.name,
+        imgUrl: dest.imgUrl,
+        companion: '',
+      }));
+
+      setRecommendList(newRecommendList);
       setIsLoading(false);
     };
 
