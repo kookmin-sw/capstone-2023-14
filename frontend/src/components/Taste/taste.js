@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import FullButton from '../Buttons/fullButton';
@@ -6,9 +6,28 @@ import StrokeButton from '../Buttons/strokeButton';
 
 import { SmallTitle, Title } from '../Fonts/fonts';
 import { ButtonWrap, Row } from './styles';
+import axios from 'axios';
 
 const Taste = (props) => {
   const navigator = useNavigate();
+
+  // api 호출할 데이터. 각 값은 string 형태여야함
+  const [userTaste, setUserTaste] = useState({
+    email: 'oo',
+    style: ['계획', '대중교통', '택시'].join(),
+    object: ['액티비티', '촬영', '타로'].join(),
+    preferAge: ['30대', '40대'].join(),
+    preferGender: '혼성',
+  });
+
+  const handleOnTasteSave = async () => {
+    try {
+      await axios.post('http://localhost:5001/api/hashtag-taste', userTaste);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -63,9 +82,9 @@ const Taste = (props) => {
         </div>
       </div>
       <ButtonWrap setting={props.setting}>
-        <FullButton btnName="저장" />
+        <FullButton btnName={'저장'} onClick={handleOnTasteSave} />
         <StrokeButton
-          btnName="취소"
+          btnName={'취소'}
           onClick={() => (props.setting ? navigator(-1) : null)}
         />
       </ButtonWrap>
