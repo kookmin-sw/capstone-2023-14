@@ -12,11 +12,18 @@ import { SubTitle } from '../Fonts/fonts';
 import heic2any from 'heic2any';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
 
 const RecordUpload = (props) => {
   // user profile image
   const imgRef = useRef();
   const [base64, setBase64] = useState('');
+
+  const [userEmail, setUserEmail] = useState('test');
+  const [imgUrl, setImgUrl] = useState('');
+  const [destination, setDestination] = useState('방콕');
+  const [cost, setCost] = useState(0);
+  const [record, setRecord] = useState('');
 
   // date-picker
   const [startDate, setStartDate] = useState(new Date());
@@ -30,12 +37,16 @@ const RecordUpload = (props) => {
       <img
         src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'}
         key={i}
+        alt=""
       />,
     );
   }
   if (rating % 1 > 0) {
     starRating.push(
-      <img src={process.env.PUBLIC_URL + '/images/Rating/halfstar.svg'} />,
+      <img
+        src={process.env.PUBLIC_URL + '/images/Rating/halfstar.svg'}
+        alt=""
+      />,
     );
   }
   for (let i = 1; i <= 5 - rating; i++) {
@@ -43,6 +54,7 @@ const RecordUpload = (props) => {
       <img
         src={process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'}
         key={5 + i}
+        alt=""
       />,
     );
   }
@@ -72,8 +84,18 @@ const RecordUpload = (props) => {
     };
   };
 
-  // info save button clicked
-  const HandleInfoSave = (e) => {
+  // 여행지 선택시 이미지 설정
+  const handleOnSelectDest = async (e) => {
+    e.preventDefault();
+    // setDestination(e.target.value);
+    const response = await axios.post('http://localhost:5001/api/get-info', {
+      city: destination,
+    });
+    setImgUrl(response.data.imgUrl1);
+  };
+
+  // record save button clicked
+  const handleOnSaveRecord = async (e) => {
     e.preventDefault();
     props.setUpload(false);
   };
@@ -81,7 +103,7 @@ const RecordUpload = (props) => {
   return (
     <Wrap>
       <div>
-        <input
+        {/* <input
           accept="image/*, image/heic"
           id="uploadImg"
           name="img_url"
@@ -92,12 +114,20 @@ const RecordUpload = (props) => {
         />
         <ImgWrap>
           <label htmlFor={'uploadImg'}>
-            <img src={base64} />
+            <img src={} alt="" />
             {base64 ? null : (
-              <img src={process.env.PUBLIC_URL + '/images/Common/camera.svg'} />
+              <img
+                src={process.env.PUBLIC_URL + '/images/Common/camera.svg'}
+                alt=""
+              />
             )}
           </label>
-        </ImgWrap>
+        </ImgWrap> */}
+        <img
+          src={`data:image/jpeg;base64,${imgUrl}`}
+          alt=""
+          style={{ width: '100%', height: '250px' }}
+        />
         <InputWrap>
           <div>
             <SubTitle margin={'0 0 10px'}>여행지 평점</SubTitle>
@@ -111,26 +141,31 @@ const RecordUpload = (props) => {
                       src={
                         process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'
                       }
+                      alt=""
                     />
                     <img
                       src={
                         process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'
                       }
+                      alt=""
                     />
                     <img
                       src={
                         process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'
                       }
+                      alt=""
                     />
                     <img
                       src={
                         process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'
                       }
+                      alt=""
                     />
                     <img
                       src={
                         process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'
                       }
+                      alt=""
                     />
                   </>
                 )}
@@ -150,7 +185,12 @@ const RecordUpload = (props) => {
               </select>
             </StarRatingWrap>
           </div>
-          <InputBox title={'여행지'} small />
+          <InputBox
+            title={'여행지'}
+            small
+            value={destination}
+            onChange={handleOnSelectDest}
+          />
           <div>
             <SubTitle margin={'0 0 10px'}>여행기간</SubTitle>
             <DateWrap>
@@ -176,12 +216,12 @@ const RecordUpload = (props) => {
               />
             </DateWrap>
           </div>
-          <InputBox title={'총 여행경비'} small />
+          <InputBox title={'총 여행경비'} small value={cost} />
           <div>
             <SubTitle margin={'0 0 10px'}>나의 기록</SubTitle>
-            <Textarea />
+            <Textarea value={record} />
           </div>
-          <button onClick={HandleInfoSave}>저장</button>
+          <button onClick={handleOnSaveRecord}>저장</button>
         </InputWrap>
       </div>
     </Wrap>
