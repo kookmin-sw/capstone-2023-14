@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DateWrap,
   ImgWrap,
@@ -9,28 +9,34 @@ import {
 } from './styles';
 import InputBox from '../Inputs/inputBox';
 import { SubTitle } from '../Fonts/fonts';
-import heic2any from 'heic2any';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 
 const RecordUpload = (props) => {
-  // const imgRef = useRef();
-  // const [base64, setBase64] = useState('');
+  const [userEmail, setUserEmail] = useState('test');
   const [imgUrl, setImgUrl] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [userEmail, setUserEmail] = useState('test');
-
   const [userRecord, setUserRecord] = useState({
-    email: userEmail,
+    email: 'test',
     destination: '방콕',
     rating: 0,
-    duration_start: startDate,
-    duration_end: endDate,
+    duration_start: '',
+    duration_end: '',
     record: '',
     cost: 0,
   });
+
+  useEffect(() => {
+    setUserRecord((prevState) => {
+      return {
+        ...prevState,
+        duration_start: convertDateToString(startDate),
+        duration_end: convertDateToString(endDate),
+      };
+    });
+  }, [startDate, endDate]);
 
   const starRating = [];
   for (let i = 1; i <= userRecord.rating; i++) {
@@ -61,31 +67,6 @@ const RecordUpload = (props) => {
     );
   }
 
-  // 이미지 업로드
-  // const upload = async () => {
-  //   let file = imgRef.current.files[0];
-  //   const fileName = file.name.split('.')[1].toLowerCase(); //확장자명 체크를 위해 소문자 변환 HEIC, heic
-  //   if (fileName === 'heic') {
-  //     let blob = file;
-  //     await heic2any({ blob: blob, toType: 'image/jpeg' })
-  //       .then(function (resultBlob) {
-  //         file = new File([resultBlob], file.name.split('.')[0] + '.jpg', {
-  //           type: 'image/jpeg',
-  //           lastModified: new Date().getTime(),
-  //         });
-  //         reader.readAsDataURL(file);
-  //       })
-  //       .catch(function (x) {
-  //         console.log(x);
-  //       });
-  //   }
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onloadend = async () => {
-  //     setBase64(reader.result);
-  //   };
-  // };
-
   const handleOnChange = (e) => {
     const { name, value } = e.target;
 
@@ -105,6 +86,11 @@ const RecordUpload = (props) => {
     setImgUrl(response.data.imgUrl1);
   };
 
+  const convertDateToString = (date) => {
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
+  };
+
   // record save button clicked
   const handleOnSaveRecord = async (e) => {
     e.preventDefault();
@@ -122,31 +108,9 @@ const RecordUpload = (props) => {
   return (
     <Wrap>
       <div>
-        {/* <input
-          accept="image/*, image/heic"
-          id="uploadImg"
-          name="img_url"
-          type="file"
-          content_type="multipart/form-data"
-          ref={imgRef}
-          onChange={upload}
-        />
         <ImgWrap>
-          <label htmlFor={'uploadImg'}>
-            <img src={} alt="" />
-            {base64 ? null : (
-              <img
-                src={process.env.PUBLIC_URL + '/images/Common/camera.svg'}
-                alt=""
-              />
-            )}
-          </label>
-        </ImgWrap> */}
-        <img
-          src={`data:image/jpeg;base64,${imgUrl}`}
-          alt=""
-          style={{ width: '100%', height: '250px' }}
-        />
+          <img src={`data:image/jpeg;base64,${imgUrl}`} alt="" />
+        </ImgWrap>
         <InputWrap>
           <div>
             <SubTitle margin={'0 0 10px'}>여행지 평점</SubTitle>
@@ -221,7 +185,6 @@ const RecordUpload = (props) => {
               <DatePicker
                 selected={startDate}
                 maxDate={new Date()}
-                name={'duration_start'}
                 onChange={(date) => {
                   setStartDate(date);
                 }}
@@ -234,7 +197,6 @@ const RecordUpload = (props) => {
                 startDate={startDate}
                 minDate={startDate}
                 maxDate={new Date()}
-                name={'duration_end'}
                 onChange={(date) => {
                   setEndDate(date);
                 }}
