@@ -6,6 +6,7 @@ import {
   StarRatingWrap,
   Textarea,
   Wrap,
+  DropdownMenu,
 } from './styles';
 import InputBox from '../Inputs/inputBox';
 import { SubTitle } from '../Fonts/fonts';
@@ -20,13 +21,15 @@ const RecordUpload = (props) => {
   const [endDate, setEndDate] = useState(new Date());
   const [userRecord, setUserRecord] = useState({
     email: 'test',
-    destination: '방콕',
+    destination: '',
     rating: 0,
     duration_start: '',
     duration_end: '',
     record: '',
     cost: 0,
   });
+  const [showList, setShowList] = useState(false);
+  const [cityOptions] = useState(['방콕', '다낭', '오사카', '도쿄']);
 
   useEffect(() => {
     setUserRecord((prevState) => {
@@ -67,7 +70,7 @@ const RecordUpload = (props) => {
     );
   }
 
-  const handleOnChange = (e) => {
+  const handleChangeInput = (e) => {
     const { name, value } = e.target;
 
     setUserRecord({
@@ -77,13 +80,15 @@ const RecordUpload = (props) => {
   };
 
   // 여행지 선택시 이미지 설정
-  const handleOnSelectDest = async (e) => {
-    e.preventDefault();
-    // setDestination(e.target.value);
-    const response = await axios.post('http://localhost:5001/api/get-info', {
-      city: userRecord.destination,
-    });
-    setImgUrl(response.data.imgUrl1);
+  const handleOnSelectDest = async (input) => {
+    setUserRecord({ ...userRecord, destination: input });
+    setShowList(false);
+    if (userRecord.destination) {
+      const response = await axios.post('http://localhost:5001/api/get-info', {
+        city: userRecord.destination,
+      });
+      setImgUrl(response.data.imgUrl1);
+    }
   };
 
   const convertDateToString = (date) => {
@@ -101,8 +106,6 @@ const RecordUpload = (props) => {
     } catch (e) {
       console.log(e);
     }
-
-    console.log(userRecord);
   };
 
   return (
@@ -172,13 +175,25 @@ const RecordUpload = (props) => {
               </select>
             </StarRatingWrap>
           </div>
-          <InputBox
-            title={'여행지'}
-            small
-            name={'destination'}
-            value={userRecord.destination}
-            onChange={handleOnSelectDest}
-          />
+          <div style={{ position: 'relative' }}>
+            <InputBox
+              title={'여행지'}
+              small
+              name={'destination'}
+              value={userRecord.destination}
+              onChange={handleChangeInput}
+              onClick={() => setShowList(!showList)}
+            />
+            {showList && (
+              <DropdownMenu>
+                {cityOptions.map((option, index) => (
+                  <li key={index} onClick={() => handleOnSelectDest(option)}>
+                    {option}
+                  </li>
+                ))}
+              </DropdownMenu>
+            )}
+          </div>
           <div>
             <SubTitle margin={'0 0 10px'}>여행기간</SubTitle>
             <DateWrap>
@@ -209,14 +224,14 @@ const RecordUpload = (props) => {
             small
             name={'cost'}
             value={userRecord.cost}
-            onChange={handleOnChange}
+            onChange={handleChangeInput}
           />
           <div>
             <SubTitle margin={'0 0 10px'}>나의 기록</SubTitle>
             <Textarea
               name={'record'}
               value={userRecord.record}
-              onChange={handleOnChange}
+              onChange={handleChangeInput}
             />
           </div>
           <button onClick={handleOnSaveRecord}>저장</button>

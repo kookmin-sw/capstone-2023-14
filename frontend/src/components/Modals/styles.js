@@ -137,3 +137,29 @@ export const DateWrap = styled(Common)`
     transition: all 0.5s ease 0s;
   }
 `;
+
+export const DropdownMenu = styled.ul`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
+  z-index: 1;
+  overflow-y: scroll;
+  max-height: 150px;
+  overflow-y: auto;
+
+  li {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  li:hover {
+    background-color: #eee;
+  }
+`;
