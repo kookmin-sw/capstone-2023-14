@@ -31,7 +31,6 @@ function Detail() {
       const response = await axios.post('http://localhost:5001/api/get-info', {
         city: destination,
       });
-      console.log(response.data);
       setCity({ ...city, info: response.data });
       setIsLoading(false);
     };

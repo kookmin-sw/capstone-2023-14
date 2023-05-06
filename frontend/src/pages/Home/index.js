@@ -32,9 +32,9 @@ function Home() {
       );
 
       const newRecommendList = cityInfoList.data.map((dest) => ({
-        title: dest.name,
+        name: dest.name,
         imgUrl: dest.imgUrl,
-        companion: '',
+        contents: dest.contents,
       }));
 
       setRecommendList(newRecommendList);
@@ -95,13 +95,13 @@ function Home() {
     <div>
       <Wrap>
         <Title margin={'20px 0'}>추천하는 여행지 & 비슷한 사용자</Title>
-        {recommendList.map((destination) => (
+        {recommendList.map((city) => (
           <Destination
             onClick={handleClickDestination}
-            key={destination.title}
-            title={destination.title}
-            imgUrl={`data:image/jpeg;base64,${destination.imgUrl}`}
-            companion={destination.companion}
+            key={city.name}
+            title={city.name}
+            imgUrl={`data:image/jpeg;base64,${city.imgUrl}`}
+            contents={city.contents}
           />
         ))}
       </Wrap>

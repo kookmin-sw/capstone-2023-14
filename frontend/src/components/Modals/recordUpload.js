@@ -94,7 +94,6 @@ const RecordUpload = (props) => {
 
   // 여행지 선택시 이미지 설정
   const handleOnSelectDest = async (input) => {
-    console.log('input', input);
     setUserRecord({ ...userRecord, destination: input });
     setShowList(false);
 
