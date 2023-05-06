@@ -4,6 +4,7 @@ import Destination from '../../components/Destination';
 import { Wrap } from './styles';
 import { useNavigate } from 'react-router-dom';
 import { Title } from '../../components/Fonts/fonts';
+import loadingImage from '../../assets/Ball.gif';
 import axios from 'axios';
 
 function Home() {
@@ -69,24 +70,16 @@ function Home() {
   if (isLoading) {
     return (
       <>
-        <h2>Loading...</h2>
-        <div
+        <img
           style={{
-            border: '1px solid gray',
-            width: '100%',
-            height: '20px',
-            borderRadius: '30px',
+            position: 'absolute',
+            top: '40%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
           }}
-        >
-          <div
-            style={{
-              backgroundColor: '#ef4e3e',
-              width: `${progress}%`,
-              height: '100%',
-              borderRadius: '30px',
-            }}
-          />
-        </div>
+          src={loadingImage}
+          alt="loading gif"
+        ></img>
       </>
     );
   }
