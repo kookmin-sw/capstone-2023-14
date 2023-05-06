@@ -29,9 +29,20 @@ const RecordUpload = (props) => {
     cost: 0,
   });
   const [showList, setShowList] = useState(false);
-  const [cityOptions] = useState(['방콕', '다낭', '오사카', '도쿄']);
+  const [cityOptions, setCityOptions] = useState([]);
 
   useEffect(() => {
+    const fetchCityList = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:5001/api/get-cityList',
+        );
+        setCityOptions(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
     setUserRecord((prevState) => {
       return {
         ...prevState,
@@ -39,7 +50,9 @@ const RecordUpload = (props) => {
         duration_end: convertDateToString(endDate),
       };
     });
-  }, [startDate, endDate]);
+
+    fetchCityList();
+  }, [startDate, endDate, imgUrl]);
 
   const starRating = [];
   for (let i = 1; i <= userRecord.rating; i++) {
@@ -81,14 +94,14 @@ const RecordUpload = (props) => {
 
   // 여행지 선택시 이미지 설정
   const handleOnSelectDest = async (input) => {
+    console.log('input', input);
     setUserRecord({ ...userRecord, destination: input });
     setShowList(false);
-    if (userRecord.destination) {
-      const response = await axios.post('http://localhost:5001/api/get-info', {
-        city: userRecord.destination,
-      });
-      setImgUrl(response.data.imgUrl1);
-    }
+
+    const response = await axios.post('http://localhost:5001/api/get-info', {
+      city: userRecord.destination,
+    });
+    setImgUrl(response.data.imgUrl1);
   };
 
   const convertDateToString = (date) => {
