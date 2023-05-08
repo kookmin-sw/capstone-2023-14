@@ -20,6 +20,8 @@ const Header = (props) => {
           src={process.env.PUBLIC_URL + '/images/Common/settingIcon.svg'}
           onClick={() => navigator('/setting')}
         />
+      ) : props.title === 'board-upload' ? (
+        <button onClick={props.onClick}>작성</button>
       ) : null}
     </Wrap>
   );

@@ -25,7 +25,7 @@ export const InputWrap = styled.div`
     :focus-visible {
       border: ${(props) => (props.disabled ? null : '2px solid #ef4e3e')};
       outline: none;
-      transition: 0.5s ease;
+      transition: 0.2s ease;
     }
   }
 `;

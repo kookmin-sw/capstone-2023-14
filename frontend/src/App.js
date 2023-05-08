@@ -12,6 +12,7 @@ import Setting from './pages/Setting/setting';
 import TasteSetting from './pages/Setting/tasteSetting';
 import ChatTest from './pages/ChatTest';
 import Info from './pages/Info/Info';
+import BoardUpload from './pages/Board/boardUpload';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/record" element={<Record />} />
         <Route path="/board" element={<Board />} />
         <Route path="/board/:id" element={<BoardContent />} />
+        <Route path="/board/upload" element={<BoardUpload />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/info" element={<Info />} />
         <Route path="/mypage" element={<MyPage />} />
