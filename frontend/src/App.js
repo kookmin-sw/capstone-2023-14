@@ -11,6 +11,7 @@ import MyPage from './pages/MyPage/myPage';
 import Setting from './pages/Setting/setting';
 import TasteSetting from './pages/Setting/tasteSetting';
 import ChatTest from './pages/ChatTest';
+import Info from './pages/Info/Info';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/board" element={<Board />} />
         <Route path="/board/:id" element={<BoardContent />} />
         <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/info" element={<Info />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/taste" element={<TasteSetting />} />
