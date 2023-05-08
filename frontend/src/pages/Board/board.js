@@ -4,6 +4,7 @@ import Footer from '../../components/Footer/footer';
 import { Block, DetailInfo, Wrap, WriterInfo } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
 import { useNavigate } from 'react-router-dom';
+import { FloatingButton } from '../Record/styles';
 
 function Board() {
   const navigator = useNavigate();
@@ -60,6 +61,7 @@ function Board() {
             <div>{user.content}</div>
           </Block>
         ))}
+        <FloatingButton onClick={() => navigator('./upload')}>+</FloatingButton>
       </Wrap>
       <Footer />
     </div>

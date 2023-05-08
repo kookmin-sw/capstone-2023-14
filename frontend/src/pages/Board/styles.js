@@ -4,7 +4,7 @@ export const Wrap = styled.div`
   padding: 20px 24px 60px;
 
   @media screen and (max-width: 400px) {
-    padding: 0 20px;
+    padding: 20px;
   }
 `;
 
@@ -38,4 +38,20 @@ export const DetailInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+`;
+
+export const Textarea = styled.textarea`
+  resize: none;
+  width: 96%;
+  padding: 1.5%;
+  min-height: 320px;
+  border-radius: 20px;
+  border: 2px solid #ef4e3e30;
+
+  :hover,
+  :focus-visible {
+    border: 2px solid #ef4e3e70;
+    outline: none;
+    transition: 0.2s ease;
+  }
 `;
