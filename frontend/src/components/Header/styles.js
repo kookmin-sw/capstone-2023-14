@@ -27,4 +27,16 @@ export const Wrap = styled.div`
     position: absolute;
     right: 20px;
   }
+
+  > button {
+    all: unset;
+    position: absolute;
+    right: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 20px;
+    background-color: #ef4e3e;
+    color: #ffffff;
+    padding: 2px 8px;
+  }
 `;
