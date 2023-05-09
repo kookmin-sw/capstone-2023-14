@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import math
+import base64
 import numpy as np
 import pandas as pd
 import pickle
@@ -91,9 +92,6 @@ def getCountry():
 def getCompanion():
     db = Database()
 
-
-
-
     # STEP1. 특정여행지 별점행렬
     # user_info: user_id와 index를 치환하는 용도
     user_info = dict()
@@ -101,7 +99,7 @@ def getCompanion():
     # rating_data: 특정여행지에 대한 별점정보
     # {'test': 5.0, 'vory': 4.5}
     rating_data = list()
-    country_id = 1
+    country_id = 22
     sql = f'''
         select member_info.id, ifnull(member_rating.rating, 0.0) as rating
         from member_rating right outer join member_info 
@@ -171,7 +169,7 @@ def getCompanion():
     print(combine_scores)
 
     # input: user_id
-    _input = 'test'
+    _input = 'vory'
     _index = user_info[_input]
 
     companion_index = np.argsort(combine_scores[_index])[::-1]
@@ -209,13 +207,17 @@ def getCompanion():
 
     result = list()
     for item in res:
+        profile = item[5]
+        if profile != None:
+            profile = base64.b64encode(item[5])
+
         info = {
             'name': item[0],
             'phone': item[1],
             'gender': item[2],
             'birth': item[3],
             'mbti': item[4],
-            'profile': item[5]
+            'profile': profile
         }
         result.append(info)
 
