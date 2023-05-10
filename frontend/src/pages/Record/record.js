@@ -37,7 +37,7 @@ function Join() {
           {recordList.map((record) => (
             <Record
               key={record.country_id}
-              countryId={record.country_id}
+              cityName={record.city_name}
               startDate={record.duration_start}
               endDate={record.duration_end}
               rating={record.rating}

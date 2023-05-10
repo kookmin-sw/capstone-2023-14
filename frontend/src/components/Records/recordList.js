@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { RecordWrap } from './styles';
 import { Small, SubTitle } from '../Fonts/fonts';
 
-const RecordList = ({ countryId, startDate, endDate, rating, onClick }) => {
+const RecordList = ({ cityName, startDate, endDate, rating, onClick }) => {
   const renderRatingStars = () => {
     const stars = [];
     for (let i = 1; i <= rating; i++) {
@@ -32,7 +32,7 @@ const RecordList = ({ countryId, startDate, endDate, rating, onClick }) => {
       <img src={''} alt="여행지이미지" />
       <div>
         <div>
-          <SubTitle>{countryId}</SubTitle>
+          <SubTitle>{cityName}</SubTitle>
           <Small color={'7c7c7c'} margin={'0 0 8px'}>
             {startDate}-{endDate}
           </Small>
