@@ -52,7 +52,7 @@ const RecordUpload = (props) => {
     });
 
     fetchCityList();
-  }, [startDate, endDate, imgUrl]);
+  }, [startDate, endDate]);
 
   const starRating = [];
   for (let i = 1; i <= userRecord.rating; i++) {
@@ -94,11 +94,16 @@ const RecordUpload = (props) => {
 
   // 여행지 선택시 이미지 설정
   const handleOnSelectDest = async (input) => {
-    setUserRecord({ ...userRecord, destination: input });
+    setUserRecord((prevState) => {
+      return {
+        ...prevState,
+        destination: input,
+      };
+    });
     setShowList(false);
 
     const response = await axios.post('http://localhost:5001/api/get-info', {
-      city: userRecord.destination,
+      city: input,
     });
     setImgUrl(response.data.imgUrl1);
   };
@@ -124,7 +129,21 @@ const RecordUpload = (props) => {
     <Wrap>
       <div>
         <ImgWrap>
-          <img src={`data:image/jpeg;base64,${imgUrl}`} alt="" />
+          {imgUrl ? (
+            <img
+              style={{ width: '100%', height: '100%' }}
+              src={`data:image/jpeg;base64,${imgUrl}`}
+              alt=""
+            />
+          ) : (
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                backgroundColor: '#d3d3d3',
+              }}
+            ></div>
+          )}
         </ImgWrap>
         <InputWrap>
           <div>

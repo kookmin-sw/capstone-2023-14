@@ -26,7 +26,7 @@ function Join() {
     };
 
     fetchData();
-  }, []);
+  }, [upload]);
 
   return (
     <Wrap>
@@ -38,8 +38,8 @@ function Join() {
             <Record
               key={record.country_id}
               cityName={record.city_name}
-              startDate={record.duration_start}
-              endDate={record.duration_end}
+              startDate={record.duration_start.split('T')[0]}
+              endDate={record.duration_end.split('T')[0]}
               rating={record.rating}
               onClick={() => setDetail(true)}
             />

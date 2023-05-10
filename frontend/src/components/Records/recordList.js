@@ -3,7 +3,14 @@ import React from 'react';
 import { RecordWrap } from './styles';
 import { Small, SubTitle } from '../Fonts/fonts';
 
-const RecordList = ({ cityName, startDate, endDate, rating, onClick }) => {
+const RecordList = ({
+  cityName,
+  startDate,
+  endDate,
+  rating,
+  imgUrl,
+  onClick,
+}) => {
   const renderRatingStars = () => {
     const stars = [];
     for (let i = 1; i <= rating; i++) {
@@ -29,12 +36,12 @@ const RecordList = ({ cityName, startDate, endDate, rating, onClick }) => {
 
   return (
     <RecordWrap onClick={onClick}>
-      <img src={''} alt="여행지이미지" />
+      <img src={`data:image/jpeg;base64,${imgUrl}`} alt="여행지이미지" />
       <div>
         <div>
           <SubTitle>{cityName}</SubTitle>
           <Small color={'7c7c7c'} margin={'0 0 8px'}>
-            {startDate}-{endDate}
+            {startDate} ~ {endDate}
           </Small>
         </div>
         <div>
