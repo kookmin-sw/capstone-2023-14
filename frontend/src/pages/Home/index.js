@@ -11,7 +11,6 @@ function Home() {
   const navigator = useNavigate();
   const [recommendList, setRecommendList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
   const [userEmail, setUserEmail] = useState('test');
 
   useEffect(() => {
@@ -45,25 +44,9 @@ function Home() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          return 0;
-        }
-        const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100);
-      });
-    }, 500);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
   const handleClickDestination = (event) => {
     event.preventDefault();
-    const id = event.currentTarget.querySelector('span').innerText; // 나라명
+    const id = event.currentTarget.querySelector('span').innerText;
     navigator(`/detail/${id}`);
   };
 
