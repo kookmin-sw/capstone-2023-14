@@ -26,7 +26,7 @@ function Join() {
     };
 
     fetchData();
-  }, []);
+  }, [upload]);
 
   return (
     <Wrap>
@@ -41,7 +41,6 @@ function Join() {
               startDate={record.duration_start.split('T')[0]}
               endDate={record.duration_end.split('T')[0]}
               rating={record.rating}
-              imgUrl={record.picture}
               onClick={() => setDetail(true)}
             />
           ))}
