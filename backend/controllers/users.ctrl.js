@@ -19,4 +19,21 @@ const saveTaste = (req, res) => {
   );
 };
 
-export default { saveTaste };
+const getUserInfo = (req, res) => {
+  const { email } = req.body;
+
+  db.query(
+    `SELECT COUNT(m.cost) as totalCount, SUM(m.cost) as totalCost, i.*
+    FROM member_rating AS m
+    JOIN member_info AS i ON m.user_id = i.id
+    WHERE i.id = ?;
+  `,
+    [email],
+    (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    }
+  );
+};
+
+export default { saveTaste, getUserInfo };

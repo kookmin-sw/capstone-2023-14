@@ -17,6 +17,7 @@ router.post('/api/get-image', recommend.getFirstImage);
 router.post('/api/get-info', recommend.getInfo);
 
 router.post('/api/hashtag-taste', users.saveTaste);
+router.post('/api/get-userInfo', users.getUserInfo);
 
 router.post('/api/record-write', record.saveItinerary);
 router.get('/api/get-cityList', record.getCityList);

@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/header';
 import Footer from '../../components/Footer/footer';
 import { ImgWrap, RowAlign, Wrap } from './styles';
 import { Title } from '../../components/Fonts/fonts';
+import axios from 'axios';
 
 function MyPage() {
+  const [userEmail, setUserEmail] = useState('test');
+  const [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.post(
+        'http://localhost:5001/api/get-userInfo',
+        { email: userEmail },
+      );
+      setUserInfo({ ...response.data[0] });
+    };
+
+    fetchData();
+  }, []);
   return (
     <div>
       <Header title={'mypage'} />
       <Wrap>
         <ImgWrap>
-          <img src={''} />
-          <img src={process.env.PUBLIC_URL + '/images/Common/camera.svg'} />
+          <img src={''} alt="" />
+          <img
+            src={process.env.PUBLIC_URL + '/images/Common/camera.svg'}
+            alt=""
+          />
         </ImgWrap>
         <RowAlign>
           <Title>여행횟수</Title>
