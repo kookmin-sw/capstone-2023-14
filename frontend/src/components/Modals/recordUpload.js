@@ -94,11 +94,16 @@ const RecordUpload = (props) => {
 
   // 여행지 선택시 이미지 설정
   const handleOnSelectDest = async (input) => {
-    setUserRecord({ ...userRecord, destination: input });
+    setUserRecord((prevState) => {
+      return {
+        ...prevState,
+        destination: input,
+      };
+    });
     setShowList(false);
 
     const response = await axios.post('http://localhost:5001/api/get-info', {
-      city: userRecord.destination,
+      city: input,
     });
     setImgUrl(response.data.imgUrl1);
   };
