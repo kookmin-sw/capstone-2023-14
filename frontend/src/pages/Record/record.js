@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/header';
 import { Title } from '../../components/Fonts/fonts';
-import RecordList from '../../components/Records/recordList';
+import Record from '../../components/Records/recordList';
 import Footer from '../../components/Footer/footer';
 import { FloatingButton, Wrap } from './styles';
 import RecordUpload from '../../components/Modals/recordUpload';
 import RecordDetail from '../../components/Modals/recordDetail';
+import axios from 'axios';
 
 function Join() {
   const [upload, setUpload] = useState(false);
   const [detail, setDetail] = useState(false);
+  const [userEmail, setUserEmail] = useState('test');
+  const [recordList, setRecordList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.post(
+        'http://localhost:5001/api/get-recordList',
+        {
+          email: userEmail,
+        },
+      );
+      setRecordList(response.data);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Wrap>
@@ -17,13 +34,16 @@ function Join() {
       <div>
         <Title margin={'20px 0'}>내가 기록한 여행지</Title>
         <div>
-          <RecordList onClick={() => setDetail(true)} />
-          <RecordList onClick={() => setDetail(true)} />
-          <RecordList onClick={() => setDetail(true)} />
-          <RecordList onClick={() => setDetail(true)} />
-          <RecordList onClick={() => setDetail(true)} />
-          <RecordList onClick={() => setDetail(true)} />
-          <RecordList onClick={() => setDetail(true)} />
+          {recordList.map((record) => (
+            <Record
+              key={record.country_id}
+              cityName={record.city_name}
+              startDate={record.duration_start}
+              endDate={record.duration_end}
+              rating={record.rating}
+              onClick={() => setDetail(true)}
+            />
+          ))}
         </div>
       </div>
       <FloatingButton onClick={() => setUpload(true)}>+</FloatingButton>

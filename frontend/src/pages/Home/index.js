@@ -4,13 +4,13 @@ import Destination from '../../components/Destination';
 import { Wrap } from './styles';
 import { useNavigate } from 'react-router-dom';
 import { Title } from '../../components/Fonts/fonts';
+import loadingImage from '../../assets/Ball.gif';
 import axios from 'axios';
 
 function Home() {
   const navigator = useNavigate();
   const [recommendList, setRecommendList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
   const [userEmail, setUserEmail] = useState('test');
 
   useEffect(() => {
@@ -32,9 +32,9 @@ function Home() {
       );
 
       const newRecommendList = cityInfoList.data.map((dest) => ({
-        title: dest.name,
+        name: dest.name,
         imgUrl: dest.imgUrl,
-        companion: '',
+        contents: dest.contents,
       }));
 
       setRecommendList(newRecommendList);
@@ -44,49 +44,25 @@ function Home() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          return 0;
-        }
-        const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100);
-      });
-    }, 500);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
   const handleClickDestination = (event) => {
     event.preventDefault();
-    const id = event.currentTarget.querySelector('span').innerText; // 나라명
+    const id = event.currentTarget.querySelector('span').innerText;
     navigator(`/detail/${id}`);
   };
 
   if (isLoading) {
     return (
       <>
-        <h2>Loading...</h2>
-        <div
+        <img
           style={{
-            border: '1px solid gray',
-            width: '100%',
-            height: '20px',
-            borderRadius: '30px',
+            position: 'absolute',
+            top: '40%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
           }}
-        >
-          <div
-            style={{
-              backgroundColor: '#ef4e3e',
-              width: `${progress}%`,
-              height: '100%',
-              borderRadius: '30px',
-            }}
-          />
-        </div>
+          src={loadingImage}
+          alt="loading gif"
+        ></img>
       </>
     );
   }
@@ -95,13 +71,13 @@ function Home() {
     <div>
       <Wrap>
         <Title margin={'20px 0'}>추천하는 여행지 & 비슷한 사용자</Title>
-        {recommendList.map((destination) => (
+        {recommendList.map((city) => (
           <Destination
             onClick={handleClickDestination}
-            key={destination.title}
-            title={destination.title}
-            imgUrl={`data:image/jpeg;base64,${destination.imgUrl}`}
-            companion={destination.companion}
+            key={city.name}
+            title={city.name}
+            imgUrl={`data:image/jpeg;base64,${city.imgUrl}`}
+            contents={city.contents}
           />
         ))}
       </Wrap>

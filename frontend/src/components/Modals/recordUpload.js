@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DateWrap,
   ImgWrap,
@@ -6,31 +6,53 @@ import {
   StarRatingWrap,
   Textarea,
   Wrap,
+  DropdownMenu,
 } from './styles';
 import InputBox from '../Inputs/inputBox';
 import { SubTitle } from '../Fonts/fonts';
-import heic2any from 'heic2any';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 
 const RecordUpload = (props) => {
-  // const imgRef = useRef();
-  // const [base64, setBase64] = useState('');
+  const [userEmail, setUserEmail] = useState('test');
   const [imgUrl, setImgUrl] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [userEmail, setUserEmail] = useState('test');
-
   const [userRecord, setUserRecord] = useState({
-    email: userEmail,
-    destination: '방콕',
+    email: 'test',
+    destination: '',
     rating: 0,
-    duration_start: startDate,
-    duration_end: endDate,
+    duration_start: '',
+    duration_end: '',
     record: '',
     cost: 0,
   });
+  const [showList, setShowList] = useState(false);
+  const [cityOptions, setCityOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchCityList = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:5001/api/get-cityList',
+        );
+        setCityOptions(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    setUserRecord((prevState) => {
+      return {
+        ...prevState,
+        duration_start: convertDateToString(startDate),
+        duration_end: convertDateToString(endDate),
+      };
+    });
+
+    fetchCityList();
+  }, [startDate, endDate, imgUrl]);
 
   const starRating = [];
   for (let i = 1; i <= userRecord.rating; i++) {
@@ -61,32 +83,7 @@ const RecordUpload = (props) => {
     );
   }
 
-  // 이미지 업로드
-  // const upload = async () => {
-  //   let file = imgRef.current.files[0];
-  //   const fileName = file.name.split('.')[1].toLowerCase(); //확장자명 체크를 위해 소문자 변환 HEIC, heic
-  //   if (fileName === 'heic') {
-  //     let blob = file;
-  //     await heic2any({ blob: blob, toType: 'image/jpeg' })
-  //       .then(function (resultBlob) {
-  //         file = new File([resultBlob], file.name.split('.')[0] + '.jpg', {
-  //           type: 'image/jpeg',
-  //           lastModified: new Date().getTime(),
-  //         });
-  //         reader.readAsDataURL(file);
-  //       })
-  //       .catch(function (x) {
-  //         console.log(x);
-  //       });
-  //   }
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onloadend = async () => {
-  //     setBase64(reader.result);
-  //   };
-  // };
-
-  const handleOnChange = (e) => {
+  const handleChangeInput = (e) => {
     const { name, value } = e.target;
 
     setUserRecord({
@@ -96,13 +93,19 @@ const RecordUpload = (props) => {
   };
 
   // 여행지 선택시 이미지 설정
-  const handleOnSelectDest = async (e) => {
-    e.preventDefault();
-    // setDestination(e.target.value);
+  const handleOnSelectDest = async (input) => {
+    setUserRecord({ ...userRecord, destination: input });
+    setShowList(false);
+
     const response = await axios.post('http://localhost:5001/api/get-info', {
       city: userRecord.destination,
     });
     setImgUrl(response.data.imgUrl1);
+  };
+
+  const convertDateToString = (date) => {
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
   };
 
   // record save button clicked
@@ -115,38 +118,14 @@ const RecordUpload = (props) => {
     } catch (e) {
       console.log(e);
     }
-
-    console.log(userRecord);
   };
 
   return (
     <Wrap>
       <div>
-        {/* <input
-          accept="image/*, image/heic"
-          id="uploadImg"
-          name="img_url"
-          type="file"
-          content_type="multipart/form-data"
-          ref={imgRef}
-          onChange={upload}
-        />
         <ImgWrap>
-          <label htmlFor={'uploadImg'}>
-            <img src={} alt="" />
-            {base64 ? null : (
-              <img
-                src={process.env.PUBLIC_URL + '/images/Common/camera.svg'}
-                alt=""
-              />
-            )}
-          </label>
-        </ImgWrap> */}
-        <img
-          src={`data:image/jpeg;base64,${imgUrl}`}
-          alt=""
-          style={{ width: '100%', height: '250px' }}
-        />
+          <img src={`data:image/jpeg;base64,${imgUrl}`} alt="" />
+        </ImgWrap>
         <InputWrap>
           <div>
             <SubTitle margin={'0 0 10px'}>여행지 평점</SubTitle>
@@ -208,20 +187,31 @@ const RecordUpload = (props) => {
               </select>
             </StarRatingWrap>
           </div>
-          <InputBox
-            title={'여행지'}
-            small
-            name={'destination'}
-            value={userRecord.destination}
-            onChange={handleOnSelectDest}
-          />
+          <div style={{ position: 'relative' }}>
+            <InputBox
+              title={'여행지'}
+              small
+              name={'destination'}
+              value={userRecord.destination}
+              onChange={handleChangeInput}
+              onClick={() => setShowList(!showList)}
+            />
+            {showList && (
+              <DropdownMenu>
+                {cityOptions.map((option, index) => (
+                  <li key={index} onClick={() => handleOnSelectDest(option)}>
+                    {option}
+                  </li>
+                ))}
+              </DropdownMenu>
+            )}
+          </div>
           <div>
             <SubTitle margin={'0 0 10px'}>여행기간</SubTitle>
             <DateWrap>
               <DatePicker
                 selected={startDate}
                 maxDate={new Date()}
-                name={'duration_start'}
                 onChange={(date) => {
                   setStartDate(date);
                 }}
@@ -234,7 +224,6 @@ const RecordUpload = (props) => {
                 startDate={startDate}
                 minDate={startDate}
                 maxDate={new Date()}
-                name={'duration_end'}
                 onChange={(date) => {
                   setEndDate(date);
                 }}
@@ -247,14 +236,14 @@ const RecordUpload = (props) => {
             small
             name={'cost'}
             value={userRecord.cost}
-            onChange={handleOnChange}
+            onChange={handleChangeInput}
           />
           <div>
             <SubTitle margin={'0 0 10px'}>나의 기록</SubTitle>
             <Textarea
               name={'record'}
               value={userRecord.record}
-              onChange={handleOnChange}
+              onChange={handleChangeInput}
             />
           </div>
           <button onClick={handleOnSaveRecord}>저장</button>
