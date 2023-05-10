@@ -21,4 +21,6 @@ router.post('/api/get-userInfo', users.getUserInfo);
 
 router.post('/api/record-write', record.saveItinerary);
 router.get('/api/get-cityList', record.getCityList);
+router.post('/api/get-recordList', record.getItineraryList);
+
 export default router;

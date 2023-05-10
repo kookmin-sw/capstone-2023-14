@@ -46,4 +46,16 @@ const saveItinerary = (req, res) => {
   );
 };
 
-export default { saveItinerary, getCityList };
+const getItineraryList = async (req, res) => {
+  const { email } = req.body;
+  db.query(
+    `SELECT * FROM member_rating WHERE user_id=?;`,
+    [email],
+    (error, result) => {
+      if (error) throw error;
+      res.send(result);
+    }
+  );
+};
+
+export default { saveItinerary, getCityList, getItineraryList };
