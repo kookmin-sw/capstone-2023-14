@@ -8,17 +8,36 @@ import axios from 'axios';
 function MyPage() {
   const [userEmail, setUserEmail] = useState('test');
   const [userInfo, setUserInfo] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       const response = await axios.post(
         'http://localhost:5001/api/get-userInfo',
         { email: userEmail },
       );
-      setUserInfo({ ...response.data[0] });
+      const result = response.data[0];
+
+      const formatNumberWithCommas = (number) => {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      };
+
+      setUserInfo({
+        ...result,
+        totalCost: formatNumberWithCommas(result.totalCost),
+        object: result.object.split(','),
+        prefer_age: result.prefer_age.split(','),
+        style: result.style.split(','),
+      });
+
+      setIsLoading(false);
     };
 
     fetchData();
   }, []);
+
+  if (isLoading) return <></>;
+
   return (
     <div>
       <Header title={'mypage'} />
@@ -32,24 +51,26 @@ function MyPage() {
         </ImgWrap>
         <RowAlign>
           <Title>여행횟수</Title>
-          <div>총 6회</div>
+          <div>총 {userInfo.totalCount}회</div>
         </RowAlign>
         <RowAlign>
           <Title>여행경비</Title>
-          <div>총 4,250,800원</div>
+          <div>총 {userInfo.totalCost}원</div>
         </RowAlign>
         <div>
           <Title margin={'0 0 12px'}>나의 여행 스타일</Title>
           <div>
             <RowAlign>
               <div>스타일</div>
-              <span>계획적</span>
+              {userInfo.style.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
             </RowAlign>
             <RowAlign>
               <div>목적</div>
-              <span>쇼핑</span>
-              <span>관광</span>
-              <span>문화</span>
+              {userInfo.object.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
             </RowAlign>
           </div>
         </div>
@@ -58,12 +79,13 @@ function MyPage() {
           <div>
             <RowAlign>
               <div>연령대</div>
-              <span>상관없음</span>
+              {userInfo.prefer_age.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
             </RowAlign>
             <RowAlign>
               <div>성별</div>
-              <span>동성</span>
-              <span>혼성</span>
+              <span>{userInfo.prefer_gender}</span>
             </RowAlign>
           </div>
         </div>
