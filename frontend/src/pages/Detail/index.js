@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import ImgSlider from '../../components/Slider';
 import { InfoWrap, UserWrap, Wrap } from './styles';
 import { Title, SubTitle, Small, Normal } from '../../components/Fonts/fonts';
+import loadingImage from '../../assets/Ball.gif';
 import axios from 'axios';
 
 function Detail() {
@@ -37,13 +38,28 @@ function Detail() {
         `http://3.38.84.113:5000/dm/companion?user_id=${userEmail}&country_id=${cityId}`,
       );
       setCompanionList(response.data.result);
+      setIsLoading(false);
     };
 
     fetchData();
     fetchCompanion();
   }, []);
 
-  if (isLoading) return <div>Loading</div>;
+  if (isLoading)
+    return (
+      <>
+        <img
+          style={{
+            position: 'absolute',
+            top: '40%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+          src={loadingImage}
+          alt="loading gif"
+        ></img>
+      </>
+    );
 
   return (
     <div>
