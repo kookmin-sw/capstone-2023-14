@@ -49,7 +49,7 @@ export const TypeWrap = styled.div`
 
 export const ImgWrap = styled.div`
   background-color: #d9d9d9;
-  height: 200px;
+  height: 260px;
   position: relative;
   cursor: pointer;
 
