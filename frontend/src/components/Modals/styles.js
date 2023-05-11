@@ -49,7 +49,7 @@ export const TypeWrap = styled.div`
 
 export const ImgWrap = styled.div`
   background-color: #d9d9d9;
-  height: 200px;
+  height: 260px;
   position: relative;
   cursor: pointer;
 
@@ -135,5 +135,31 @@ export const DateWrap = styled(Common)`
   :focus-visible {
     border: 2px solid rgb(239, 78, 62);
     transition: all 0.5s ease 0s;
+  }
+`;
+
+export const DropdownMenu = styled.ul`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
+  z-index: 1;
+  overflow-y: scroll;
+  max-height: 150px;
+  overflow-y: auto;
+
+  li {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  li:hover {
+    background-color: #eee;
   }
 `;

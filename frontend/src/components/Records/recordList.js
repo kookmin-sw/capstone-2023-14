@@ -3,23 +3,49 @@ import React from 'react';
 import { RecordWrap } from './styles';
 import { Small, SubTitle } from '../Fonts/fonts';
 
-const RecordList = (props) => {
+const RecordList = ({
+  cityName,
+  startDate,
+  endDate,
+  rating,
+  imgUrl,
+  onClick,
+}) => {
+  const renderRatingStars = () => {
+    const stars = [];
+    for (let i = 1; i <= rating; i++) {
+      stars.push(
+        <img
+          key={i}
+          src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'}
+          alt=""
+        />,
+      );
+    }
+    if (!Number.isInteger(rating)) {
+      stars.push(
+        <img
+          key={'0.5'}
+          src={process.env.PUBLIC_URL + '/images/Rating/halfstar.svg'}
+          alt=""
+        />,
+      );
+    }
+    return stars;
+  };
+
   return (
-    <RecordWrap onClick={props.onClick}>
-      <img src={''} />
+    <RecordWrap onClick={onClick}>
+      <img src={`data:image/jpeg;base64,${imgUrl}`} alt="여행지이미지" />
       <div>
         <div>
-          <SubTitle>서울</SubTitle>
+          <SubTitle>{cityName}</SubTitle>
           <Small color={'7c7c7c'} margin={'0 0 8px'}>
-            2023.01.01-2023.03.24
+            {startDate} ~ {endDate}
           </Small>
         </div>
         <div>
-          <img src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'} />
-          <img src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'} />
-          <img src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'} />
-          <img src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'} />
-          <img src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'} />️
+          <div>{renderRatingStars()}</div>
         </div>
       </div>
     </RecordWrap>
