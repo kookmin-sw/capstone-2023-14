@@ -47,11 +47,37 @@ export const Textarea = styled.textarea`
   min-height: 320px;
   border-radius: 20px;
   border: 2px solid #ef4e3e30;
+  background-color: #ffffff;
 
   :hover,
   :focus-visible {
     border: 2px solid #ef4e3e70;
     outline: none;
     transition: 0.2s ease;
+  }
+`;
+
+export const Comment = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+  > div {
+    display: flex;
+    gap: 4px;
+    padding: 8px;
+  }
+  input {
+    all: unset;
+    flex: auto;
+    padding: 8px 12px;
+    border: 2px solid rgb(224, 224, 224);
+    border-radius: 30px;
+  }
+  button {
+    all: unset;
+    cursor: pointer;
+    flex: 0 1 40px;
+    text-align: center;
   }
 `;
