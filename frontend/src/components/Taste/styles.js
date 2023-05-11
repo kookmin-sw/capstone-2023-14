@@ -16,6 +16,7 @@ export const Options = styled.label`
   padding: 2px 16px;
   border: 1.5px solid #7c7c7c;
   border-radius: 24px;
+  cursor: pointer;
 
   > input {
     display: none;
