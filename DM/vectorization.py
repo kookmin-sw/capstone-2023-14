@@ -21,57 +21,82 @@ def getCountry():
     # Database 접속
     db = Database()
 
+
     # 여행지 이름 찾기
     sql = 'select id, name from country order by 1;'
     country = pd.read_sql_query(sql, db.conn)
     country_name = country['name']
 
 
-    # Cosine 벡터 pickle로부터 get
-    with open('data.pickle', 'rb') as f:
-        cosine_sim = pickle.load(f)
-
-
     # 사용자 별점정보 조회
-    sql = '''
+    user_id = 'test'
+    sql = f'''
             select c.user_id, c.id, ifnull(mr.rating, 0.0) as rating 
             from member_rating as mr right outer join (select member.email as user_id, country.* from member right outer join country on 1=1) as c 
             on mr.user_id=c.user_id and mr.country_id=c.id
+            where c.user_id="{user_id}"
             order by 1, 2;
         '''
     df = pd.read_sql_query(sql, db.conn)
 
     # index는 행을 의미
     user_data = pd.pivot_table(df, index='user_id', columns='id', values='rating')
-    user_ratings = user_data.to_numpy()
-
-    print(user_ratings[0][0] == 0)
-
-    # CF(Item Based) 필터링
-
-    return
+    user_ratings = user_data.to_numpy().reshape(-1)
 
 
-    # travel_cosim = cosine_similarity(user_ratings, cosine_sim)
-    # print(travel_cosim)
+    # Content기반 예측평점 계산
+    with open('data.pickle', 'rb') as f:
+        content_similarities = pickle.load(f)
+        content_similarities = np.array(content_similarities)
 
 
-    _input = 'seo52201@naver.com'
-    if _input in user_info:
-        _index = user_info[_input]
-        # 본인이 갔다왔던 여행지는 제외
-        except_index = np.where(user_data[_input] > 0)
-        travel_cosim[_index][except_index] = 0
+    # 하이브리드 추천시스템 (CF X Content기반)
+    # 유저의 예측 별점계산
+    user_predicted_ratings = np.zeros((len(country)))
+    for item in range(len(country)):
+        # 이미 별점이 있는 경우
+        if user_ratings[item] != 0:
+            user_predicted_ratings[item] = user_ratings[item]
+            continue
 
-        score_indics = np.argsort(travel_cosim[_index])[::-1]
-    else:
-        # 아예 평가를 하지 않았던 여행자 Case
-        # 랜덤 Index로 처리하게 되었음. 추후 보완 필요
-        ran_index = random.randint(0, len(country_name))
-        score_indics = np.argsort(cosine_sim[ran_index])[::-1]
+        # Content기반 필터링
+        similar_countries = np.argsort(content_similarities[item])[::-1]
 
-    output = country_name[score_indics][:10]
-    print(output)
+        # 유저가 매긴 별점이 있는 유사한 여행지만 추출
+        rated_similar_country = []
+        for country in similar_countries:
+            if user_ratings[country] != 0:
+                rated_similar_country.append(country)
+                # 유사한 여행지 상위 5개로 제한
+                if len(rated_similar_country) == 5:
+                    break
+
+        if len(rated_similar_country) > 0:
+            weighted_ratings = 0
+            similarity_sum = 0
+
+            # Hybrid Filtering
+            # 콘텐츠 기반 필터링이 적용된 상태
+            for country in rated_similar_country:
+                similarity = content_similarities[item][country]
+                weighted_ratings += user_ratings[country] * similarity
+                similarity_sum += similarity
+            predict_rating = weighted_ratings / similarity_sum
+        else:
+            # 평가한 데이터가 아예 없는 경우
+            predict_rating = 0
+
+        user_predicted_ratings[item] = predict_rating
+
+    print(user_predicted_ratings)
+
+
+    # Hybrid 필터링 (CF+콘텐츠기반)
+
+    # hybrid_ratings = user_predicted_ratings.dot(content_similarities)
+
+    # print(hybrid_ratings)
+
 
     db.close()
 
@@ -222,40 +247,6 @@ def getCompanion():
 
 
     db.close()
-
-
-# user는 id값으로 전달
-def predict_ratings(ratings_matrix, content_similarities, user_index, item_index):
-    # 이미 별점이 있는 경우
-    if ratings_matrix[user_index][item_index] != 0:
-        return ratings_matrix[user_index][item_index]
-
-    # 별점이 없는 경우는 예측
-    # 현재 여행지와 유사한 여행지 인덱스 추출
-    similar_countrys = np.argsort(content_similarities[item_index])[::-1]
-
-    # 유저가 매긴 별점이 있는 유사한 여행지만 추출
-    rated_similar_country = []
-    for country in similar_countrys:
-        if ratings_matrix[user_index][country] != 0:
-            rated_similar_country.append(country)
-            if len(rated_similar_country) == 5:
-                break
-
-    if len(rated_similar_country) > 0:
-        weighted_ratings = 0
-        similarity_sum = 0
-        for country in rated_similar_country:
-            similarity = content_similarities[item_index][country]
-            weighted_ratings += ratings_matrix[user_index][country] * similarity
-            similarity_sum += similarity
-
-        predict_rating = weighted_ratings / similarity_sum
-    else:
-        predict_rating = 0
-
-    return predict_rating
-
 
 
 
