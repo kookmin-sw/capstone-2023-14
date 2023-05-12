@@ -14,6 +14,9 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [userEmail, setUserEmail] = useState('test');
 
+  // 취향정보가 없는 유저의 경우 홈화면 접근 시 모달창 띄우기
+  const [tasteModal, setTasteModal] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -83,7 +86,7 @@ function Home() {
         ))}
       </Wrap>
       <Footer />
-      <TasteModal />
+      {tasteModal ? <TasteModal setTasteModal={setTasteModal} /> : null}
     </div>
   );
 }

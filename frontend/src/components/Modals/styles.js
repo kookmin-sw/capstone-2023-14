@@ -28,6 +28,43 @@ export const Wrap = styled(Common)`
   }
 `;
 
+export const TasteWrap = styled.div`
+  text-align: center;
+  > div:nth-child(2) {
+    margin-bottom: 32px;
+  }
+  > div:last-child {
+    display: flex;
+    gap: 4px;
+
+    > button {
+      all: unset;
+      flex: 50%;
+      text-align: center;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      padding: 8px 0;
+      font-size: 14px;
+
+      :after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        border-radius: 4px;
+        background-color: #ef4e3e;
+        transition: all 0.5s;
+      }
+      :hover:after {
+        width: 100%;
+      }
+    }
+  }
+`;
+
 export const TypeWrap = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -151,7 +188,6 @@ export const DropdownMenu = styled.ul`
   z-index: 1;
   overflow-y: scroll;
   max-height: 150px;
-  overflow-y: auto;
 
   li {
     padding: 10px;

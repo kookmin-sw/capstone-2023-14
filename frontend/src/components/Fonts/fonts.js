@@ -8,6 +8,7 @@ const DefaultFontStyle = styled.div`
   text-align: ${(props) => (props.align ? props.align : null)};
   cursor: ${(props) => (props.cursor ? props.cursor : null)};
   color: ${(props) => (props.color ? props.color : null)};
+  line-height: ${(props) => (props.line ? props.line : null)};
 `;
 
 export const Title = styled(DefaultFontStyle)`
