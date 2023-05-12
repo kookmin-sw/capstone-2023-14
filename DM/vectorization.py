@@ -10,9 +10,6 @@ import random
 
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
-from sklearn.preprocessing import normalize
-from collections import Counter
-from scipy.stats import pearsonr
 
 from database import Database
 
@@ -196,8 +193,7 @@ def getCompanion():
             predict_rating = weighted_ratings / similarity_sum
             user_predicted_ratings[user][idx] = predict_rating
 
-    # print(similar_countries)
-    # print(user_predicted_ratings)
+
 
     # STEP2. 피어슨 유사도
     pearson_sim = np.zeros((len(user_ratings), len(user_ratings)))
@@ -238,9 +234,6 @@ def getCompanion():
         # 혼성/동성, 본인의 gender
         user_data_gender.append([item[4], item[5]])
 
-
-    # print(user_data)
-    # print(user_data_gender)
 
     vectorizer = TfidfVectorizer()
     tfidf_matrix = vectorizer.fit_transform(user_data_list)
@@ -310,8 +303,8 @@ def getCompanion():
         }
         result.append(info)
 
-    print(companion_list)
-    print(result)
+    # print(companion_list)
+    # print(result)
 
 
     db.close()
