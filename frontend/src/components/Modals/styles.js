@@ -22,7 +22,6 @@ export const Wrap = styled(Common)`
     padding: ${(props) => (props.padding ? '60px 20px' : null)};
     border-radius: 12px;
     overflow-y: scroll;
-    height: 70%;
   }
   > div > input {
     display: none;

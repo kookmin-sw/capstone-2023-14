@@ -22,6 +22,8 @@ const Header = (props) => {
         />
       ) : props.title === 'board-upload' ? (
         <button onClick={props.onClick}>작성</button>
+      ) : props.title === 'taste' ? (
+        <button onClick={props.onClick}>직접추가</button>
       ) : null}
     </Wrap>
   );

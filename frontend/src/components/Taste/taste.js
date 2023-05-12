@@ -19,6 +19,55 @@ const Taste = (props) => {
     preferGender: '',
   });
 
+  const styleTaste = [
+    {
+      name: 'style',
+      value: '계획적',
+    },
+    {
+      name: 'style',
+      value: '즉흥적',
+    },
+    {
+      name: 'style',
+      value: '뚜벅이',
+    },
+    {
+      name: 'style',
+      value: '대중교통',
+    },
+  ];
+  const objectTaste = [
+    {
+      name: 'object',
+      value: '휴양',
+    },
+    {
+      name: 'object',
+      value: '관광',
+    },
+    {
+      name: 'object',
+      value: '쇼핑',
+    },
+    {
+      name: 'object',
+      value: '액티비티',
+    },
+    {
+      name: 'object',
+      value: '음식&카페',
+    },
+    {
+      name: 'object',
+      value: '문화',
+    },
+    {
+      name: 'object',
+      value: '촬영',
+    },
+  ];
+
   const handleOnTasteSave = async () => {
     const saveInfo = {
       email: 'test',
@@ -30,6 +79,8 @@ const Taste = (props) => {
 
     try {
       await axios.post('http://localhost:5001/api/hashtag-taste', saveInfo);
+      alert('취향 정보가 저장되었습니다.');
+      navigator('/setting');
     } catch (e) {
       console.log(e);
     }
@@ -78,110 +129,33 @@ const Taste = (props) => {
         <div>
           <SmallTitle margin={'0 0 12px'}>스타일</SmallTitle>
           <Row>
-            <Options>
-              <input
-                type={'checkbox'}
-                name={'style'}
-                value={'계획적'}
-                onClick={(e) => checkMyTaste(e)}
-              />
-              <span>계획적</span>
-            </Options>
-            <Options>
-              <input
-                type={'checkbox'}
-                name={'style'}
-                value={'즉흥적'}
-                onClick={(e) => checkMyTaste(e)}
-              />
-              <span>즉흥적</span>
-            </Options>
-            <Options>
-              <input
-                type={'checkbox'}
-                name={'style'}
-                value={'뚜벅이'}
-                onClick={(e) => checkMyTaste(e)}
-              />
-              <span>뚜벅이</span>
-            </Options>
-            <Options>
-              <input
-                type={'checkbox'}
-                name={'style'}
-                value={'대중교통'}
-                onClick={(e) => checkMyTaste(e)}
-              />
-              <span>대중교통</span>
-            </Options>
+            {styleTaste.map((i) => (
+              <Options>
+                <input
+                  type={'checkbox'}
+                  name={i.name}
+                  value={i.value}
+                  onClick={(e) => checkMyTaste(e)}
+                />
+                <span>{i.value}</span>
+              </Options>
+            ))}
           </Row>
         </div>
         <div>
           <SmallTitle margin={'0 0 12px'}>목적</SmallTitle>
           <Row>
-            <Options>
-              <input
-                type={'checkbox'}
-                name={'object'}
-                value={'휴양'}
-                onClick={(e) => checkMyTaste(e)}
-              />
-              <span>휴양</span>
-            </Options>
-            <Options>
-              <input
-                type={'checkbox'}
-                name={'object'}
-                value={'관광'}
-                onClick={(e) => checkMyTaste(e)}
-              />
-              <span>관광</span>
-            </Options>
-            <Options>
-              <input
-                type={'checkbox'}
-                name={'object'}
-                value={'쇼핑'}
-                onClick={(e) => checkMyTaste(e)}
-              />
-              <span>쇼핑</span>
-            </Options>
-            <Options>
-              <input
-                type={'checkbox'}
-                name={'object'}
-                value={'액티비티'}
-                onClick={(e) => checkMyTaste(e)}
-              />
-              <span>액티비티</span>
-            </Options>
-            <Options>
-              <input
-                type={'checkbox'}
-                name={'object'}
-                value={'음식&카페'}
-                onClick={(e) => checkMyTaste(e)}
-              />
-              <span>음식&카페</span>
-            </Options>
-            <Options>
-              <input
-                type={'checkbox'}
-                name={'object'}
-                value={'문화'}
-                onClick={(e) => checkMyTaste(e)}
-              />
-              <span>문화</span>
-            </Options>
-            <Options>
-              <input
-                type={'checkbox'}
-                name={'object'}
-                value={'촬영'}
-                onClick={(e) => checkMyTaste(e)}
-              />
-              <span>촬영</span>
-            </Options>
+            {objectTaste.map((i) => (
+              <Options>
+                <input
+                  type={'checkbox'}
+                  name={i.name}
+                  value={i.value}
+                  onClick={(e) => checkMyTaste(e)}
+                />
+                <span>{i.value}</span>
+              </Options>
+            ))}
           </Row>
         </div>
       </div>

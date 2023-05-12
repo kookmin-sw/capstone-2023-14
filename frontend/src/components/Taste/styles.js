@@ -8,8 +8,7 @@ export const Row = styled.div`
       : 'flex-wrap: wrap; gap: 8px 12px; margin-bottom: 20px;'};
 `;
 export const ButtonWrap = styled.div`
-  ${(props) =>
-    props.setting ? 'position: absolute; bottom: 0; width: 100%;' : null}
+  ${(props) => (props.setting ? ' width: 100%;' : null)}
 `;
 
 export const Options = styled.label`
