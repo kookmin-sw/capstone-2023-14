@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../../components/Header/header';
-import { Comment, DetailInfo, Textarea, Wrap, WriterInfo } from './styles';
+import {
+  Comment,
+  CommentsWrap,
+  DetailInfo,
+  Textarea,
+  Wrap,
+  WriterInfo,
+} from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
 import axios from 'axios';
 
@@ -93,14 +100,17 @@ function BoardContent() {
           </div>
         </WriterInfo>
         <Textarea value={post.content} disabled />
-        <div>
+        <CommentsWrap>
           {feedComments.map((comment) => (
             <div key={comment.reply_id}>
-              <span>{comment.replyer}: </span>
-              <span>{comment.content}</span>
+              <img src={''} alt={''} />
+              <div>
+                <span>{comment.replyer} </span>
+                <div>{comment.content}</div>
+              </div>
             </div>
           ))}
-        </div>
+        </CommentsWrap>
       </Wrap>
       <Comment>
         <div>

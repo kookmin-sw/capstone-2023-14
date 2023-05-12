@@ -19,6 +19,13 @@ export const Block = styled.div`
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     transition: all 0.5s ease;
   }
+
+  > div:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
 `;
 
 export const WriterInfo = styled.div`
@@ -40,6 +47,44 @@ export const DetailInfo = styled.div`
   gap: 4px;
 `;
 
+export const CommentsWrap = styled.div`
+  border-top: 2px solid #ebebeb;
+  margin-top: 24px;
+  padding: 20px 0;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  > div img {
+    border-radius: 70%;
+    width: 24px;
+    height: 24px;
+    background-color: #ebebeb;
+    flex: 0 0 24px;
+  }
+  > div > div {
+    flex: 0 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  span {
+    margin: 0 4px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  > div > div > div {
+    border-radius: 30px;
+    border: 2px solid #ef4e3e30;
+    padding: 4px 8px;
+    margin-top: 2px;
+    font-size: 14px;
+  }
+`;
 export const Textarea = styled.textarea`
   resize: none;
   width: 96%;
@@ -58,14 +103,16 @@ export const Textarea = styled.textarea`
 `;
 
 export const Comment = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
+  max-width: 480px;
   width: 100%;
+  padding: 12px 0;
+  background-color: #ffffff;
 
   > div {
     display: flex;
     gap: 4px;
-    padding: 8px;
   }
   input {
     all: unset;
