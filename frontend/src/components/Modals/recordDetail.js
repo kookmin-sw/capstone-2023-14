@@ -6,55 +6,80 @@ import InputBox from '../Inputs/inputBox';
 const RecordDetail = (props) => {
   // dimmed 영역 처리
   const dimmed = useRef();
+  const userRecord = props.record;
+
   const handleModalOutsideClick = (event) => {
     if (props.detail && !dimmed.current.contains(event.target)) {
       props.setDetail(false);
     }
   };
+
   useEffect(() => {
     document.addEventListener('mousedown', handleModalOutsideClick);
     return () => {
       document.removeEventListener('mousedown', handleModalOutsideClick);
     };
   });
+
+  const renderRatingStars = () => {
+    const stars = [];
+    for (let i = 1; i <= userRecord.rating; i++) {
+      stars.push(
+        <img
+          key={i}
+          src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'}
+          alt=""
+        />,
+      );
+    }
+    if (!Number.isInteger(userRecord.rating)) {
+      stars.push(
+        <img
+          key={'0.5'}
+          src={process.env.PUBLIC_URL + '/images/Rating/halfstar.svg'}
+          alt=""
+        />,
+      );
+    }
+    return stars;
+  };
   return (
     <Wrap>
       <div ref={dimmed}>
         <ImgWrap>
           <label>
-            <img src={''} />
+            <img src={`data:image/jpeg;base64,${userRecord.imgUrl}`} alt="" />
           </label>
         </ImgWrap>
         <InputWrap small>
           <div>
-            <Title>대한민국 서울</Title>
-            <Small color={'7c7c7c'} margin={'0 0 8px'}>
-              2023.01.01-2023.03.24
-            </Small>
-            <div>
-              <img
-                src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'}
-              />
-              <img
-                src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'}
-              />
-              <img
-                src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'}
-              />
-              <img
-                src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'}
-              />
-              <img
-                src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'}
-              />
-            </div>
+            <Title>{}</Title>
+            <Small color={'7c7c7c'} margin={'0 0 8px'}></Small>
+            <div>{renderRatingStars()}</div>
           </div>
-          <InputBox title={'여행지'} small disabled />
-          <InputBox title={'여행기간'} small disabled />
-          <InputBox title={'총 여행경비'} small disabled />
+          <InputBox
+            title={'여행지'}
+            value={userRecord.city_name}
+            small
+            disabled
+          />
+          <InputBox
+            title={'여행기간'}
+            value={`${userRecord.duration_start.split('T')[0]} ~ ${
+              userRecord.duration_end.split('T')[0]
+            }`}
+            small
+            disabled
+          />
+          <InputBox
+            title={'총 여행경비'}
+            value={userRecord.cost}
+            small
+            disabled
+          />
           <div>
             <SubTitle margin={'0 0 10px'}>나의 기록</SubTitle>
-            <Textarea disabled />
+            <Textarea value={userRecord.record} disabled />
           </div>
         </InputWrap>
       </div>
