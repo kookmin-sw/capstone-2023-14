@@ -7,6 +7,7 @@ const saveTaste = (req, res) => {
 
   db.query(
     `INSERT INTO member_info (id, style, object, prefer_age, prefer_gender) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE
+    id = ?,
     style = ?,
     object = ?,
     prefer_age = ?,
