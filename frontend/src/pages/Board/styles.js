@@ -47,6 +47,17 @@ export const DetailInfo = styled.div`
   gap: 4px;
 `;
 
+export const SearchWrap = styled.div`
+  input {
+    border-radius: 30px;
+    border: 2px solid rgba(239, 78, 62, 0.19);
+    padding: 4px 8px;
+    width: -webkit-fill-available;
+    height: 24px;
+  }
+  margin-bottom: 20px;
+`;
+
 export const CommentsWrap = styled.div`
   border-top: 2px solid #ebebeb;
   margin-top: 24px;
@@ -94,12 +105,11 @@ export const Textarea = styled.textarea`
   border: 2px solid #ef4e3e30;
   background-color: #ffffff;
 
-  :hover,
-  :focus-visible {
-    border: 2px solid #ef4e3e70;
-    outline: none;
-    transition: 0.2s ease;
-  }
+  ${(props) =>
+    props.disabled
+      ? null
+      : ':hover, :focus-visible { border: 2px solid #ef4e3e70; outline: none; transition: 0.2s ease;'}}
+  
 `;
 
 export const Comment = styled.div`
