@@ -25,7 +25,8 @@ def getCountry():
     # 여행지 이름 찾기
     sql = 'select id, name from country order by 1;'
     country = pd.read_sql_query(sql, db.conn)
-    country_name = country['name']
+    country_name = np.array(country['name'])
+
 
 
     # 사용자 별점정보 조회
@@ -71,32 +72,46 @@ def getCountry():
                 if len(rated_similar_country) == 5:
                     break
 
-        if len(rated_similar_country) > 0:
-            weighted_ratings = 0
-            similarity_sum = 0
+        # 아무런 평가도 하지 않았을 경우
+        if len(rated_similar_country) == 0:
+            # 무작위 5개 여행지에 대해 정규분포 별점부여
+            rnd_cnt = 5
+            rated_similar_country = np.random.randint(0, len(country_name), rnd_cnt)
 
-            # Hybrid Filtering
-            # 콘텐츠 기반 필터링이 적용된 상태
-            for country in rated_similar_country:
-                similarity = content_similarities[item][country]
-                weighted_ratings += user_ratings[country] * similarity
-                similarity_sum += similarity
-            predict_rating = weighted_ratings / similarity_sum
-        else:
-            # 평가한 데이터가 아예 없는 경우
-            predict_rating = 0
+            for i in range(rnd_cnt):
+                c_index = rated_similar_country[i]
+                # 1.5~4.5 사이의 난수를 발생
+                rnd_score = np.random.uniform(1.5, 4.5)
+                user_ratings[c_index] = rnd_score
 
+
+        weighted_ratings = 0
+        similarity_sum = 0
+
+        # Hybrid Filtering
+        # 콘텐츠 기반 필터링이 적용된 상태
+        for country in rated_similar_country:
+            similarity = content_similarities[item][country]
+            weighted_ratings += user_ratings[country] * similarity
+            similarity_sum += similarity
+
+        predict_rating = weighted_ratings / similarity_sum
         user_predicted_ratings[item] = predict_rating
 
-    print(user_predicted_ratings)
 
 
-    # Hybrid 필터링 (CF+콘텐츠기반)
+    # 유저가 이미 평가한 여행지는 제외
+    gone_coutries_index = np.where(user_ratings > 0)
+    user_predicted_ratings[gone_coutries_index] = 0
 
-    # hybrid_ratings = user_predicted_ratings.dot(content_similarities)
+    # print(user_ratings)
+    # print(user_predicted_ratings)
 
-    # print(hybrid_ratings)
+    recommend_country_index = np.argsort(user_predicted_ratings)[::-1]
+    recommend_country_index = recommend_country_index[:10]
+    recommend_country = country_name[recommend_country_index]
 
+    print(recommend_country)
 
     db.close()
 
