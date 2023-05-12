@@ -45,10 +45,15 @@ def getCountry():
     user_data = pd.pivot_table(df, index='user_id', columns='id', values='rating')
     user_ratings = user_data.to_numpy()
 
+    print(user_ratings[0][0] == 0)
 
-    travel_cosim = cosine_similarity(user_ratings, cosine_sim)
-    print(travel_cosim)
+    # CF(Item Based) 필터링
+
     return
+
+
+    # travel_cosim = cosine_similarity(user_ratings, cosine_sim)
+    # print(travel_cosim)
 
 
     _input = 'seo52201@naver.com'
@@ -217,6 +222,48 @@ def getCompanion():
 
 
     db.close()
+
+
+# user는 id값으로 전달
+def predict_ratings(ratings_matrix, content_similarities, user_index, item_index):
+    # 이미 별점이 있는 경우
+    if ratings_matrix[user_index][item_index] != 0:
+        return ratings_matrix[user_index][item_index]
+
+    # 별점이 없는 경우는 예측
+    # 현재 여행지와 유사한 여행지 인덱스 추출
+    similar_countrys = np.argsort(content_similarities[item_index])[::-1]
+
+    # 유저가 매긴 별점이 있는 유사한 여행지만 추출
+    rated_similar_country = []
+    for country in similar_countrys:
+        if ratings_matrix[user_index][country] != 0:
+            rated_similar_country.append(country)
+            if len(rated_similar_country) == 5:
+                break
+
+    if len(rated_similar_country) > 0:
+        weighted_ratings = 0
+        similarity_sum = 0
+        for country in rated_similar_country:
+            similarity = content_similarities[item_index][country]
+            weighted_ratings += ratings_matrix[user_index][country] * similarity
+            similarity_sum += similarity
+
+        predict_rating = weighted_ratings / similarity_sum
+    else:
+        predict_rating = 0
+
+    return predict_rating
+
+
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     getCountry()
