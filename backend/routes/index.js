@@ -4,6 +4,7 @@ import users from '../controllers/users.ctrl.js';
 import chat from '../controllers/openai.ctrl.js';
 import recommend from '../controllers/recommend.ctrl.js';
 import record from '../controllers/record.ctrl.js';
+import board from '../controllers/board.ctrl.js';
 
 const router = express.Router();
 
@@ -22,5 +23,7 @@ router.post('/api/get-userInfo', users.getUserInfo);
 router.post('/api/record-write', record.saveItinerary);
 router.get('/api/get-cityList', record.getCityList);
 router.post('/api/get-recordList', record.getItineraryList);
+
+router.post('/api/board-write', board.saveBoard);
 
 export default router;
