@@ -4,6 +4,7 @@ import random
 import pickle
 import base64
 import json
+import pandas as pd
 
 from flask import Flask, jsonify, request, make_response
 from flask_restx import Resource, Api, reqparse
@@ -27,84 +28,106 @@ np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 
 @app.route('/dm/recommend', methods=['GET'])
 def getCountry():
-    _input = request.args['email']
+    user_id = request.args['email']
 
-    # Database 접속 -> 크롤링 요약 데이터 가져오기
+    # Database 접속
     db = Database()
-    res = db.select('''
-            select c.id, c.name, cd.contents
-            from country_data as cd, country as c
-            where cd.id=c.id
-            order by 1;
-        ''')
-
-    country_word_list = []
-    country_cnt = Counter([])
-    country_name = []
-    # ID, NAME, CONTENTS
-    for row in res:
-        country_name.append(row[1])
-        crawl_data = eval(row[2])
-        country_cnt += crawl_data
-
-    country_name = np.array(country_name)
 
 
-    # Cosine 벡터 pickle로부터 get
-    with open('data.pickle', 'rb') as f:
-        cosine_sim = pickle.load(f)
+    # 여행지 이름 찾기
+    sql = 'select id, name from country order by 1;'
+    country = pd.read_sql_query(sql, db.conn)
+    country_name = np.array(country['name'])
 
 
 
     # 사용자 별점정보 조회
-    user_info = dict()  # 이메일과 index 매칭
-    user_data = dict()
-    res = db.select('''
-            select user_id, country_id, rating 
-            from member_rating
+    sql = f'''
+            select c.user_id, c.id, ifnull(mr.rating, 0.0) as rating 
+            from member_rating as mr right outer join (select member.email as user_id, country.* from member right outer join country on 1=1) as c 
+            on mr.user_id=c.user_id and mr.country_id=c.id
+            where c.user_id="{user_id}"
             order by 1, 2;
-        ''')
+        '''
+    df = pd.read_sql_query(sql, db.conn)
 
-    # 'seo5220@naver.com': [0, 0, 0, 0, 0, 0, 0, 0, 0,
-    for item in res:
-        index = item[0]
-        i_country = int(item[1])
-        i_rating = int(item[2])
-        if index not in user_data:
-            user_data[index] = np.array([0 for cn in country_name])
-        user_data[index][i_country] = i_rating
-    # print(user_data)
+    # index는 행을 의미
+    user_data = pd.pivot_table(df, index='user_id', columns='id', values='rating')
+    user_ratings = user_data.to_numpy().reshape(-1)
 
-    # 행=유저수, 열=Country수
-    user_ratings = np.zeros((len(user_data.keys()), len(country_name)))
-    for idx, key in enumerate(user_data.keys()):
-        user_ratings[idx] = user_data[key]
-        # user_info는 이메일<->index값
-        user_info[idx] = key
-        user_info[key] = idx
-    # print(user_info)
 
-    travel_cosim = cosine_similarity(user_ratings, cosine_sim)
+    # Content기반 예측평점 계산
+    with open('data.pickle', 'rb') as f:
+        content_similarities = pickle.load(f)
+        content_similarities = np.array(content_similarities)
 
-    if _input in user_info:
-        _index = user_info[_input]
-        # 본인이 갔다왔던 여행지는 제외
-        except_index = np.where(user_data[_input] > 0)
-        travel_cosim[_index][except_index] = 0
 
-        score_indics = np.argsort(travel_cosim[_index])[::-1]
-    else:
-        # 아예 평가를 하지 않았던 여행자 Case
-        # 랜덤 Index로 처리하게 되었음. 추후 보완 필요
-        ran_index = random.randint(0, len(country_name))
-        score_indics = np.argsort(cosine_sim[ran_index])[::-1]
+    # 하이브리드 추천시스템 (CF X Content기반)
+    # 유저의 예측 별점계산
+    user_predicted_ratings = np.zeros((len(country)))
+    for item in range(len(country)):
+        # 이미 별점이 있는 경우
+        if user_ratings[item] != 0:
+            user_predicted_ratings[item] = user_ratings[item]
+            continue
 
-    output = country_name[score_indics][:10]
+        # Content기반 필터링
+        similar_countries = np.argsort(content_similarities[item])[::-1]
+
+        # 유저가 매긴 별점이 있는 유사한 여행지만 추출
+        rated_similar_country = []
+        for country in similar_countries:
+            if user_ratings[country] != 0:
+                rated_similar_country.append(country)
+                # 유사한 여행지 상위 5개로 제한
+                if len(rated_similar_country) == 5:
+                    break
+
+        # 아무런 평가도 하지 않았을 경우
+        if len(rated_similar_country) == 0:
+            # 무작위 5개 여행지에 대해 정규분포 별점부여
+            rnd_cnt = 5
+            rated_similar_country = np.random.randint(0, len(country_name), rnd_cnt)
+
+            for i in range(rnd_cnt):
+                c_index = rated_similar_country[i]
+                # 1.5~4.5 사이의 난수를 발생
+                rnd_score = np.random.uniform(1.5, 4.5)
+                user_ratings[c_index] = rnd_score
+
+
+        weighted_ratings = 0
+        similarity_sum = 0
+
+        # Hybrid Filtering
+        # 콘텐츠 기반 필터링이 적용된 상태
+        for country in rated_similar_country:
+            similarity = content_similarities[item][country]
+            weighted_ratings += user_ratings[country] * similarity
+            similarity_sum += similarity
+
+        predict_rating = weighted_ratings / similarity_sum
+        user_predicted_ratings[item] = predict_rating
+
+
+
+    # 유저가 이미 평가한 여행지는 제외
+    gone_coutries_index = np.where(user_ratings > 0)
+    user_predicted_ratings[gone_coutries_index] = 0
+
+    # print(user_ratings)
+    # print(user_predicted_ratings)
+
+    recommend_country_index = np.argsort(user_predicted_ratings)[::-1]
+    recommend_country_index = recommend_country_index[:10]
+    recommend_country = country_name[recommend_country_index]
+
+    print(recommend_country)
 
     db.close()
 
     return jsonify({
-        'result': list(output)
+        'result': list(recommend_country)
     })
 
 @app.route('/dm/companion', methods=['GET'])
