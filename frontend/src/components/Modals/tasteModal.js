@@ -15,7 +15,7 @@ const TasteModal = (props) => {
             취향 정보를 먼저 저장하시겠습니까 ?
           </SubTitle>
           <div>
-            <button onClick={() => navigator('/taste')}>
+            <button onClick={() => navigator('/setting/taste')}>
               취향정보 설정하기
             </button>
             <button onClick={() => props.setTasteModal(false)}>

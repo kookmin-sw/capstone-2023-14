@@ -11,7 +11,7 @@ import TasteModal from '../../components/Modals/tasteModal';
 function Home() {
   const navigator = useNavigate();
   const [recommendList, setRecommendList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [userEmail, setUserEmail] = useState('test');
 
   // 취향정보가 없는 유저의 경우 홈화면 접근 시 모달창 띄우기
