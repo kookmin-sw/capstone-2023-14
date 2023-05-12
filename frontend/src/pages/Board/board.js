@@ -4,9 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Block, DetailInfo, Wrap, WriterInfo } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
 import { useNavigate } from 'react-router-dom';
-import { FloatingButton } from '../Record/styles';
 import axios from 'axios';
-
 
 function Board() {
   const navigator = useNavigate();
