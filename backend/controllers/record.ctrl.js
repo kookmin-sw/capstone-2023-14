@@ -49,11 +49,23 @@ const saveItinerary = (req, res) => {
 const getItineraryList = async (req, res) => {
   const { email } = req.body;
   db.query(
-    `SELECT c.name as city_name, mr.* FROM member_rating as mr, country as c WHERE user_id=? and mr.country_id = c.id;`,
+    `SELECT c.name as city_name, mr.country_id, mr.rating, mr.duration_start, mr.duration_end, mr.cost, mr.picture1 as picture
+    FROM (select mr.*, cd.picture1
+    from member_rating as mr, country_detail as cd
+    where mr.country_id=cd.id) as mr, country as c 
+    WHERE user_id=? and mr.country_id = c.id;`,
     [email],
     (error, result) => {
       if (error) throw error;
-      res.send(result);
+
+      const itineraryList = result.map((itinerary) => {
+        const buff = Buffer.from(itinerary.picture, 'binary');
+        return {
+          ...itinerary,
+          imgUrl: buff.toString('base64'),
+        };
+      });
+      res.send(itineraryList);
     }
   );
 };
