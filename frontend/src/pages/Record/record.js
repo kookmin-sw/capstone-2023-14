@@ -3,7 +3,7 @@ import Header from '../../components/Header/header';
 import { Title } from '../../components/Fonts/fonts';
 import Record from '../../components/Records/recordList';
 import Footer from '../../components/Footer/footer';
-import { FloatingButton, Wrap } from './styles';
+import { Wrap } from './styles';
 import RecordUpload from '../../components/Modals/recordUpload';
 import RecordDetail from '../../components/Modals/recordDetail';
 import axios from 'axios';
@@ -53,7 +53,6 @@ function Join() {
           ))}
         </div>
       </div>
-      <FloatingButton onClick={() => setUpload(true)}>+</FloatingButton>
       {detail ? (
         <RecordDetail
           setDetail={setDetail}
@@ -62,7 +61,7 @@ function Join() {
         />
       ) : null}
       {upload ? <RecordUpload setUpload={setUpload} /> : null}
-      <Footer />
+      <Footer onClick={() => setUpload(true)} upload={upload} />
     </Wrap>
   );
 }
