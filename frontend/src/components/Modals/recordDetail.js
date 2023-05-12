@@ -41,6 +41,15 @@ const RecordDetail = (props) => {
         />,
       );
     }
+    for (let i = 1; i <= 5 - userRecord.rating; i++) {
+      stars.push(
+        <img
+          src={process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'}
+          key={5 + i}
+          alt=""
+        />,
+      );
+    }
     return stars;
   };
   return (
@@ -53,8 +62,7 @@ const RecordDetail = (props) => {
         </ImgWrap>
         <InputWrap small>
           <div>
-            <Title>{}</Title>
-            <Small color={'7c7c7c'} margin={'0 0 8px'}></Small>
+            <SubTitle margin={'0 0 10px'}>여행지 평점</SubTitle>
             <div>{renderRatingStars()}</div>
           </div>
           <InputBox
@@ -81,6 +89,7 @@ const RecordDetail = (props) => {
             <SubTitle margin={'0 0 10px'}>나의 기록</SubTitle>
             <Textarea value={userRecord.record} disabled />
           </div>
+          <button onClick={() => props.setDetail(false)}>닫기</button>
         </InputWrap>
       </div>
     </Wrap>

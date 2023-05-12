@@ -14,6 +14,7 @@ function Join() {
   const [userEmail, setUserEmail] = useState('test');
   const [recordList, setRecordList] = useState([]);
   const [detailInfo, setDetailInfo] = useState({});
+  const [deleteContent, setDeleteContent] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,12 +32,16 @@ function Join() {
 
   return (
     <Wrap>
-      <Header title={'record'} />
+      <Header
+        title={'record'}
+        onClick={() => setDeleteContent(!deleteContent)}
+      />
       <div>
         <Title margin={'20px 0'}>내가 기록한 여행지</Title>
         <div>
           {recordList.map((record) => (
             <Record
+              deleteContent={deleteContent}
               key={record.country_id}
               cityName={record.city_name}
               startDate={record.duration_start.split('T')[0]}
@@ -61,7 +66,7 @@ function Join() {
         />
       ) : null}
       {upload ? <RecordUpload setUpload={setUpload} /> : null}
-      <Footer onClick={() => setUpload(true)} upload={upload} />
+      <Footer onClick={() => setUpload(true)} upload={upload} detail={detail} />
     </Wrap>
   );
 }

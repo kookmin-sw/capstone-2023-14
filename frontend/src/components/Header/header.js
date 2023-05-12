@@ -14,7 +14,10 @@ const Header = (props) => {
       />
       <Title>{props.title}</Title>
       {props.title === 'record' ? (
-        <img src={process.env.PUBLIC_URL + '/images/Common/hamburger.svg'} />
+        <img
+          src={process.env.PUBLIC_URL + '/images/Common/hamburger.svg'}
+          onClick={props.onClick}
+        />
       ) : props.title === 'mypage' ? (
         <img
           src={process.env.PUBLIC_URL + '/images/Common/settingIcon.svg'}

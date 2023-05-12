@@ -89,16 +89,11 @@ export const ImgWrap = styled.div`
   position: relative;
   cursor: pointer;
 
-  > label > img:first-child {
+  img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  > label > img:last-child {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    overflow: hidden;
   }
 `;
 
@@ -108,9 +103,14 @@ export const InputWrap = styled.div`
 
   > div {
     margin-bottom: 12px;
+
+    :first-child img {
+      width: 28px;
+    }
   }
 
-  > button {
+  > button,
+  span > button {
     all: unset;
     cursor: pointer;
     background: #ef4e3e;
@@ -120,6 +120,20 @@ export const InputWrap = styled.div`
     font-weight: bold;
     display: block;
     margin: auto;
+    border: 2px solid #ef4e3e;
+  }
+  span {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+
+    > button {
+      margin: unset;
+    }
+    > button:last-child {
+      background: #ffffff;
+      color: #141414;
+    }
   }
 
   img {

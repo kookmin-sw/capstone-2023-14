@@ -116,11 +116,13 @@ const RecordUpload = (props) => {
   // record save button clicked
   const handleOnSaveRecord = async (e) => {
     e.preventDefault();
-    props.setUpload(false);
 
     try {
       await axios.post('http://localhost:5001/api/record-write', userRecord);
+      alert('기록이 저장되었습니다.');
+      props.setUpload(false);
     } catch (e) {
+      alert('문제가 발생했어요. 기록이 저장되지 않았습니다. :(');
       console.log(e);
     }
   };
@@ -130,19 +132,12 @@ const RecordUpload = (props) => {
       <div>
         <ImgWrap>
           {imgUrl ? (
+            <img src={`data:image/jpeg;base64,${imgUrl}`} alt="" />
+          ) : (
             <img
-              style={{ width: '100%', height: '100%' }}
-              src={`data:image/jpeg;base64,${imgUrl}`}
+              src={process.env.PUBLIC_URL + '/images/Common/emptyDefault.png'}
               alt=""
             />
-          ) : (
-            <div
-              style={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#d3d3d3',
-              }}
-            ></div>
           )}
         </ImgWrap>
         <InputWrap>
@@ -265,7 +260,10 @@ const RecordUpload = (props) => {
               onChange={handleChangeInput}
             />
           </div>
-          <button onClick={handleOnSaveRecord}>저장</button>
+          <span>
+            <button onClick={handleOnSaveRecord}>저장</button>
+            <button onClick={() => props.setUpload(false)}>취소</button>
+          </span>
         </InputWrap>
       </div>
     </Wrap>

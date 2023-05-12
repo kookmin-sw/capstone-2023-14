@@ -47,18 +47,16 @@ function Detail() {
 
   if (isLoading)
     return (
-      <>
-        <img
-          style={{
-            position: 'absolute',
-            top: '40%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-          src={loadingImage}
-          alt="loading gif"
-        ></img>
-      </>
+      <img
+        style={{
+          position: 'absolute',
+          top: '40%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+        src={loadingImage}
+        alt="loading gif"
+      />
     );
 
   return (
