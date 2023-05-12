@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/header';
 import Footer from '../../components/Footer/footer';
+import React, { useEffect, useState } from 'react';
 import { Block, DetailInfo, Wrap, WriterInfo } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
 import { useNavigate } from 'react-router-dom';
@@ -10,14 +10,6 @@ import axios from 'axios';
 function Board() {
   const navigator = useNavigate();
   const [boardList, setBoardList] = useState([]);
-
-  // const newList = list.map(item => ({
-  //   ...item,
-  //   age: Math.floor(Math.random() * 50) + 1, // This is just an example, replace it with your logic
-  // }));
-
-  // setList(newList);
-
   useEffect(() => {
     const fetchData = async () => {
       try {

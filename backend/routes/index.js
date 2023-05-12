@@ -26,5 +26,6 @@ router.post('/api/get-recordList', record.getItineraryList);
 
 router.post('/api/board-write', board.saveBoard);
 router.get('/api/get-boardList', board.getBoardList);
+router.post('/api/reply-write', board.saveReply);
 
 export default router;

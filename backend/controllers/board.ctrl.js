@@ -19,4 +19,15 @@ const getBoardList = (req, res) => {
     res.send(result);
   });
 };
-export default { saveBoard, getBoardList };
+
+const saveReply = (req, res) => {
+  const { board_id, email, content, upload_time, update_time } = req.body;
+  const query = `INSERT INTO reply (board_id, replyer, content, upload_time, update_time) VALUES (?, ?, ?, ?, ? )`;
+  const values = [board_id, email, content, upload_time, update_time];
+
+  db.query(query, values, (error, result) => {
+    if (error) throw error;
+    res.status(201).json({ success: true });
+  });
+};
+export default { saveBoard, getBoardList, saveReply };
