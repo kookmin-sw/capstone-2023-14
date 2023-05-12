@@ -13,6 +13,7 @@ function Join() {
   const [detail, setDetail] = useState(false);
   const [userEmail, setUserEmail] = useState('test');
   const [recordList, setRecordList] = useState([]);
+  const [detailInfo, setDetailInfo] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,13 +43,24 @@ function Join() {
               endDate={record.duration_end.split('T')[0]}
               rating={record.rating}
               imgUrl={record.imgUrl}
-              onClick={() => setDetail(true)}
+              onClick={() => {
+                setDetail(true);
+                setDetailInfo({
+                  ...record,
+                });
+              }}
             />
           ))}
         </div>
       </div>
       <FloatingButton onClick={() => setUpload(true)}>+</FloatingButton>
-      {detail ? <RecordDetail setDetail={setDetail} detail={detail} /> : null}
+      {detail ? (
+        <RecordDetail
+          setDetail={setDetail}
+          detail={detail}
+          record={detailInfo}
+        />
+      ) : null}
       {upload ? <RecordUpload setUpload={setUpload} /> : null}
       <Footer />
     </Wrap>
