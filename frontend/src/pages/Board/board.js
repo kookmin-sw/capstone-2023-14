@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { FloatingButton } from '../Record/styles';
 import axios from 'axios';
 
+
 function Board() {
   const navigator = useNavigate();
   const [boardList, setBoardList] = useState([]);
@@ -71,9 +72,8 @@ function Board() {
             <div>{post.content}</div>
           </Block>
         ))}
-        <FloatingButton onClick={() => navigator('./upload')}>+</FloatingButton>
       </Wrap>
-      <Footer />
+      <Footer onClick={() => navigator('./upload')} />
     </div>
   );
 }

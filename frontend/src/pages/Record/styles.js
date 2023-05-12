@@ -10,22 +10,3 @@ export const Wrap = styled.div`
     overflow-y: scroll;
   }
 `;
-
-export const FloatingButton = styled.div`
-  display: inline-block;
-  width: 52px;
-  height: 52px;
-  border-radius: 70%;
-  background-color: #ef4e3e;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  font-size: 28px;
-  font-weight: bold;
-  color: #ffffff;
-  position: absolute;
-  right: 24px;
-  bottom: 80px;
-  line-height: 1.7em;
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
-`;
