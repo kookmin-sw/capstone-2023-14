@@ -14,7 +14,7 @@ function Setting() {
       text: '취향 설정',
       icon: 'icon',
       type: 'personal',
-      navi: '/taste',
+      navi: '/setting/taste',
     },
     {
       img: '/images/Setting/changePW.svg',
