@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from '../../components/Header/header';
 import { Comment, DetailInfo, Textarea, Wrap, WriterInfo } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
 
 function BoardContent() {
+  const props = useLocation();
+  const [post, setPost] = useState({});
+
+  useEffect(() => {
+    const showPost = () => {
+      setPost({ ...props.state });
+    };
+
+    showPost();
+  }, []);
+
   // 전체 채팅을 담는 배열
   const [feedComments, setFeedComments] = useState([]);
   // 유저가 입력한 채팅 내용 저장
@@ -47,17 +59,17 @@ function BoardContent() {
       <Header title={'board-content'} />
       <Wrap>
         <WriterInfo>
-          <img src={''} />
+          <img src={''} alt="" />
           <div>
-            <SubTitle margin={'0 0 2px'}>username</SubTitle>
+            <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
             <DetailInfo>
-              <Small color={'#7c7c7c'}>age세</Small>
-              <Small color={'#7c7c7c'}>gender</Small>
-              <Small color={'#EF4E3E'}>mbti</Small>
+              <Small color={'#7c7c7c'}>{post.age}세</Small>
+              <Small color={'#7c7c7c'}>{post.gender}</Small>
+              <Small color={'#EF4E3E'}>{post.mbti}</Small>
             </DetailInfo>
           </div>
         </WriterInfo>
-        <Textarea disabled />
+        <Textarea value={post.content} disabled />
         <div>
           {feedComments.map((user, idx) => {
             return (
