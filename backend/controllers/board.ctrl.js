@@ -30,4 +30,17 @@ const saveReply = (req, res) => {
     res.status(201).json({ success: true });
   });
 };
-export default { saveBoard, getBoardList, saveReply };
+
+const getReplyList = (req, res) => {
+  let { board_id } = req.body;
+
+  const query = `SELECT * FROM reply WHERE board_id=?;`;
+  const values = [board_id];
+
+  db.query(query, values, (error, result) => {
+    if (error) throw error;
+    res.send(result);
+  });
+};
+
+export default { saveBoard, getBoardList, saveReply, getReplyList };
