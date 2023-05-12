@@ -129,8 +129,8 @@ const Taste = (props) => {
         <div>
           <SmallTitle margin={'0 0 12px'}>스타일</SmallTitle>
           <Row>
-            {styleTaste.map((i) => (
-              <Options>
+            {styleTaste.map((i, key) => (
+              <Options key={key}>
                 <input
                   type={'checkbox'}
                   name={i.name}
@@ -145,8 +145,8 @@ const Taste = (props) => {
         <div>
           <SmallTitle margin={'0 0 12px'}>목적</SmallTitle>
           <Row>
-            {objectTaste.map((i) => (
-              <Options>
+            {objectTaste.map((i, key) => (
+              <Options key={key}>
                 <input
                   type={'checkbox'}
                   name={i.name}

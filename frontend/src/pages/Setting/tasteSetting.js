@@ -5,14 +5,19 @@ import Header from '../../components/Header/header';
 
 function TasteSetting() {
   const [addOptionModal, setAddOptionModal] = useState(false);
+  const [userAdd, setUserAdd] = useState({
+    name: '',
+    value: '',
+  });
 
+  // user의 취향 option 직접 추가 함수
   const AddOption = (e) => {
     const tag = e.target.tagName;
+    let type = e.target.value;
     if (tag === 'LABEL') {
-      console.log(e.target.children);
-    } else if (tag === 'INPUT') {
-      console.log(e.target.value);
+      type = e.target.children[0].value;
     }
+    setUserAdd({ ...userAdd, name: type });
   };
 
   return (
@@ -27,7 +32,7 @@ function TasteSetting() {
             <div>
               <div>type</div>
               <div>
-                <label onClick={AddOption}>
+                <label htmlFor={'addOption'} onClick={AddOption}>
                   <input type={'radio'} name={'addOption'} value={'style'} />
                   스타일
                 </label>
@@ -36,7 +41,12 @@ function TasteSetting() {
                   목적
                 </label>
               </div>
-              <input type={'text'} />
+              <input
+                type={'text'}
+                onChange={(e) =>
+                  setUserAdd({ ...userAdd, value: e.target.value })
+                }
+              />
             </div>
             <div>
               <button>추가</button>
