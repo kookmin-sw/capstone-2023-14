@@ -17,7 +17,7 @@ from database import Database
 np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 
 def getCountry():
-    # Database 접속 -> 크롤링 요약 데이터 가져오기
+    # Database 접속
     db = Database()
     res = db.select('''
                     select c.id, c.name, cd.contents
@@ -41,12 +41,16 @@ def getCountry():
     with open('data.pickle', 'rb') as f:
         cosine_sim = pickle.load(f)
 
+
+    print(cosine_sim[0])
+
     # 사용자 별점정보 조회
     user_info = dict()  # 이메일과 index 매칭
     user_data = dict()
     res = db.select('''
-            select user_id, country_id, rating 
-            from member_rating
+            select c.user_id, c.id, ifnull(mr.rating, 0.0) as rating 
+            from member_rating as mr right outer join (select member.email as user_id, country.* from member right outer join country on 1=1) as c 
+            on mr.user_id=c.user_id and mr.country_id=c.id
             order by 1, 2;
         ''')
 
@@ -70,6 +74,7 @@ def getCountry():
     # print(user_info)
 
     travel_cosim = cosine_similarity(user_ratings, cosine_sim)
+
     _input = 'seo52201@naver.com'
     if _input in user_info:
         _index = user_info[_input]
@@ -238,4 +243,5 @@ def getCompanion():
     db.close()
 
 if __name__ == "__main__":
-    getCompanion()
+    getCountry()
+    # getCompanion()
