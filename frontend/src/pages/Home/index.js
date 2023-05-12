@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Title } from '../../components/Fonts/fonts';
 import loadingImage from '../../assets/Ball.gif';
 import axios from 'axios';
+import TasteModal from '../../components/Modals/tasteModal';
 
 function Home() {
   const navigator = useNavigate();
@@ -82,6 +83,7 @@ function Home() {
         ))}
       </Wrap>
       <Footer />
+      <TasteModal />
     </div>
   );
 }

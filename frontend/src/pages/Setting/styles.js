@@ -19,12 +19,32 @@ export const TasteWrap = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  position: relative;
 
   > div:last-child {
     flex: auto;
     > div {
-      height: 100%;
       position: relative;
     }
+  }
+`;
+
+export const AddOptionModal = styled.div`
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  max-width: 480px;
+
+  > div {
+    background-color: #ffffff;
+    margin: auto;
+    padding: 20px;
+    border-radius: 12px;
+    overflow-y: scroll;
   }
 `;
