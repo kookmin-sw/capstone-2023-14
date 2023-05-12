@@ -25,5 +25,6 @@ router.get('/api/get-cityList', record.getCityList);
 router.post('/api/get-recordList', record.getItineraryList);
 
 router.post('/api/board-write', board.saveBoard);
+router.get('/api/get-boardList', board.getBoardList);
 
 export default router;

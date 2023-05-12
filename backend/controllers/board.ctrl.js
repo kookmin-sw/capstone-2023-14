@@ -11,4 +11,12 @@ const saveBoard = (req, res) => {
   });
 };
 
-export default { saveBoard };
+const getBoardList = (req, res) => {
+  const query = `SELECT b.*, m.gender, m.birth, m.mbti FROM board as b, member as m where b.writer=m.email;`;
+
+  db.query(query, (error, result) => {
+    if (error) throw error;
+    res.send(result);
+  });
+};
+export default { saveBoard, getBoardList };
