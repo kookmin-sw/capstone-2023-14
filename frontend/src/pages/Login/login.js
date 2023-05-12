@@ -8,6 +8,10 @@ import { BlockWrap, Wrap, Row } from './styles';
 import { Normal } from '../../components/Fonts/fonts';
 import axios from 'axios';
 
+//recoil
+import { useRecoilState } from 'recoil';
+import { email } from '../../store/userInfo';
+
 function Login() {
   const navigator = useNavigate();
   const [autoLogin, setAutoLogin] = useState(false);
@@ -15,6 +19,9 @@ function Login() {
     email: '',
     password: '',
   });
+
+  // user email info
+  const [userEmail, setUserEmail] = useRecoilState(email);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
