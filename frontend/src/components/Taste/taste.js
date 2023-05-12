@@ -79,6 +79,8 @@ const Taste = (props) => {
 
     try {
       await axios.post('http://localhost:5001/api/hashtag-taste', saveInfo);
+      alert('취향 정보가 저장되었습니다.');
+      navigator('/setting');
     } catch (e) {
       console.log(e);
     }
@@ -132,7 +134,8 @@ const Taste = (props) => {
                 <input
                   type={'checkbox'}
                   name={i.name}
-                  onClick={(e) => SaveMyTaste(e)}
+                  value={i.value}
+                  onClick={(e) => checkMyTaste(e)}
                 />
                 <span>{i.value}</span>
               </Options>
@@ -147,7 +150,8 @@ const Taste = (props) => {
                 <input
                   type={'checkbox'}
                   name={i.name}
-                  onClick={(e) => SaveMyTaste(e)}
+                  value={i.value}
+                  onClick={(e) => checkMyTaste(e)}
                 />
                 <span>{i.value}</span>
               </Options>
