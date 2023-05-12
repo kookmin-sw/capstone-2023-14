@@ -45,8 +45,11 @@ function Board() {
       <Header title={'board'} />
       <Wrap>
         <div>필터 및 검색</div>
-        {testData.map((user) => (
-          <Block onClick={() => navigator(`/board/${user.contentId}`)}>
+        {testData.map((user, key) => (
+          <Block
+            onClick={() => navigator(`/board/${user.contentId}`)}
+            key={key}
+          >
             <WriterInfo>
               <img src={''} />
               <div>

@@ -40,7 +40,7 @@ function App() {
         <Route path="/info" element={<Info />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/setting" element={<Setting />} />
-        <Route path="/taste" element={<TasteSetting />} />
+        <Route path="/setting/taste" element={<TasteSetting />} />
         <Route path="/chatTest" element={<ChatTest />} />
       </Routes>
     </div>
