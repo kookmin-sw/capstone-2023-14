@@ -13,14 +13,16 @@ import { SubTitle } from '../Fonts/fonts';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { email } from '../../store/userInfo';
 
 const RecordUpload = (props) => {
-  const [userEmail, setUserEmail] = useState('test');
+  const userEmail = useRecoilValue(email);
   const [imgUrl, setImgUrl] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [userRecord, setUserRecord] = useState({
-    email: 'test',
+    email: userEmail,
     destination: '',
     rating: 0,
     duration_start: '',

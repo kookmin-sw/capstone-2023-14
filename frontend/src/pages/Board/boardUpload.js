@@ -4,12 +4,15 @@ import { DetailInfo, Textarea, Wrap, WriterInfo } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { email } from '../../store/userInfo';
 
 function BoardUpload() {
   const navigator = useNavigate();
+  const userEmail = useRecoilValue(email);
 
   const [saveInfo, setSaveInfo] = useState({
-    email: 'qq',
+    email: userEmail,
     content: '',
   });
 

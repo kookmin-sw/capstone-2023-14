@@ -7,11 +7,13 @@ import { InfoWrap, UserWrap, Wrap } from './styles';
 import { Title, SubTitle, Small, Normal } from '../../components/Fonts/fonts';
 import loadingImage from '../../assets/Ball.gif';
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { email } from '../../store/userInfo';
 
 function Detail() {
   const params = useParams();
   const destination = params.id;
-  const [userEmail, setUserEmail] = useState('vory');
+  const userEmail = useRecoilValue(email);
   const [city, setCity] = useState({
     name: destination,
     info: {},

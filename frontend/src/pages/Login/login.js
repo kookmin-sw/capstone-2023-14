@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import StrokeButton from '../../components/Buttons/strokeButton';
 import FullButton from '../../components/Buttons/fullButton';
 import InputBox from '../../components/Inputs/inputBox';
@@ -8,20 +8,17 @@ import { BlockWrap, Wrap, Row } from './styles';
 import { Normal } from '../../components/Fonts/fonts';
 import axios from 'axios';
 
-//recoil
 import { useRecoilState } from 'recoil';
 import { email } from '../../store/userInfo';
 
 function Login() {
   const navigator = useNavigate();
+  const [userEmail, setUserEmail] = useRecoilState(email);
   const [autoLogin, setAutoLogin] = useState(false);
   const [inputInfo, setInputInfo] = useState({
     email: '',
     password: '',
   });
-
-  // user email info
-  const [userEmail, setUserEmail] = useRecoilState(email);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -37,6 +34,7 @@ function Login() {
       .then((response) => {
         // 로그인 성공했을 때
         if (response.status === 200 && response.data.success) {
+          setUserEmail(inputInfo.email);
           navigator('/home');
         }
       })
@@ -50,7 +48,7 @@ function Login() {
   return (
     <Wrap>
       <div>
-        <img src={''} />
+        <img src={''} alt="" />
       </div>
       <div>
         <BlockWrap>
