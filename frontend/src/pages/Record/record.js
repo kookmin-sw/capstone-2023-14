@@ -66,7 +66,7 @@ function Join() {
         />
       ) : null}
       {upload ? <RecordUpload setUpload={setUpload} /> : null}
-      <Footer onClick={() => setUpload(true)} upload={upload} detail={detail} />
+      <Footer onClick={() => setUpload(true)} upload={upload} />
     </Wrap>
   );
 }
