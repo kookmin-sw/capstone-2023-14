@@ -11,13 +11,12 @@ import axios from 'axios';
 const Taste = (props) => {
   const navigator = useNavigate();
 
-  // api 호출할 데이터. 각 값은 string 형태여야함
   const [userTaste, setUserTaste] = useState({
-    email: 'oo',
-    style: ['계획', '대중교통', '택시'].join(),
-    object: ['액티비티', '촬영', '타로'].join(),
-    preferAge: ['30대', '40대'].join(),
-    preferGender: '혼성',
+    email: 'test',
+    style: [],
+    object: [],
+    preferAge: [],
+    preferGender: '',
   });
 
   const styleTaste = [
@@ -70,30 +69,58 @@ const Taste = (props) => {
   ];
 
   const handleOnTasteSave = async () => {
+    const saveInfo = {
+      email: 'test',
+      style: userTaste.style.join(),
+      object: userTaste.object.join(),
+      preferAge: userTaste.preferAge.join(),
+      preferGender: userTaste.preferGender,
+    };
+
     try {
-      await axios.post('http://localhost:5001/api/hashtag-taste', userTaste);
+      await axios.post('http://localhost:5001/api/hashtag-taste', saveInfo);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const SaveMyTaste = (e) => {
+  const checkMyTaste = (e) => {
+    const { name, value } = e.target;
     const checked = e.target.checked;
     const parent = e.target.parentNode;
-    const name = e.target.name;
-    const value = e.target.parentNode.children[1].innerHTML;
 
     if (checked) {
       parent.style.border = '1.5px solid #EF4E3E';
     } else {
       parent.style.border = '1.5px solid #7c7c7c';
     }
+
+    setUserTaste((prevState) => {
+      if (Array.isArray(prevState[name])) {
+        if (checked) {
+          return {
+            ...prevState,
+            [name]: [...prevState[name], value],
+          };
+        } else {
+          return {
+            ...prevState,
+            [name]: prevState[name].filter((item) => item !== value),
+          };
+        }
+      } else {
+        return {
+          ...prevState,
+          [name]: value,
+        };
+      }
+    });
   };
 
   return (
     <div>
       <div>
-        <Row title>
+        <Row title="true">
           <Title size={'20px'}>남상림</Title>
           <Title color={'#7c7c7c'}>님의 여행스타일을 알려주세요 !</Title>
         </Row>
@@ -129,7 +156,7 @@ const Taste = (props) => {
         </div>
       </div>
       <div>
-        <Row title>
+        <Row title="true">
           <Title size={'20px'}>남상림</Title>
           <Title color={'#7c7c7c'}>님은 이런 동행자를 선호해요 !</Title>
         </Row>
@@ -139,48 +166,54 @@ const Taste = (props) => {
             <Options>
               <input
                 type={'checkbox'}
-                name={'age'}
-                onClick={(e) => SaveMyTaste(e)}
+                name={'preferAge'}
+                value={'10대'}
+                onClick={(e) => checkMyTaste(e)}
               />
               <span>10대</span>
             </Options>
             <Options>
               <input
                 type={'checkbox'}
-                name={'age'}
-                onClick={(e) => SaveMyTaste(e)}
+                name={'preferAge'}
+                value={'20대'}
+                onClick={(e) => checkMyTaste(e)}
               />
               <span>20대</span>
             </Options>
             <Options>
               <input
                 type={'checkbox'}
-                name={'age'}
-                onClick={(e) => SaveMyTaste(e)}
+                name={'preferAge'}
+                value={'30대'}
+                onClick={(e) => checkMyTaste(e)}
               />
               <span>30대</span>
             </Options>
             <Options>
               <input
                 type={'checkbox'}
-                name={'age'}
-                onClick={(e) => SaveMyTaste(e)}
+                name={'preferAge'}
+                value={'40대'}
+                onClick={(e) => checkMyTaste(e)}
               />
               <span>40대</span>
             </Options>
             <Options>
               <input
                 type={'checkbox'}
-                name={'age'}
-                onClick={(e) => SaveMyTaste(e)}
+                name={'preferAge'}
+                value={'50대'}
+                onClick={(e) => checkMyTaste(e)}
               />
               <span>50대</span>
             </Options>
             <Options>
               <input
                 type={'checkbox'}
-                name={'age'}
-                onClick={(e) => SaveMyTaste(e)}
+                name={'preferAge'}
+                value={'상관없음'}
+                onClick={(e) => checkMyTaste(e)}
               />
               <span>상관없음</span>
             </Options>
@@ -192,16 +225,18 @@ const Taste = (props) => {
             <Options>
               <input
                 type={'checkbox'}
-                name={'gender'}
-                onClick={(e) => SaveMyTaste(e)}
+                name={'preferGender'}
+                value={'동성'}
+                onClick={(e) => checkMyTaste(e)}
               />
               <span>동성</span>
             </Options>
             <Options>
               <input
                 type={'checkbox'}
-                name={'gender'}
-                onClick={(e) => SaveMyTaste(e)}
+                name={'preferGender'}
+                value={'혼성'}
+                onClick={(e) => checkMyTaste(e)}
               />
               <span>혼성</span>
             </Options>
