@@ -3,21 +3,36 @@ import { useLocation } from 'react-router-dom';
 import Header from '../../components/Header/header';
 import { Comment, DetailInfo, Textarea, Wrap, WriterInfo } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
+import axios from 'axios';
 
 function BoardContent() {
   const props = useLocation();
   const [post, setPost] = useState({});
+  const [feedComments, setFeedComments] = useState([]);
 
   useEffect(() => {
     const showPost = () => {
       setPost({ ...props.state });
     };
+    const fetchComment = async () => {
+      try {
+        const response = await axios.post(
+          'http://localhost:5001/api/get-replyList',
+          {
+            board_id: props.state.board_id,
+          },
+        );
+        setFeedComments(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
     showPost();
+    fetchComment();
   }, []);
 
   // 전체 채팅을 담는 배열
-  const [feedComments, setFeedComments] = useState([]);
   // 유저가 입력한 채팅 내용 저장
   const [chat, setChat] = useState({
     userName: 'user',
@@ -71,11 +86,11 @@ function BoardContent() {
         </WriterInfo>
         <Textarea value={post.content} disabled />
         <div>
-          {feedComments.map((user, idx) => {
+          {feedComments.map((comment) => {
             return (
-              <div key={idx}>
-                <span>{user.userName} : </span>
-                <span>{user.comment}</span>
+              <div key={comment.reply_id}>
+                <span>{comment.replyer}: </span>
+                <span>{comment.content}</span>
               </div>
             );
           })}
