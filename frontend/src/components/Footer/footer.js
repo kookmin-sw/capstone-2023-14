@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Wrap, Icon } from './styles';
+import React from 'react';
+import { Wrap, Icon, FloatingButton } from './styles';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Home } from './homeIcon.svg';
 import { ReactComponent as Record } from './recordIcon.svg';
@@ -7,7 +7,7 @@ import { ReactComponent as Board } from './boardIcon.svg';
 import { ReactComponent as Info } from './findIcon.svg';
 import { ReactComponent as Mypage } from './mypageIcon.svg';
 
-const Footer = () => {
+const Footer = (props) => {
   const navigator = useNavigate();
   const active = window.location.pathname.slice(1);
 
@@ -28,6 +28,9 @@ const Footer = () => {
       <Icon value={'mypage'} active={active}>
         <Mypage onClick={() => navigator('/mypage')} />
       </Icon>
+      {active === 'board' || (active === 'record' && props.upload === false) ? (
+        <FloatingButton onClick={props.onClick}>+</FloatingButton>
+      ) : null}
     </Wrap>
   );
 };
