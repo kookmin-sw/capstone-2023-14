@@ -9,28 +9,19 @@ function BoardUpload() {
   const navigator = useNavigate();
 
   const [saveInfo, setSaveInfo] = useState({
-    email: 'test',
+    email: 'qq',
     content: '',
-    upload_time: new Date(),
-    update_time: new Date(),
   });
 
   const uploadContent = async () => {
-    setSaveInfo((prevState) => {
-      return {
-        ...prevState,
-        upload_ime: prevState.upload_time
-          .toISOString()
-          .slice(0, 19)
-          .replace('T', ' '),
-        update_ime: prevState.update_time
-          .toISOString()
-          .slice(0, 19)
-          .replace('T', ' '),
-      };
-    });
+    const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const uploadInfo = {
+      ...saveInfo,
+      upload_time: now,
+      update_time: now,
+    };
     try {
-      await axios.post('http://localhost:5001/api/board-write', saveInfo);
+      await axios.post('http://localhost:5001/api/board-write', uploadInfo);
     } catch (e) {
       console.log(e);
     }
