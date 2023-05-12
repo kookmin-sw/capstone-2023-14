@@ -13,7 +13,6 @@ from flask_cors import CORS
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
-from collections import Counter
 
 
 from database import Database
