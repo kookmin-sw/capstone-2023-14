@@ -1,64 +1,69 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/header';
 import Footer from '../../components/Footer/footer';
 import { Block, DetailInfo, Wrap, WriterInfo } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
 import { useNavigate } from 'react-router-dom';
 import { FloatingButton } from '../Record/styles';
+import axios from 'axios';
 
 function Board() {
   const navigator = useNavigate();
+  const [boardList, setBoardList] = useState([]);
 
-  // test-data
-  const testData = [
-    {
-      username: '남상림',
-      age: '24',
-      gender: '여성',
-      mbti: 'ENTJ',
-      content:
-        '23년도 7-8월 도쿄로 여름 휴가 가실 분 구합니다. 총 4명이 함께하며 2명이 구해져있습니다 ! 저희는...',
-      contentId: 1,
-    },
-    {
-      username: '윤서영',
-      age: '26',
-      gender: '여성',
-      mbti: 'ISTP',
-      content:
-        '(급해요) LA 가실 분 구합니다. 비행기 표는 다 예매했습니다. 여행 기간은 ...',
-      contentId: 2,
-    },
-    {
-      username: '김지홍',
-      age: '25',
-      gender: '여성',
-      mbti: 'ISFJ',
-      content:
-        '동유럽 여행자 구합니다 ! 대학생 환영합니다. 단체로 이동할거라...',
-      contentId: 3,
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          'http://localhost:5001/api/get-boardList',
+        );
+        setBoardList(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const formatDateString = (dateString) => {
+    var year = dateString.substring(0, 4);
+    var month = dateString.substring(4, 6);
+    var day = dateString.substring(6, 8);
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const calculateAge = (birth) => {
+    const birthDate = new Date(formatDateString(birth));
+    const currentDate = new Date();
+    const age = currentDate.getFullYear() - birthDate.getFullYear() + 1;
+
+    return age;
+  };
 
   return (
     <div>
       <Header title={'board'} />
       <Wrap>
         <div>필터 및 검색</div>
-        {testData.map((user) => (
-          <Block onClick={() => navigator(`/board/${user.contentId}`)}>
+        {boardList.map((post) => (
+          <Block
+            key={post.board_id}
+            onClick={() => navigator(`/board/${post.board_id}`)}
+          >
             <WriterInfo>
-              <img src={''} />
+              <img src={''} alt="" />
               <div>
-                <SubTitle margin={'0 0 2px'}>{user.username}</SubTitle>
+                <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
                 <DetailInfo>
-                  <Small color={'#7c7c7c'}>{user.age}세</Small>
-                  <Small color={'#7c7c7c'}>{user.gender}</Small>
-                  <Small color={'#EF4E3E'}>{user.mbti}</Small>
+                  <Small color={'#7c7c7c'}>{calculateAge(post.birth)}세</Small>
+                  <Small color={'#7c7c7c'}>{post.gender}</Small>
+                  <Small color={'#EF4E3E'}>{post.mbti}</Small>
                 </DetailInfo>
               </div>
             </WriterInfo>
-            <div>{user.content}</div>
+            <div>{post.content}</div>
           </Block>
         ))}
         <FloatingButton onClick={() => navigator('./upload')}>+</FloatingButton>
