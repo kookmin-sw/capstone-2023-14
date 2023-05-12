@@ -152,7 +152,13 @@ def getCompanion():
     df = pd.read_sql_query(sql, db.conn)
     user_data = pd.pivot_table(df, index='user_id', columns='id', values='rating')
     user_ratings = user_data.to_numpy()
-    user_index = user_data.index.get_loc(user_id)
+
+    try:
+        user_index = user_data.index.get_loc(user_id)
+    except:
+        return jsonify({
+        'result': []
+    })
     coutry_list = user_data.columns.to_list()
 
     user_info = dict()
