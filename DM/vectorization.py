@@ -7,10 +7,12 @@ import pandas
 import pandas as pd
 import pickle
 import random
+
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 from sklearn.preprocessing import normalize
 from collections import Counter
+from scipy.stats import pearsonr
 
 from database import Database
 
@@ -26,7 +28,6 @@ def getCountry():
     sql = 'select id, name from country order by 1;'
     country = pd.read_sql_query(sql, db.conn)
     country_name = np.array(country['name'])
-
 
 
     # 사용자 별점정보 조회
@@ -74,7 +75,7 @@ def getCountry():
 
         # 아무런 평가도 하지 않았을 경우
         if len(rated_similar_country) == 0:
-            # 무작위 5개 여행지에 대해 정규분포 별점부여
+            # 무작위 5개 여행지에 대해  별점부여
             rnd_cnt = 5
             rated_similar_country = np.random.randint(0, len(country_name), rnd_cnt)
 
@@ -106,9 +107,8 @@ def getCountry():
 
     # print(user_ratings)
     # print(user_predicted_ratings)
-
     recommend_country_index = np.argsort(user_predicted_ratings)[::-1]
-    recommend_country_index = recommend_country_index[:10]
+    recommend_country_index = np.random.choice(recommend_country_index[:20], 10, replace=False)
     recommend_country = country_name[recommend_country_index]
 
     print(recommend_country)
@@ -118,49 +118,112 @@ def getCountry():
 def getCompanion():
     db = Database()
 
-    # STEP1. 특정여행지 별점행렬
-    # user_info: user_id와 index를 치환하는 용도
-    user_info = dict()
+    # Content기반 예측평점 계산
+    with open('data.pickle', 'rb') as f:
+        content_similarities = pickle.load(f)
+        content_similarities = np.array(content_similarities)
 
-    # rating_data: 특정여행지에 대한 별점정보
     # {'test': 5.0, 'vory': 4.5}
-    rating_data = list()
-    country_id = 22
+    country_id = 10
+    user_id = 'vory'
     sql = f'''
-        select member_info.id, ifnull(member_rating.rating, 0.0) as rating
-        from member_rating right outer join member_info 
-        on member_rating.user_id=member_info.id and member_rating.country_id={country_id}
+        select c.user_id, c.id, ifnull(mr.rating, 0.0) as rating 
+        from member_rating as mr right outer join (select member_info.id as user_id, country.* from member_info right outer join country on 1=1) as c 
+        on mr.user_id=c.user_id and mr.country_id=c.id
         order by 1, 2;
     '''
-    res = db.select(sql)
-    for idx, item in enumerate(res):
-        user_id, rating = item
-        rating_data.append(float(rating))
 
+    df = pd.read_sql_query(sql, db.conn)
+    user_data = pd.pivot_table(df, index='user_id', columns='id', values='rating')
+    user_ratings = user_data.to_numpy()
+    user_index = user_data.index.get_loc(user_id)
+    coutry_list = user_data.columns.to_list()
+
+    user_info = dict()
+    for u in user_data.index.to_list():
         # user_info는 이메일<->index값
-        user_info[idx] = user_id
-        user_info[user_id] = idx
-
-    rating_data = np.array(rating_data)
-    # 0값이면 평균값으로 치환
-    rating_data = np.where(rating_data<0.5, np.average(rating_data), rating_data)
-    # 정규화(normalization)
-    rating_data = rating_data / np.linalg.norm(rating_data)
-
-    # 점수끼리 내적 (서로 비슷한 점수일수록 1에 가까워짐)
-    length = len(rating_data)
-    rating_distance = np.empty((length, length), np.float32)
-    for i, data in enumerate(rating_data):
-        for j, data2 in enumerate(rating_data):
-            # 점수가 비슷할수록 값이 커지도록
-            rating_distance[i, j] = 1 - np.abs(data - data2)
-    # print(rating_distance)
+        idx = user_data.index.get_loc(u)
+        user_info[idx] = u
+        user_info[u] = idx
 
 
-    # STEP2. 취향행렬
+
+    # STEP1. CF 필터링 (특정 여행지에 대해 유사한 상위 K개의 여행지를 추출
+    K = 20
+    similar_countries = np.argsort(content_similarities[country_id])[::-1]
+    similar_countries = similar_countries[:K]
+
+    # 유저들의 예측 별점계산
+    user_predicted_ratings = np.zeros((len(user_ratings), len(similar_countries)))
+
+
+    for idx, item in enumerate(similar_countries):
+        for user in range(len(user_ratings)):
+            # 이미 별점이 있는 경우
+            if user_ratings[user][item] != 0:
+                user_predicted_ratings[user][idx] = user_ratings[user][item]
+                continue
+
+
+            # 유저가 별점을 매긴 여행지 & 특정여행지와 유사한나라의 교집합
+            user_rated_index = np.nonzero(user_ratings[user])[0]
+            rated_similar_country = np.intersect1d(similar_countries, user_rated_index)
+
+
+            # 아무런 평가도 하지 않았을 경우
+            if len(rated_similar_country) == 0:
+                # 무작위 5개 여행지에 대해  별점부여
+                rnd_cnt = 5
+                rated_similar_country = np.random.randint(0, len(similar_countries), rnd_cnt)
+
+                for i in range(rnd_cnt):
+                    c_index = rated_similar_country[i]
+                    # 1.5~4.5 사이의 난수를 발생
+                    rnd_score = np.random.uniform(1, 5)
+                    user_ratings[user][c_index] = rnd_score
+
+
+            weighted_ratings = 0
+            similarity_sum = 0
+
+            # Hybrid Filtering
+            # 콘텐츠 기반 필터링이 적용된 상태
+            for country in rated_similar_country:
+                similarity = content_similarities[country_id][country]
+                weighted_ratings += user_ratings[user][country] * similarity
+                similarity_sum += similarity
+
+            predict_rating = weighted_ratings / similarity_sum
+            user_predicted_ratings[user][idx] = predict_rating
+
+    # print(similar_countries)
+    # print(user_predicted_ratings)
+
+    # STEP2. 피어슨 유사도
+    pearson_sim = np.zeros((len(user_ratings), len(user_ratings)))
+    for user in range(len(user_ratings)):
+        for other in range(len(user_ratings)):
+            if user == other:
+                pearson_sim[user][other] = 1.0
+                continue
+
+            u1_c = user_predicted_ratings[user] - np.mean(user_predicted_ratings[user])
+            u2_c = user_predicted_ratings[other] - np.mean(user_predicted_ratings[other])
+
+
+            denom = np.sqrt(np.sum(u1_c ** 2) * np.sum(u2_c ** 2))
+            if denom != 0:
+                pearson_sim[user][other] = np.sum(u1_c * u2_c) / denom
+            else:
+                pearson_sim[user][other] = 0.0
+
+
+
+    # STEP3. 취향행렬
     # user_data: 취향정보 string 배열
     # user_data_gender: 혼성,동성 정보 배열
-    user_data = list()
+
+    user_data_list = list()
     user_data_gender = list()
     sql = '''
         select mf.*, m.gender
@@ -170,17 +233,17 @@ def getCompanion():
     '''
     res = db.select(sql)
     for idx, item in enumerate(res):
-        user_id = item[0]
         info = ";".join(item[1:4])
-        user_data.append(info)
+        user_data_list.append(info)
         # 혼성/동성, 본인의 gender
         user_data_gender.append([item[4], item[5]])
+
 
     # print(user_data)
     # print(user_data_gender)
 
     vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform(user_data)
+    tfidf_matrix = vectorizer.fit_transform(user_data_list)
 
     # 이미 행렬이 정규화된 상태이므로 linear_kernel
     user_cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
@@ -191,25 +254,22 @@ def getCompanion():
     # STEP3. 위 두개의 행렬계산
     # rating_distance는 평가하지 않은 사람들이 모두 동일하게 나오는 단점
     # 따라서 비율을 조정함(30%)
-    combine_scores = rating_distance*0.3 + user_cosine_sim*0.7
-    print(combine_scores)
+    combine_scores = pearson_sim*0.3 + user_cosine_sim*0.7
 
     # input: user_id
-    _input = 'vory'
-    _index = user_info[_input]
+    companion_index = np.argsort(combine_scores[user_index])[::-1]
 
-    companion_index = np.argsort(combine_scores[_index])[::-1]
     # 동성/혼성 조건
     # 혼성으로 설정했으면 제외
     include_index = list()
     for idx in companion_index[1:]:
-        if user_data_gender[_index][0] == '혼성':
+        if user_data_gender[user_index][0] == '혼성':
             if user_data_gender[idx][0] == '혼성':
                 include_index.append(idx)
-            elif user_data_gender[_index][1] == user_data_gender[idx][1]:   # 성이 같을때만
+            elif user_data_gender[user_index][1] == user_data_gender[idx][1]:   # 성이 같을때만
                 include_index.append(idx)
-        elif user_data_gender[_index][0] == '동성':
-            if user_data_gender[_index][1] == user_data_gender[idx][1]:  # 성이 같을때만
+        elif user_data_gender[user_index][0] == '동성':
+            if user_data_gender[user_index][1] == user_data_gender[idx][1]:  # 성이 같을때만
                 include_index.append(idx)
 
 
@@ -217,48 +277,41 @@ def getCompanion():
     max_len = min(10, len(include_index))
     include_index = include_index[:max_len]
     companion_list = list()
+
+
     for idx in include_index:
         companion_list.append(user_info[idx])
-
 
     # 유저 정보 조회
     _str = ",".join('"'+x+'"' for x in companion_list)
     sql = f'''
-        select name, phone_number, gender, birth, mbti, profile
+        select email, name, phone_number, gender, birth, mbti, profile
         from member
         where email in ({_str})
         order by FIELD(email, {_str});
     '''
     res = db.select(sql)
 
+
     result = list()
     for item in res:
-        profile = item[5]
+        profile = item[6]
         if profile != None:
-            profile = base64.b64encode(item[5])
+            profile = base64.b64encode(item[6]).decode('utf-8')
 
         info = {
-            'name': item[0],
-            'phone': item[1],
-            'gender': item[2],
-            'birth': item[3],
-            'mbti': item[4],
+            'user_id': item[0],
+            'name': item[1],
+            'phone': item[2],
+            'gender': item[3],
+            'birth': item[4],
+            'mbti': item[5],
             'profile': profile
         }
         result.append(info)
 
     print(companion_list)
     print(result)
-
-
-
-
-
-
-
-
-
-
 
 
     db.close()
@@ -272,5 +325,5 @@ def getCompanion():
 
 
 if __name__ == "__main__":
-    getCountry()
-    # getCompanion()
+    # getCountry()
+    getCompanion()
