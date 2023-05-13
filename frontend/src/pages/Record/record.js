@@ -7,11 +7,13 @@ import { Wrap } from './styles';
 import RecordUpload from '../../components/Modals/recordUpload';
 import RecordDetail from '../../components/Modals/recordDetail';
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { email } from '../../store/userInfo';
 
 function Join() {
   const [upload, setUpload] = useState(false);
   const [detail, setDetail] = useState(false);
-  const [userEmail, setUserEmail] = useState('test');
+  const userEmail = useRecoilValue(email);
   const [recordList, setRecordList] = useState([]);
   const [detailInfo, setDetailInfo] = useState({});
   const [deleteContent, setDeleteContent] = useState(false);

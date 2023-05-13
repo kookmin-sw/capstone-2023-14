@@ -4,9 +4,11 @@ import Footer from '../../components/Footer/footer';
 import { ImgWrap, RowAlign, Wrap } from './styles';
 import { Title } from '../../components/Fonts/fonts';
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { email } from '../../store/userInfo';
 
 function MyPage() {
-  const [userEmail, setUserEmail] = useState('test');
+  const userEmail = useRecoilValue(email);
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {

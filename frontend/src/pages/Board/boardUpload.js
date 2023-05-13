@@ -1,17 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/header';
 import { DetailInfo, Textarea, Wrap, WriterInfo } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { constSelector, useRecoilValue } from 'recoil';
+import { email } from '../../store/userInfo';
 
 function BoardUpload() {
   const navigator = useNavigate();
-
+  const userEmail = useRecoilValue(email);
+  const [writerInfo, setWriterInfo] = useState({
+    email: userEmail,
+  });
   const [saveInfo, setSaveInfo] = useState({
-    email: 'qq',
+    email: userEmail,
     content: '',
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          'http://localhost:5001/api/get-writerInfo',
+          { email: writerInfo.email },
+        );
+        setWriterInfo({ ...response.data[0] });
+
+        setWriterInfo((prevState) => {
+          return {
+            ...prevState,
+            age: calculateAge(prevState.birth.toString()),
+          };
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+
+    const formatDateString = (dateString) => {
+      var year = dateString.substring(0, 4);
+      var month = dateString.substring(4, 6);
+      var day = dateString.substring(6, 8);
+
+      return `${year}-${month}-${day}`;
+    };
+
+    const calculateAge = (birth) => {
+      const birthDate = new Date(formatDateString(birth));
+      const currentDate = new Date();
+      const age = currentDate.getFullYear() - birthDate.getFullYear() + 1;
+
+      return age;
+    };
+  }, []);
 
   const uploadContent = async () => {
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -44,11 +87,11 @@ function BoardUpload() {
         <WriterInfo>
           <img src={''} alt="" />
           <div>
-            <SubTitle margin={'0 0 2px'}>username</SubTitle>
+            <SubTitle margin={'0 0 2px'}>{writerInfo.name}</SubTitle>
             <DetailInfo>
-              <Small color={'#7c7c7c'}>age세</Small>
-              <Small color={'#7c7c7c'}>gender</Small>
-              <Small color={'#EF4E3E'}>mbti</Small>
+              <Small color={'#7c7c7c'}>{writerInfo.age}세</Small>
+              <Small color={'#7c7c7c'}>{writerInfo.gender}</Small>
+              <Small color={'#EF4E3E'}>{writerInfo.mbti}</Small>
             </DetailInfo>
           </div>
         </WriterInfo>
