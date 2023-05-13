@@ -32,7 +32,7 @@ const saveReply = (req, res) => {
 };
 
 const getReplyList = (req, res) => {
-  let { board_id } = req.body;
+  const { board_id } = req.body;
 
   const query = `SELECT * FROM reply WHERE board_id=?;`;
   const values = [board_id];
@@ -43,4 +43,22 @@ const getReplyList = (req, res) => {
   });
 };
 
-export default { saveBoard, getBoardList, saveReply, getReplyList };
+const getUserInfo = (req, res) => {
+  const { email } = req.body;
+
+  const query = `SELECT name, gender, birth, mbti FROM member WHERE email=?;`;
+  const values = [email];
+
+  db.query(query, values, (error, result) => {
+    if (error) throw error;
+    res.send(result);
+  });
+};
+
+export default {
+  saveBoard,
+  getBoardList,
+  saveReply,
+  getReplyList,
+  getUserInfo,
+};

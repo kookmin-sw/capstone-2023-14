@@ -28,5 +28,6 @@ router.post('/api/board-write', board.saveBoard);
 router.get('/api/get-boardList', board.getBoardList);
 router.post('/api/reply-write', board.saveReply);
 router.post('/api/get-replyList', board.getReplyList);
+router.post('/api/get-writerInfo', board.getUserInfo);
 
 export default router;
