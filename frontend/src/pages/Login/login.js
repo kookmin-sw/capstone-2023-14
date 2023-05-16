@@ -48,7 +48,10 @@ function Login() {
   return (
     <Wrap>
       <div>
-        <img src={''} alt="" />
+        <img
+          src={process.env.PUBLIC_URL + '/images/Common/feature.svg'}
+          alt=""
+        />
       </div>
       <div>
         <BlockWrap>
