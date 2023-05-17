@@ -88,6 +88,14 @@ const RecordUpload = (props) => {
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
 
+    if (name === 'cost') {
+      const regex = /^[0-9\b -]{0,20}$/;
+      if (!regex.test(value)) {
+        return;
+      }
+      console.log(value);
+    }
+
     setUserRecord({
       ...userRecord,
       [name]: value,
@@ -109,6 +117,12 @@ const RecordUpload = (props) => {
     });
     setImgUrl(response.data.imgUrl1);
   };
+
+  function addCommasToNumber(number) {
+    const strNumber = String(number);
+
+    return strNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
   const convertDateToString = (date) => {
     const formattedDate = date.toISOString().split('T')[0];
@@ -251,7 +265,7 @@ const RecordUpload = (props) => {
             title={'총 여행경비'}
             small
             name={'cost'}
-            value={userRecord.cost}
+            value={addCommasToNumber(userRecord.cost)}
             onChange={handleChangeInput}
           />
           <div>
