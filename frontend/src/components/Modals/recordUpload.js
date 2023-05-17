@@ -28,7 +28,7 @@ const RecordUpload = (props) => {
     duration_start: '',
     duration_end: '',
     record: '',
-    cost: 0,
+    cost: '',
   });
   const [showList, setShowList] = useState(false);
   const [cityOptions, setCityOptions] = useState([]);
@@ -93,7 +93,6 @@ const RecordUpload = (props) => {
       if (!regex.test(value)) {
         return;
       }
-      console.log(value);
     }
 
     setUserRecord({
@@ -265,7 +264,7 @@ const RecordUpload = (props) => {
             title={'총 여행경비'}
             small
             name={'cost'}
-            value={addCommasToNumber(userRecord.cost)}
+            value={userRecord.cost}
             onChange={handleChangeInput}
           />
           <div>
