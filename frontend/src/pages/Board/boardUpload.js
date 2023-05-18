@@ -14,7 +14,7 @@ function BoardUpload() {
     email: userEmail,
   });
   const [saveInfo, setSaveInfo] = useState({
-    email: userEmail,
+    name: userEmail,
     content: '',
   });
 
@@ -25,6 +25,7 @@ function BoardUpload() {
           email: writerInfo.email,
         });
         setWriterInfo({ ...response.data[0] });
+        setSaveInfo({ ...saveInfo, name: response.data[0].name });
 
         setWriterInfo((prevState) => {
           return {
