@@ -16,8 +16,6 @@ import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { email } from '../../store/userInfo';
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
-
 const RecordUpload = (props) => {
   const userEmail = useRecoilValue(email);
   const [imgUrl, setImgUrl] = useState('');
@@ -116,12 +114,6 @@ const RecordUpload = (props) => {
     });
     setImgUrl(response.data.imgUrl1);
   };
-
-  function addCommasToNumber(number) {
-    const strNumber = String(number);
-
-    return strNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
 
   const convertDateToString = (date) => {
     const formattedDate = date.toISOString().split('T')[0];

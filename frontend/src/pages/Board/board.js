@@ -6,8 +6,6 @@ import { Normal, Small, SubTitle } from '../../components/Fonts/fonts';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
-
 function Board() {
   const navigator = useNavigate();
   const [boardList, setBoardList] = useState([]);

@@ -45,7 +45,7 @@ function Detail() {
 
     fetchData();
     fetchCompanion();
-  }, []);
+  }, [city, cityId, destination, userEmail]);
 
   if (isLoading)
     return (

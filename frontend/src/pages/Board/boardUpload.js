@@ -53,7 +53,7 @@ function BoardUpload() {
 
       return age;
     };
-  }, []);
+  }, [writerInfo.email]);
 
   const uploadContent = async () => {
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
