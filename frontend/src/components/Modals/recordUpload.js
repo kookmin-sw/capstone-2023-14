@@ -28,7 +28,7 @@ const RecordUpload = (props) => {
     duration_start: '',
     duration_end: '',
     record: '',
-    cost: 0,
+    cost: '',
   });
   const [showList, setShowList] = useState(false);
   const [cityOptions, setCityOptions] = useState([]);
@@ -88,6 +88,13 @@ const RecordUpload = (props) => {
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
 
+    if (name === 'cost') {
+      const regex = /^[0-9\b -]{0,20}$/;
+      if (!regex.test(value)) {
+        return;
+      }
+    }
+
     setUserRecord({
       ...userRecord,
       [name]: value,
@@ -109,6 +116,12 @@ const RecordUpload = (props) => {
     });
     setImgUrl(response.data.imgUrl1);
   };
+
+  function addCommasToNumber(number) {
+    const strNumber = String(number);
+
+    return strNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
   const convertDateToString = (date) => {
     const formattedDate = date.toISOString().split('T')[0];
