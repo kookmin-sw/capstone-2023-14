@@ -18,18 +18,25 @@ function MyPage() {
         'http://localhost:5001/api/get-userInfo',
         { email: userEmail },
       );
+
       const result = response.data[0];
 
       const formatNumberWithCommas = (number) => {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       };
 
       setUserInfo({
         ...result,
         totalCost: formatNumberWithCommas(result.totalCost),
-        object: result.object.split(','),
-        prefer_age: result.prefer_age.split(','),
-        style: result.style.split(','),
+        object: result.object
+          ? result.object.split(',')
+          : ['취향을 설정해보세요 :)'],
+        prefer_age: result.prefer_age
+          ? result.prefer_age.split(',')
+          : ['취향을 설정해보세요 :)'],
+        style: result.style
+          ? result.style.split(',')
+          : ['취향을 설정해보세요 :)'],
       });
 
       setIsLoading(false);
@@ -57,7 +64,7 @@ function MyPage() {
         </RowAlign>
         <RowAlign>
           <Title>여행경비</Title>
-          <div>총 {userInfo.totalCost}원</div>
+          <div>총 {userInfo.totalCost ? userInfo.totalCost : 0}원</div>
         </RowAlign>
         <div>
           <Title margin={'0 0 12px'}>나의 여행 스타일</Title>
@@ -87,7 +94,11 @@ function MyPage() {
             </RowAlign>
             <RowAlign>
               <div>성별</div>
-              <span>{userInfo.prefer_gender}</span>
+              <span>
+                {userInfo.prefer_gender
+                  ? userInfo.prefer_gender
+                  : '취향을 설정해보세요 :)'}
+              </span>
             </RowAlign>
           </div>
         </div>
