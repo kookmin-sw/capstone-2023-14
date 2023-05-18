@@ -17,7 +17,7 @@ function Board() {
 
         const appendAgeList = response.data.map((post) => ({
           ...post,
-          age: calculateAge(post.birth),
+          age: post.birth ? calculateAge(post.birth) : '??',
         }));
         setBoardList(appendAgeList);
       } catch (e) {

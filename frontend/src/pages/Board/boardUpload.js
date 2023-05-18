@@ -30,7 +30,9 @@ function BoardUpload() {
         setWriterInfo((prevState) => {
           return {
             ...prevState,
-            age: calculateAge(prevState.birth.toString()),
+            age: prevState.birth
+              ? calculateAge(prevState.birth.toString())
+              : '??',
           };
         });
       } catch (e) {
