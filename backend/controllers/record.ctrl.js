@@ -70,4 +70,20 @@ const getItineraryList = async (req, res) => {
   );
 };
 
-export default { saveItinerary, getCityList, getItineraryList };
+const removeItinerary = (req, res) => {
+  const { email, id } = req.body;
+  db.query(
+    `DELETE FROM member_rating WHERE user_id=? and country_id=?;`,
+    [email, id],
+    (error, result) => {
+      if (error) throw error;
+    }
+  );
+};
+
+export default {
+  saveItinerary,
+  getCityList,
+  getItineraryList,
+  removeItinerary,
+};

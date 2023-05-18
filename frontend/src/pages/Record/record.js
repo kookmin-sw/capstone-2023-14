@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Header from '../../components/Header/header';
 import { Title } from '../../components/Fonts/fonts';
 import Record from '../../components/Records/recordList';
@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { email } from '../../store/userInfo';
 
-function Join() {
+function MyRecord() {
   const [upload, setUpload] = useState(false);
   const [detail, setDetail] = useState(false);
   const userEmail = useRecoilValue(email);
@@ -18,8 +18,9 @@ function Join() {
   const [detailInfo, setDetailInfo] = useState({});
   const [deleteContent, setDeleteContent] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
+  // fetchData를 useCallback으로 감싸서 의존성이 변경될 때만 함수가 재생성되도록
+  const fetchData = useCallback(async () => {
+    try {
       const response = await axios.post(
         'http://localhost:5001/api/get-recordList',
         {
@@ -27,10 +28,32 @@ function Join() {
         },
       );
       setRecordList(response.data);
-    };
+    } catch (e) {
+      console.log(e);
+    }
+  }, [userEmail]);
 
+  useEffect(() => {
     fetchData();
-  }, [upload]);
+  }, [fetchData, upload]);
+
+  const deleteUserRecord = async (record_id) => {
+    try {
+      // api 요청 후 화면 리렌더링 시, 시간 지연 발생하여 화면 전환 먼저 진행
+      const updatedArr = recordList.filter(
+        (item) => item.country_id !== record_id,
+      );
+      setRecordList(updatedArr);
+
+      await axios.post('http://localhost:5001/api/del-record', {
+        email: userEmail,
+        id: record_id,
+      });
+      fetchData();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <Wrap>
@@ -51,6 +74,11 @@ function Join() {
               rating={record.rating}
               imgUrl={record.imgUrl}
               onClick={() => {
+                if (deleteContent) {
+                  deleteUserRecord(record.country_id);
+                  return;
+                }
+                // detail 페이지에 정보 전달 및 모달 띄우기
                 setDetail(true);
                 setDetailInfo({
                   ...record,
@@ -60,16 +88,16 @@ function Join() {
           ))}
         </div>
       </div>
-      {detail ? (
+      {detail && (
         <RecordDetail
           setDetail={setDetail}
           detail={detail}
           record={detailInfo}
         />
-      ) : null}
-      {upload ? <RecordUpload setUpload={setUpload} /> : null}
+      )}
+      {upload && <RecordUpload setUpload={setUpload} />}
       <Footer onClick={() => setUpload(true)} upload={upload} />
     </Wrap>
   );
 }
-export default Join;
+export default MyRecord;
