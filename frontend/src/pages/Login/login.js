@@ -87,7 +87,7 @@ function Login() {
                 alt=""
               />
             )}
-            <Normal>자동로그인</Normal>
+            <Normal cursor={'pointer'}>자동로그인</Normal>
           </Row>
         </Row>
         <div>

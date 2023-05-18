@@ -21,6 +21,10 @@ export const InputWrap = styled.div`
         ? 'font-size: 14px; padding: 8px 12px;'
         : 'font-size: 18px; padding: 12px 15px;'}
 
+    @media screen and (max-width: 400px) {
+      ${(props) => (props.small ? null : 'padding: 8px 12px;')}
+    }
+
     :hover,
     :focus-visible {
       border: ${(props) => (props.disabled ? null : '2px solid #ef4e3e')};
