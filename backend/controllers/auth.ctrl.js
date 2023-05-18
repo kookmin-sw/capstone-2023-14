@@ -31,7 +31,7 @@ const login = (req, res) => {
         const token = jsonwebtoken.sign({ id: user.id }, secretKey);
 
         res.cookie('token', token, { httpOnly: true });
-        res.status(200).json({ success: true, userId: user.id });
+        res.status(200).json({ success: true, userId: user.id, token: token });
       }
     });
   });

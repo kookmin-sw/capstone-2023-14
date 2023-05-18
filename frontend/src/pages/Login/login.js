@@ -9,11 +9,12 @@ import { Normal } from '../../components/Fonts/fonts';
 import axios from 'axios';
 
 import { useRecoilState } from 'recoil';
-import { email } from '../../store/userInfo';
+import { email, token } from '../../store/userInfo';
 
 function Login() {
   const navigator = useNavigate();
   const [userEmail, setUserEmail] = useRecoilState(email);
+  const [userToken, setUserToken] = useRecoilState(token);
   const [autoLogin, setAutoLogin] = useState(false);
   const [inputInfo, setInputInfo] = useState({
     email: '',
@@ -35,8 +36,8 @@ function Login() {
         // 로그인 성공했을 때
         if (response.status === 200 && response.data.success) {
           setUserEmail(inputInfo.email);
-          console.log(userEmail);
-          navigator('/home');
+          setUserToken(response.data.token);
+          // navigator('/home');
         }
       })
       .catch((error) => {
@@ -88,7 +89,7 @@ function Login() {
                 alt=""
               />
             )}
-            <Normal>자동로그인</Normal>
+            <Normal cursor={'pointer'}>자동로그인</Normal>
           </Row>
         </Row>
         <div>
