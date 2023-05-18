@@ -16,6 +16,8 @@ import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { email } from '../../store/userInfo';
 
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+
 const RecordUpload = (props) => {
   const userEmail = useRecoilValue(email);
   const [imgUrl, setImgUrl] = useState('');
@@ -36,9 +38,7 @@ const RecordUpload = (props) => {
   useEffect(() => {
     const fetchCityList = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost:5001/api/get-cityList',
-        );
+        const response = await axios.get('/api/get-cityList');
         setCityOptions(response.data);
       } catch (e) {
         console.log(e);
@@ -111,7 +111,7 @@ const RecordUpload = (props) => {
     });
     setShowList(false);
 
-    const response = await axios.post('http://localhost:5001/api/get-info', {
+    const response = await axios.post('/api/get-info', {
       city: input,
     });
     setImgUrl(response.data.imgUrl1);
@@ -133,7 +133,7 @@ const RecordUpload = (props) => {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:5001/api/record-write', userRecord);
+      await axios.post('/api/record-write', userRecord);
       alert('기록이 저장되었습니다.');
       props.setUpload(false);
     } catch (e) {

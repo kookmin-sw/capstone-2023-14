@@ -30,12 +30,9 @@ function Home() {
 
       const cityList = response.data.result;
 
-      const cityInfoList = await axios.post(
-        'http://localhost:5001/api/get-image',
-        {
-          cityList: cityList,
-        },
-      );
+      const cityInfoList = await axios.post('/api/get-image', {
+        cityList: cityList,
+      });
 
       const newRecommendList = cityInfoList.data.map((dest) => ({
         name: dest.name,
@@ -48,7 +45,7 @@ function Home() {
     };
 
     fetchData();
-  }, []);
+  }, [userEmail]);
 
   const handleClickDestination = (event) => {
     event.preventDefault();

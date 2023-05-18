@@ -30,11 +30,12 @@ function Login() {
 
   const handleClickLogin = async () => {
     await axios
-      .post('http://localhost:5001/api/login', inputInfo)
+      .post('/api/login', inputInfo)
       .then((response) => {
         // 로그인 성공했을 때
         if (response.status === 200 && response.data.success) {
           setUserEmail(inputInfo.email);
+          console.log(userEmail);
           navigator('/home');
         }
       })

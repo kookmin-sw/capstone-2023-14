@@ -113,7 +113,7 @@ function Join() {
     signUpData.append('mbti', userInfo.mbti);
 
     await axios
-      .post('http://localhost:5001/api/signup', signUpData)
+      .post('/api/signup', signUpData)
       .then((response) => {
         if (response.status === 201) {
           console.log('회원가입 성공');

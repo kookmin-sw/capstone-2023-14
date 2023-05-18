@@ -12,7 +12,7 @@ router.post('/api/login', auth.login);
 router.post('/api/signup', auth.signUp);
 router.post('/api/logout', auth.logout);
 
-router.post('/chat', chat);
+router.post('/api/chat', chat);
 
 router.post('/api/get-image', recommend.getFirstImage);
 router.post('/api/get-info', recommend.getInfo);

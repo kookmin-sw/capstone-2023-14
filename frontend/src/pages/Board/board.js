@@ -6,6 +6,8 @@ import { Normal, Small, SubTitle } from '../../components/Fonts/fonts';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+
 function Board() {
   const navigator = useNavigate();
   const [boardList, setBoardList] = useState([]);
@@ -13,9 +15,7 @@ function Board() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost:5001/api/get-boardList',
-        );
+        const response = await axios.get('/api/get-boardList');
 
         const appendAgeList = response.data.map((post) => ({
           ...post,

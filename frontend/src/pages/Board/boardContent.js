@@ -34,12 +34,9 @@ function BoardContent() {
   useEffect(() => {
     const fetchComment = async () => {
       try {
-        const response = await axios.post(
-          'http://localhost:5001/api/get-replyList',
-          {
-            board_id: props.state.board_id,
-          },
-        );
+        const response = await axios.post('/api/get-replyList', {
+          board_id: props.state.board_id,
+        });
         setFeedComments(response.data);
       } catch (e) {
         console.log(e);
@@ -59,15 +56,12 @@ function BoardContent() {
     };
 
     try {
-      await axios.post('http://localhost:5001/api/reply-write', chatToBeSent);
+      await axios.post('/api/reply-write', chatToBeSent);
       setChat((chat) => ({ ...chat, content: '' }));
       // 댓글 보내고 새로 댓글 목록 가져오기
-      const response = await axios.post(
-        'http://localhost:5001/api/get-replyList',
-        {
-          board_id: props.state.board_id,
-        },
-      );
+      const response = await axios.post('/api/get-replyList', {
+        board_id: props.state.board_id,
+      });
       setFeedComments(response.data);
     } catch (e) {
       console.log(e);

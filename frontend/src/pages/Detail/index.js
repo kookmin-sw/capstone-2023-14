@@ -26,7 +26,7 @@ function Detail() {
     const fetchData = async () => {
       setIsLoading(true);
 
-      const response = await axios.post('http://localhost:5001/api/get-info', {
+      const response = await axios.post('/api/get-info', {
         city: destination,
       });
       setCity({ ...city, info: response.data });
