@@ -13,12 +13,15 @@ import FullButton from '../../components/Buttons/fullButton';
 import StrokeButton from '../../components/Buttons/strokeButton';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { email } from '../../store/userInfo';
 
 function TasteSetting() {
   const navigator = useNavigate();
+  const userEmail = useRecoilValue(email);
 
   const [userTaste, setUserTaste] = useState({
-    email: 'test',
+    email: userEmail,
     style: [],
     object: [],
     preferAge: [],
@@ -77,7 +80,7 @@ function TasteSetting() {
 
   const handleOnTasteSave = async () => {
     const saveInfo = {
-      email: 'test',
+      email: userEmail,
       style: userTaste.style.join(),
       object: userTaste.object.join(),
       preferAge: userTaste.preferAge.join(),
@@ -162,7 +165,7 @@ function TasteSetting() {
       <Wrap taste>
         <div>
           <Row title="true">
-            <Title size={'20px'}>남상림</Title>
+            <Title size={'20px'}>{userEmail}</Title>
             <Title color={'#7c7c7c'}>님의 여행스타일을 알려주세요 !</Title>
           </Row>
           <div>
@@ -200,7 +203,7 @@ function TasteSetting() {
         </div>
         <div>
           <Row title="true">
-            <Title size={'20px'}>남상림</Title>
+            <Title size={'20px'}>{userEmail}</Title>
             <Title color={'#7c7c7c'}>님은 이런 동행자를 선호해요 !</Title>
           </Row>
           <div>
