@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { email } from '../../store/userInfo';
 
-function Join() {
+function MyRecord() {
   const [upload, setUpload] = useState(false);
   const [detail, setDetail] = useState(false);
   const userEmail = useRecoilValue(email);
@@ -20,17 +20,31 @@ function Join() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.post(
-        'http://localhost:5001/api/get-recordList',
-        {
-          email: userEmail,
-        },
-      );
-      setRecordList(response.data);
+      try {
+        const response = await axios.post(
+          'http://localhost:5001/api/get-recordList',
+          {
+            email: userEmail,
+          },
+        );
+        setRecordList(response.data);
+      } catch (e) {
+        console.log(e);
+      }
     };
 
     fetchData();
   }, [upload]);
+
+  const deleteUserRecord = async (record_id) => {
+    try {
+      await axios.post('http://localhost:5001/api/del-record', {
+        id: record_id,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <Wrap>
@@ -51,10 +65,12 @@ function Join() {
               rating={record.rating}
               imgUrl={record.imgUrl}
               onClick={() => {
+                // detail 페이지에 정보 전달 및 모달 띄우기
                 setDetail(true);
                 setDetailInfo({
                   ...record,
                 });
+                if (deleteContent) deleteUserRecord(record.country_id);
               }}
             />
           ))}
@@ -72,4 +88,4 @@ function Join() {
     </Wrap>
   );
 }
-export default Join;
+export default MyRecord;
