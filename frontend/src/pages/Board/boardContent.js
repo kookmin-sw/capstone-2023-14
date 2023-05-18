@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../../components/Header/header';
 import {
@@ -26,26 +26,24 @@ function BoardContent() {
     content: '',
   });
 
+  const fetchComments = useCallback(async () => {
+    try {
+      const response = await axios.post('/api/get-replyList', {
+        board_id: props.state.board_id,
+      });
+      setFeedComments(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [props.state.board_id]);
+
   useEffect(() => {
     setPost({ ...props.state });
     setChat((chat) => ({ ...chat, board_id: props.state.board_id }));
-  }, [props.state]);
+    fetchComments();
+  }, [props.state, fetchComments]);
 
-  useEffect(() => {
-    const fetchComment = async () => {
-      try {
-        const response = await axios.post('/api/get-replyList', {
-          board_id: props.state.board_id,
-        });
-        setFeedComments(response.data);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    fetchComment();
-  }, [props.state.board_id]);
-
-  const SendChatText = async () => {
+  const sendChatText = useCallback(async () => {
     if (chat.content === '') return;
 
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -58,28 +56,27 @@ function BoardContent() {
     try {
       await axios.post('/api/reply-write', chatToBeSent);
       setChat((chat) => ({ ...chat, content: '' }));
-      // 댓글 보내고 새로 댓글 목록 가져오기
-      const response = await axios.post('/api/get-replyList', {
-        board_id: props.state.board_id,
-      });
-      setFeedComments(response.data);
+      fetchComments();
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [chat, fetchComments]);
 
-  const HandleKeyDown = (e) => {
-    if (e.nativeEvent.isComposing) return;
-    if (e.key === 'Enter' && e.shiftKey) return;
-    if (e.key === 'Enter' && !e.shiftKey) {
-      SendChatText();
-      e.preventDefault();
-    }
-  };
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.nativeEvent.isComposing) return;
+      if (e.key === 'Enter' && e.shiftKey) return;
+      if (e.key === 'Enter' && !e.shiftKey) {
+        sendChatText();
+        e.preventDefault();
+      }
+    },
+    [sendChatText],
+  );
 
-  const handleOnChange = (e) => {
+  const handleOnChange = useCallback((e) => {
     setChat((chat) => ({ ...chat, content: e.target.value }));
-  };
+  }, []);
 
   return (
     <div>
@@ -115,11 +112,11 @@ function BoardContent() {
             type="text"
             placeholder="댓글을 남겨보세요."
             onChange={handleOnChange}
-            onKeyDown={HandleKeyDown}
+            onKeyDown={handleKeyDown}
             name={'comment'}
             value={chat.content}
           />
-          <button onClick={SendChatText}>전송</button>
+          <button onClick={sendChatText}>전송</button>
         </div>
       </Comment>
     </div>
