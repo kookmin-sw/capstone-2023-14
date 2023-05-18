@@ -54,9 +54,6 @@ function Join() {
     terms: false,
   });
 
-  // const [privacy, setPrivacy] = useState(false);
-  // const [terms, setTerms] = useState(false);
-
   // 입력값 변화 적용
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -100,20 +97,41 @@ function Join() {
     };
   };
 
+  function decodeBase64(input) {
+    // Remove all non-base64 characters
+    let base64 = input.replace(/[^A-Za-z0-9\+\/]/g, '');
+
+    // Add padding if necessary
+    while (base64.length % 4 !== 0) {
+      base64 += '=';
+    }
+
+    // Use atob to decode the string
+    return atob(base64);
+  }
+
+  function base64ToBlob(base64, mimeType = '') {
+    const byteCharacters = decodeBase64(base64);
+
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
+  }
+
   const handleClickSignUp = async (event) => {
-    const signUpData = new FormData();
-    signUpData.append('profile', base64);
-    signUpData.append('email', userInfo.email);
-    signUpData.append('id', userInfo.id);
-    signUpData.append('password', userInfo.password);
-    signUpData.append('name', userInfo.name);
-    signUpData.append('phone', userInfo.phone);
-    signUpData.append('gender', userInfo.gender);
-    signUpData.append('birthday', userInfo.birthday);
-    signUpData.append('mbti', userInfo.mbti);
+    if (userInfo.email === '' || userInfo.password === '') {
+      alert('이메일과 비밀번호를 입력해주세요.');
+      return;
+    }
+
+    setUserInfo({ ...userInfo, profile: base64ToBlob(base64) });
 
     await axios
-      .post('http://localhost:5001/api/signup', signUpData)
+      .post('/api/signup', userInfo)
       .then((response) => {
         if (response.status === 201) {
           //console.log('회원가입 성공');
@@ -186,7 +204,7 @@ function Join() {
                 userInfo.password.length !== 0 &&
                 userInfo.password === event.target.value
               )
-                setPasswordMessage('비밀번호가 일치합니다.');
+                setPasswordMessage('');
               else setPasswordMessage('비밀번호가 일치하지 않습니다.');
             }}
           />

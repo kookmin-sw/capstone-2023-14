@@ -4,7 +4,7 @@ import { DetailInfo, Textarea, Wrap, WriterInfo } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { constSelector, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { email } from '../../store/userInfo';
 
 function BoardUpload() {
@@ -14,23 +14,25 @@ function BoardUpload() {
     email: userEmail,
   });
   const [saveInfo, setSaveInfo] = useState({
-    email: userEmail,
+    name: userEmail,
     content: '',
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(
-          'http://localhost:5001/api/get-writerInfo',
-          { email: writerInfo.email },
-        );
+        const response = await axios.post('/api/get-writerInfo', {
+          email: writerInfo.email,
+        });
         setWriterInfo({ ...response.data[0] });
+        setSaveInfo({ ...saveInfo, name: response.data[0].name });
 
         setWriterInfo((prevState) => {
           return {
             ...prevState,
-            age: calculateAge(prevState.birth.toString()),
+            age: prevState.birth
+              ? calculateAge(prevState.birth.toString())
+              : '??',
           };
         });
       } catch (e) {
@@ -64,7 +66,7 @@ function BoardUpload() {
       update_time: now,
     };
     try {
-      await axios.post('http://localhost:5001/api/board-write', uploadInfo);
+      await axios.post('/api/board-write', uploadInfo);
     } catch (e) {
       console.log(e);
     }

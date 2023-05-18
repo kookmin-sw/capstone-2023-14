@@ -14,10 +14,9 @@ function MyPage() {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const response = await axios.post(
-        'http://localhost:5001/api/get-userInfo',
-        { email: userEmail },
-      );
+      const response = await axios.post('/api/get-userInfo', {
+        email: userEmail,
+      });
 
       const result = response.data[0];
 
@@ -43,7 +42,7 @@ function MyPage() {
     };
 
     fetchData();
-  }, []);
+  }, [userEmail]);
 
   if (isLoading) return <></>;
 

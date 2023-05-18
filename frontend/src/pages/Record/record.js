@@ -21,12 +21,9 @@ function MyRecord() {
   // fetchData를 useCallback으로 감싸서 의존성이 변경될 때만 함수가 재생성되도록
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.post(
-        'http://localhost:5001/api/get-recordList',
-        {
-          email: userEmail,
-        },
-      );
+      const response = await axios.post('/api/get-recordList', {
+        email: userEmail,
+      });
       setRecordList(response.data);
     } catch (e) {
       console.log(e);
@@ -45,7 +42,7 @@ function MyRecord() {
       );
       setRecordList(updatedArr);
 
-      await axios.post('http://localhost:5001/api/del-record', {
+      await axios.post('/api/del-record', {
         email: userEmail,
         id: record_id,
       });

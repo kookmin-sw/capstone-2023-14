@@ -36,9 +36,7 @@ const RecordUpload = (props) => {
   useEffect(() => {
     const fetchCityList = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost:5001/api/get-cityList',
-        );
+        const response = await axios.get('/api/get-cityList');
         setCityOptions(response.data);
       } catch (e) {
         console.log(e);
@@ -111,17 +109,11 @@ const RecordUpload = (props) => {
     });
     setShowList(false);
 
-    const response = await axios.post('http://localhost:5001/api/get-info', {
+    const response = await axios.post('/api/get-info', {
       city: input,
     });
     setImgUrl(response.data.imgUrl1);
   };
-
-  function addCommasToNumber(number) {
-    const strNumber = String(number);
-
-    return strNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
 
   const convertDateToString = (date) => {
     const formattedDate = date.toISOString().split('T')[0];
@@ -133,7 +125,7 @@ const RecordUpload = (props) => {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:5001/api/record-write', userRecord);
+      await axios.post('/api/record-write', userRecord);
       alert('기록이 저장되었습니다.');
       props.setUpload(false);
     } catch (e) {

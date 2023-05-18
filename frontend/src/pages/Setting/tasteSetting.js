@@ -88,7 +88,7 @@ function TasteSetting() {
     };
 
     try {
-      await axios.post('http://localhost:5001/api/hashtag-taste', saveInfo);
+      await axios.post('/api/hashtag-taste', saveInfo);
       alert('취향 정보가 저장되었습니다.');
       navigator('/setting');
     } catch (e) {

@@ -13,13 +13,11 @@ function Board() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost:5001/api/get-boardList',
-        );
+        const response = await axios.get('/api/get-boardList');
 
         const appendAgeList = response.data.map((post) => ({
           ...post,
-          age: calculateAge(post.birth),
+          age: post.birth ? calculateAge(post.birth) : '??',
         }));
         setBoardList(appendAgeList);
       } catch (e) {

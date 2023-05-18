@@ -8,7 +8,7 @@ function ChatTest() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post('http://localhost:5001/chat', { prompt })
+      .post('/api/chat', { prompt })
       .then((res) => {
         setResponse(res.data);
       })
