@@ -11,15 +11,18 @@ import {
 } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { email } from '../../store/userInfo';
 
 function BoardContent() {
   const props = useLocation();
   const [post, setPost] = useState({});
   const [feedComments, setFeedComments] = useState([]);
+  const userEmail = useRecoilValue(email);
 
   const [chat, setChat] = useState({
     board_id: -1,
-    email: 'user',
+    email: userEmail,
     content: '',
   });
 
