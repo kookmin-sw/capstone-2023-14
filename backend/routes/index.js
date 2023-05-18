@@ -23,6 +23,7 @@ router.post('/api/get-userInfo', users.getUserInfo);
 router.post('/api/record-write', record.saveItinerary);
 router.get('/api/get-cityList', record.getCityList);
 router.post('/api/get-recordList', record.getItineraryList);
+router.post('/api/del-record', record.removeItinerary);
 
 router.post('/api/board-write', board.saveBoard);
 router.get('/api/get-boardList', board.getBoardList);

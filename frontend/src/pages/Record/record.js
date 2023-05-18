@@ -39,6 +39,7 @@ function MyRecord() {
   const deleteUserRecord = async (record_id) => {
     try {
       await axios.post('http://localhost:5001/api/del-record', {
+        email: userEmail,
         id: record_id,
       });
     } catch (e) {
@@ -65,12 +66,15 @@ function MyRecord() {
               rating={record.rating}
               imgUrl={record.imgUrl}
               onClick={() => {
+                if (deleteContent) {
+                  deleteUserRecord(record.country_id);
+                  return;
+                }
                 // detail 페이지에 정보 전달 및 모달 띄우기
                 setDetail(true);
                 setDetailInfo({
                   ...record,
                 });
-                if (deleteContent) deleteUserRecord(record.country_id);
               }}
             />
           ))}
