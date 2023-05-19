@@ -37,7 +37,7 @@ function Login() {
         if (response.status === 200 && response.data.success) {
           setUserEmail(inputInfo.email);
           setUserToken(response.data.token);
-          // navigator('/home');
+          navigator('/home');
         }
       })
       .catch((error) => {
