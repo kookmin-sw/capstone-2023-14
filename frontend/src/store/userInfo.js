@@ -6,6 +6,7 @@ const { persistAtom } = recoilPersist();
 export const email = atom({
   key: 'email',
   default: '',
+  effects_UNSTABLE: [persistAtom], //새로고침 시에도 유지되도록 localStorage에 저장
 });
 
 // login user token
