@@ -22,10 +22,46 @@ export const Wrap = styled(Common)`
     padding: ${(props) => (props.padding ? '60px 20px' : null)};
     border-radius: 12px;
     overflow-y: scroll;
-    height: 70%;
   }
   > div > input {
     display: none;
+  }
+`;
+
+export const TasteWrap = styled.div`
+  text-align: center;
+  > div:nth-child(2) {
+    margin-bottom: 32px;
+  }
+  > div:last-child {
+    display: flex;
+    gap: 4px;
+
+    > button {
+      all: unset;
+      flex: 50%;
+      text-align: center;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      padding: 8px 0;
+      font-size: 14px;
+
+      :after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        border-radius: 4px;
+        background-color: #ef4e3e;
+        transition: all 0.5s;
+      }
+      :hover:after {
+        width: 100%;
+      }
+    }
   }
 `;
 
@@ -49,20 +85,15 @@ export const TypeWrap = styled.div`
 
 export const ImgWrap = styled.div`
   background-color: #d9d9d9;
-  height: 200px;
+  height: 260px;
   position: relative;
   cursor: pointer;
 
-  > label > img:first-child {
+  img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  > label > img:last-child {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    overflow: hidden;
   }
 `;
 
@@ -72,9 +103,14 @@ export const InputWrap = styled.div`
 
   > div {
     margin-bottom: 12px;
+
+    :first-child img {
+      width: 28px;
+    }
   }
 
-  > button {
+  > button,
+  span > button {
     all: unset;
     cursor: pointer;
     background: #ef4e3e;
@@ -84,6 +120,20 @@ export const InputWrap = styled.div`
     font-weight: bold;
     display: block;
     margin: auto;
+    border: 2px solid #ef4e3e;
+  }
+  span {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+
+    > button {
+      margin: unset;
+    }
+    > button:last-child {
+      background: #ffffff;
+      color: #141414;
+    }
   }
 
   img {
@@ -135,5 +185,30 @@ export const DateWrap = styled(Common)`
   :focus-visible {
     border: 2px solid rgb(239, 78, 62);
     transition: all 0.5s ease 0s;
+  }
+`;
+
+export const DropdownMenu = styled.ul`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
+  z-index: 1;
+  overflow-y: scroll;
+  max-height: 150px;
+
+  li {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  li:hover {
+    background-color: #eee;
   }
 `;

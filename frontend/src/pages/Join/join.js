@@ -38,13 +38,13 @@ function Join() {
   // database에 저장할 유저의 회원정보
   const [userInfo, setUserInfo] = useState({
     email: '',
-    id: '',
-    password: '',
+    passwd: '',
     name: '',
     phone: '',
     gender: 'M',
     birthday: '',
     mbti: '',
+    profile: '',
   });
 
   const [passwordMessage, setPasswordMessage] = useState('');
@@ -53,9 +53,6 @@ function Join() {
     privacy: false,
     terms: false,
   });
-
-  // const [privacy, setPrivacy] = useState(false);
-  // const [terms, setTerms] = useState(false);
 
   // 입력값 변화 적용
   const handleOnChange = (e) => {
@@ -100,27 +97,47 @@ function Join() {
     };
   };
 
-  const handleClickSignUp = async () => {
-    const signUpData = new FormData();
-    signUpData.append('profile', base64);
-    signUpData.append('email', userInfo.email);
-    signUpData.append('id', userInfo.id);
-    signUpData.append('password', userInfo.password);
-    signUpData.append('name', userInfo.name);
-    signUpData.append('phone', userInfo.phone);
-    signUpData.append('gender', userInfo.gender);
-    signUpData.append('birthday', userInfo.birthday);
-    signUpData.append('mbti', userInfo.mbti);
+  function decodeBase64(input) {
+    // Remove all non-base64 characters
+    let base64 = input.replace(/[^A-Za-z0-9\+\/]/g, '');
 
-    await axios({
-      url: '/api/signup',
-      method: 'post',
-      baseURL: 'http://localhost:5001',
-      data: signUpData,
-    })
+    // Add padding if necessary
+    while (base64.length % 4 !== 0) {
+      base64 += '=';
+    }
+
+    // Use atob to decode the string
+    return atob(base64);
+  }
+
+  function base64ToBlob(base64, mimeType = '') {
+    const byteCharacters = decodeBase64(base64);
+
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
+  }
+
+  const handleClickSignUp = async (event) => {
+    if (userInfo.email === '' || userInfo.passwd === '') {
+      alert('이메일과 비밀번호를 입력해주세요.');
+      return;
+    }
+
+    setUserInfo((prevState) => ({
+      ...prevState,
+      profile: base64ToBlob(base64),
+    }));
+
+    await axios
+      .post('/api/signup', userInfo)
       .then((response) => {
         if (response.status === 201) {
-          console.log('회원가입 성공');
+          //console.log('회원가입 성공');
           alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
           navigator('/');
         }
@@ -179,18 +196,18 @@ function Join() {
             title={'비밀번호'}
             onChange={handleOnChange}
             type={'password'}
-            name={'password'}
-            value={userInfo.password}
+            name={'passwd'}
+            value={userInfo.passwd}
           />
           <InputBox
             title={'비밀번호 확인'}
             type={'password'}
             onChange={(event) => {
               if (
-                userInfo.password.length !== 0 &&
-                userInfo.password === event.target.value
+                userInfo.passwd.length !== 0 &&
+                userInfo.passwd === event.target.value
               )
-                setPasswordMessage('비밀번호가 일치합니다.');
+                setPasswordMessage('');
               else setPasswordMessage('비밀번호가 일치하지 않습니다.');
             }}
           />

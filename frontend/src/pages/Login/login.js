@@ -1,16 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import StrokeButton from '../../components/Buttons/strokeButton';
 import FullButton from '../../components/Buttons/fullButton';
 import InputBox from '../../components/Inputs/inputBox';
 import { useNavigate } from 'react-router-dom';
-// import Header from '../../components/Header/header';
-// import Footer from '../../components/Footer/footer';
-import { BlockWrap, ButtonWrap, Wrap, Row } from './styles';
+
+import { BlockWrap, Wrap, Row } from './styles';
 import { Normal } from '../../components/Fonts/fonts';
 import axios from 'axios';
 
+import { useRecoilState } from 'recoil';
+import { email, token } from '../../store/userInfo';
+
 function Login() {
+  // localStorage에 저장된 token값 가져오는 코드
+  // const token = Object.values(
+  //   JSON.parse(localStorage.getItem('recoil-persist')),
+  // )[0];
+
   const navigator = useNavigate();
+  const [userEmail, setUserEmail] = useRecoilState(email);
+  const [userToken, setUserToken] = useRecoilState(token);
   const [autoLogin, setAutoLogin] = useState(false);
   const [inputInfo, setInputInfo] = useState({
     email: '',
@@ -26,15 +35,13 @@ function Login() {
   };
 
   const handleClickLogin = async () => {
-    await axios({
-      url: '/api/login',
-      method: 'post',
-      baseURL: 'http://localhost:5001',
-      data: inputInfo,
-    })
+    await axios
+      .post('/api/login', inputInfo)
       .then((response) => {
         // 로그인 성공했을 때
         if (response.status === 200 && response.data.success) {
+          setUserEmail(inputInfo.email);
+          setUserToken(response.data.token);
           navigator('/home');
         }
       })
@@ -48,7 +55,10 @@ function Login() {
   return (
     <Wrap>
       <div>
-        <img src={''} />
+        <img
+          src={process.env.PUBLIC_URL + '/images/Common/feature.svg'}
+          alt=""
+        />
       </div>
       <div>
         <BlockWrap>
@@ -84,13 +94,13 @@ function Login() {
                 alt=""
               />
             )}
-            <Normal>자동로그인</Normal>
+            <Normal cursor={'pointer'}>자동로그인</Normal>
           </Row>
         </Row>
-        <ButtonWrap>
+        <div>
           <FullButton btnName="로그인" onClick={handleClickLogin} />
           <StrokeButton btnName="회원가입" onClick={() => navigator('/join')} />
-        </ButtonWrap>
+        </div>
       </div>
     </Wrap>
   );

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DateWrap,
   ImgWrap,
@@ -6,104 +6,153 @@ import {
   StarRatingWrap,
   Textarea,
   Wrap,
+  DropdownMenu,
 } from './styles';
 import InputBox from '../Inputs/inputBox';
 import { SubTitle } from '../Fonts/fonts';
-import heic2any from 'heic2any';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { email } from '../../store/userInfo';
 
 const RecordUpload = (props) => {
-  // user profile image
-  const imgRef = useRef();
-  const [base64, setBase64] = useState('');
-
-  // date-picker
+  const userEmail = useRecoilValue(email);
+  const [imgUrl, setImgUrl] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [userRecord, setUserRecord] = useState({
+    email: userEmail,
+    destination: '',
+    rating: 0,
+    duration_start: '',
+    duration_end: '',
+    record: '',
+    cost: '',
+  });
+  const [showList, setShowList] = useState(false);
+  const [cityOptions, setCityOptions] = useState([]);
 
-  // star rating
-  const [rating, setRating] = useState();
+  useEffect(() => {
+    const fetchCityList = async () => {
+      try {
+        const response = await axios.get('/api/get-cityList');
+        setCityOptions(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    setUserRecord((prevState) => {
+      return {
+        ...prevState,
+        duration_start: convertDateToString(startDate),
+        duration_end: convertDateToString(endDate),
+      };
+    });
+
+    fetchCityList();
+  }, [startDate, endDate]);
+
   const starRating = [];
-  for (let i = 1; i <= rating; i++) {
+  for (let i = 1; i <= userRecord.rating; i++) {
     starRating.push(
       <img
         src={process.env.PUBLIC_URL + '/images/Rating/fillstar.svg'}
         key={i}
+        alt=""
       />,
     );
   }
-  if (rating % 1 > 0) {
+  if (userRecord.rating % 1 > 0) {
     starRating.push(
-      <img src={process.env.PUBLIC_URL + '/images/Rating/halfstar.svg'} />,
+      <img
+        src={process.env.PUBLIC_URL + '/images/Rating/halfstar.svg'}
+        key={'0.5'}
+        alt=""
+      />,
     );
   }
-  for (let i = 1; i <= 5 - rating; i++) {
+  for (let i = 1; i <= 5 - userRecord.rating; i++) {
     starRating.push(
       <img
         src={process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'}
         key={5 + i}
+        alt=""
       />,
     );
   }
 
-  // 이미지 업로드
-  const upload = async () => {
-    let file = imgRef.current.files[0];
-    const fileName = file.name.split('.')[1].toLowerCase(); //확장자명 체크를 위해 소문자 변환 HEIC, heic
-    if (fileName === 'heic') {
-      let blob = file;
-      await heic2any({ blob: blob, toType: 'image/jpeg' })
-        .then(function (resultBlob) {
-          file = new File([resultBlob], file.name.split('.')[0] + '.jpg', {
-            type: 'image/jpeg',
-            lastModified: new Date().getTime(),
-          });
-          reader.readAsDataURL(file);
-        })
-        .catch(function (x) {
-          console.log(x);
-        });
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+
+    if (name === 'cost') {
+      const regex = /^[0-9\b -]{0,20}$/;
+      if (!regex.test(value)) {
+        return;
+      }
     }
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      setBase64(reader.result);
-    };
+
+    setUserRecord({
+      ...userRecord,
+      [name]: value,
+    });
   };
 
-  // info save button clicked
-  const HandleInfoSave = (e) => {
+  // 여행지 선택시 이미지 설정
+  const handleOnSelectDest = async (input) => {
+    setUserRecord((prevState) => {
+      return {
+        ...prevState,
+        destination: input,
+      };
+    });
+    setShowList(false);
+
+    const response = await axios.post('/api/get-info', {
+      city: input,
+    });
+    setImgUrl(response.data.imgUrl1);
+  };
+
+  const convertDateToString = (date) => {
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
+  };
+
+  // record save button clicked
+  const handleOnSaveRecord = async (e) => {
     e.preventDefault();
-    props.setUpload(false);
+
+    try {
+      await axios.post('/api/record-write', userRecord);
+      alert('기록이 저장되었습니다.');
+      props.setUpload(false);
+    } catch (e) {
+      alert('문제가 발생했어요. 기록이 저장되지 않았습니다. :(');
+      console.log(e);
+    }
   };
 
   return (
     <Wrap>
       <div>
-        <input
-          accept="image/*, image/heic"
-          id="uploadImg"
-          name="img_url"
-          type="file"
-          content_type="multipart/form-data"
-          ref={imgRef}
-          onChange={upload}
-        />
         <ImgWrap>
-          <label htmlFor={'uploadImg'}>
-            <img src={base64} />
-            {base64 ? null : (
-              <img src={process.env.PUBLIC_URL + '/images/Common/camera.svg'} />
-            )}
-          </label>
+          {imgUrl ? (
+            <img src={`data:image/jpeg;base64,${imgUrl}`} alt="" />
+          ) : (
+            <img
+              src={process.env.PUBLIC_URL + '/images/Common/emptyDefault.png'}
+              alt=""
+            />
+          )}
         </ImgWrap>
         <InputWrap>
           <div>
             <SubTitle margin={'0 0 10px'}>여행지 평점</SubTitle>
             <StarRatingWrap>
               <div>
-                {rating > 0 ? (
+                {userRecord.rating > 0 ? (
                   starRating
                 ) : (
                   <>
@@ -111,31 +160,40 @@ const RecordUpload = (props) => {
                       src={
                         process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'
                       }
+                      alt=""
                     />
                     <img
                       src={
                         process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'
                       }
+                      alt=""
                     />
                     <img
                       src={
                         process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'
                       }
+                      alt=""
                     />
                     <img
                       src={
                         process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'
                       }
+                      alt=""
                     />
                     <img
                       src={
                         process.env.PUBLIC_URL + '/images/Rating/emptystar.svg'
                       }
+                      alt=""
                     />
                   </>
                 )}
               </div>
-              <select onChange={(e) => setRating(e.target.value)}>
+              <select
+                onChange={(e) =>
+                  setUserRecord({ ...userRecord, rating: e.target.value })
+                }
+              >
                 <option value={0}>0</option>
                 <option value={0.5}>0.5</option>
                 <option value={1}>1</option>
@@ -150,7 +208,25 @@ const RecordUpload = (props) => {
               </select>
             </StarRatingWrap>
           </div>
-          <InputBox title={'여행지'} small />
+          <div style={{ position: 'relative' }}>
+            <InputBox
+              title={'여행지'}
+              small
+              name={'destination'}
+              value={userRecord.destination}
+              onChange={handleChangeInput}
+              onClick={() => setShowList(!showList)}
+            />
+            {showList && (
+              <DropdownMenu>
+                {cityOptions.map((option, index) => (
+                  <li key={index} onClick={() => handleOnSelectDest(option)}>
+                    {option}
+                  </li>
+                ))}
+              </DropdownMenu>
+            )}
+          </div>
           <div>
             <SubTitle margin={'0 0 10px'}>여행기간</SubTitle>
             <DateWrap>
@@ -176,12 +252,25 @@ const RecordUpload = (props) => {
               />
             </DateWrap>
           </div>
-          <InputBox title={'총 여행경비'} small />
+          <InputBox
+            title={'총 여행경비'}
+            small
+            name={'cost'}
+            value={userRecord.cost}
+            onChange={handleChangeInput}
+          />
           <div>
             <SubTitle margin={'0 0 10px'}>나의 기록</SubTitle>
-            <Textarea />
+            <Textarea
+              name={'record'}
+              value={userRecord.record}
+              onChange={handleChangeInput}
+            />
           </div>
-          <button onClick={HandleInfoSave}>저장</button>
+          <span>
+            <button onClick={handleOnSaveRecord}>저장</button>
+            <button onClick={() => props.setUpload(false)}>취소</button>
+          </span>
         </InputWrap>
       </div>
     </Wrap>

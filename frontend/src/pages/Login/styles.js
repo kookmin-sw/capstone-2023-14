@@ -18,11 +18,11 @@ export const Wrap = styled.div`
   > div:first-child {
     width: 100%;
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 12%;
   }
 
   > div > img {
-    width: 200px;
+    width: 50%;
     height: 200px;
   }
 
@@ -36,4 +36,3 @@ export const BlockWrap = styled.div`
     margin-bottom: 12px;
   }
 `;
-export const ButtonWrap = styled(BlockWrap)``;

@@ -44,7 +44,7 @@ export const RowAlign = styled.div`
   align-items: center;
   margin-bottom: 12px;
 
-  > div {
+  > div:first-child {
     flex: 0 1 110px;
   }
 

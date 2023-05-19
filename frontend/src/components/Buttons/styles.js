@@ -8,11 +8,17 @@ const DefaultSetting = styled.div`
   text-align: center;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+
+  @media screen and (max-width: 400px) {
+    padding: 8px;
+    font-size: 18px;
+  }
 `;
 
 export const FullColor = styled(DefaultSetting)`
   background: #ef4e3e;
   color: #ffffff;
+  margin-bottom: 12px;
 `;
 
 export const StrokeColor = styled(DefaultSetting)`

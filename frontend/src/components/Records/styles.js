@@ -9,6 +9,7 @@ export const RecordWrap = styled.div`
   border-radius: 12px;
   margin-bottom: 16px;
   cursor: pointer;
+  position: relative;
 
   :hover {
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -22,5 +23,10 @@ export const RecordWrap = styled.div`
   > img {
     width: 64px;
     height: 64px;
+  }
+
+  > div:last-child {
+    position: absolute;
+    right: 20px;
   }
 `;

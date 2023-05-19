@@ -1,3 +1,8 @@
+# 함께할래 ?
+- Capstone Design Project for Kookmin University, 2023
+- [Check out the github-pages here](https://kookmin-sw.github.io/capstone-2023-14/)
+
+
 ### 1. 프로젝트 소개
 
 팬데믹 당시 억눌려있었던 여행에 대한 갈망이 엔데믹 이후 증가하면서 많은 분들이 다시 여행을 가기 시작했습니다. 그러나 정작 본인이 가고픈 다음 여행지를 모를 때도 있을뿐더러, 나와 여행 기간, 예상 경비 등 조건이 맞는 지인을 찾기 힘들 때가 있습니다.
