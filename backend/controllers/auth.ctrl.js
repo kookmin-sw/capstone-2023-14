@@ -38,47 +38,30 @@ const login = (req, res) => {
 };
 
 const signUp = (req, res) => {
-  const form = new formidable.IncomingForm();
-  form.parse(req, (err, user) => {
-    if (err) throw err;
+  const { email, passwd, name, phone, gender, birth, mbti, profile } = req.body;
+  // 이메일 중복 검사
+  db.query('SELECT * FROM member WHERE email = ?', [email], (error, result) => {
+    if (error) throw error;
 
-    // 이메일 중복 검사
-    db.query(
-      'SELECT * FROM member WHERE email = ?',
-      [user.email],
-      (error, result) => {
-        if (error) throw error;
+    if (result.length > 0) {
+      res.status(409).json({ error: '이미 존재하는 이메일입니다.' });
+      return;
+    }
 
-        if (result.length > 0) {
-          res.status(409).json({ error: '이미 존재하는 이메일입니다.' });
-          return;
-        }
-
-        bcrypt.hash(user.password, 10, (error, password_hash) => {
-          if (error) {
-            return res.status(500).json({ error: 'Server error' });
-          }
-
-          db.query(
-            'INSERT INTO member (email, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,FROM_BASE64(?))',
-            [
-              user.email,
-              password_hash,
-              user.name,
-              user.phone,
-              user.gender,
-              user.birth,
-              user.mbti,
-              user.profile,
-            ],
-            (error, result) => {
-              if (error) throw error;
-              res.status(201).json({ success: true });
-            }
-          );
-        });
+    bcrypt.hash(passwd, 10, (error, password_hash) => {
+      if (error) {
+        return res.status(500).json({ error: 'Server error' });
       }
-    );
+
+      db.query(
+        'INSERT INTO member (email, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,?)',
+        [email, password_hash, name, phone, gender, birth, mbti, profile],
+        (error, result) => {
+          if (error) throw error;
+          res.status(201).json({ success: true });
+        }
+      );
+    });
   });
 };
 

@@ -38,13 +38,13 @@ function Join() {
   // database에 저장할 유저의 회원정보
   const [userInfo, setUserInfo] = useState({
     email: '',
-    id: '',
-    password: '',
+    passwd: '',
     name: '',
     phone: '',
     gender: 'M',
     birthday: '',
     mbti: '',
+    profile: '',
   });
 
   const [passwordMessage, setPasswordMessage] = useState('');
@@ -123,12 +123,15 @@ function Join() {
   }
 
   const handleClickSignUp = async (event) => {
-    if (userInfo.email === '' || userInfo.password === '') {
+    if (userInfo.email === '' || userInfo.passwd === '') {
       alert('이메일과 비밀번호를 입력해주세요.');
       return;
     }
 
-    setUserInfo({ ...userInfo, profile: base64ToBlob(base64) });
+    setUserInfo((prevState) => ({
+      ...prevState,
+      profile: base64ToBlob(base64),
+    }));
 
     await axios
       .post('/api/signup', userInfo)
@@ -193,16 +196,16 @@ function Join() {
             title={'비밀번호'}
             onChange={handleOnChange}
             type={'password'}
-            name={'password'}
-            value={userInfo.password}
+            name={'passwd'}
+            value={userInfo.passwd}
           />
           <InputBox
             title={'비밀번호 확인'}
             type={'password'}
             onChange={(event) => {
               if (
-                userInfo.password.length !== 0 &&
-                userInfo.password === event.target.value
+                userInfo.passwd.length !== 0 &&
+                userInfo.passwd === event.target.value
               )
                 setPasswordMessage('');
               else setPasswordMessage('비밀번호가 일치하지 않습니다.');
