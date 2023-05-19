@@ -202,6 +202,7 @@ function Join() {
           <InputBox
             title={'비밀번호 확인'}
             type={'password'}
+            addSpan={passwordMessage}
             onChange={(event) => {
               if (
                 userInfo.passwd.length !== 0 &&
@@ -211,19 +212,18 @@ function Join() {
               else setPasswordMessage('비밀번호가 일치하지 않습니다.');
             }}
           />
-          <span>{passwordMessage}</span>
           <div>
             <SubTitle margin={'0 0 10px'}>성별</SubTitle>
             <GenderWrap>
               <GenderButton
                 onClick={() => setUserInfo({ ...userInfo, gender: 'M' })}
-                checked={userInfo.gender === 'M' ? true : false}
+                checked={userInfo.gender === 'M'}
               >
                 남자
               </GenderButton>
               <GenderButton
                 onClick={() => setUserInfo({ ...userInfo, gender: 'F' })}
-                checked={userInfo.gender === 'F' ? true : false}
+                checked={userInfo.gender === 'F'}
               >
                 여자
               </GenderButton>

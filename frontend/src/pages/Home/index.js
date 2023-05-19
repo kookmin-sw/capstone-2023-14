@@ -18,6 +18,26 @@ function Home() {
 
   // 취향정보가 없는 유저의 경우 홈화면 접근 시 모달창 띄우기
   const [tasteModal, setTasteModal] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.post('/api/get-userInfo', {
+        email: userEmail,
+      });
+      setUserInfo(response.data[0]);
+      if (
+        response.data[0].object === null ||
+        response.data[0].style === null ||
+        response.data[0].prefer_age === null ||
+        response.data[0].prefer_gender === null
+      ) {
+        setTasteModal(true);
+      }
+    };
+    fetchData();
+    return;
+  }, [userEmail]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,7 +85,7 @@ function Home() {
           }}
           src={loadingImage}
           alt="loading gif"
-        ></img>
+        />
       </>
     );
   }

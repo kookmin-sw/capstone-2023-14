@@ -90,7 +90,7 @@ function TasteSetting() {
     try {
       await axios.post('/api/hashtag-taste', saveInfo);
       alert('취향 정보가 저장되었습니다.');
-      navigator('/setting');
+      navigator('/mypage');
     } catch (e) {
       console.log(e);
     }
