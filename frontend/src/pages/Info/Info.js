@@ -8,6 +8,9 @@ import { useRecoilState } from 'recoil';
 import { rate } from '../../store/userInfo';
 
 function Info() {
+  // 오늘 날짜
+  const now = new Date(Date.now()).toDateString();
+
   //한국 수출입은행에 api 요청
   const request = `/site/program/financial/exchangeJSON?authkey=${process.env.REACT_APP_API_AUTHKEY}&data=AP01`;
 
@@ -43,7 +46,7 @@ function Info() {
         <TodayWrap>
           <div>
             <div>오늘</div>
-            <Title margin={'8px 0'}>2023.05.12</Title>
+            <Title margin={'8px 0'}>{now}</Title>
           </div>
         </TodayWrap>
         <RateWrap>
