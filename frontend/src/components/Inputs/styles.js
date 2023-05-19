@@ -32,4 +32,9 @@ export const InputWrap = styled.div`
       transition: 0.2s ease;
     }
   }
+
+  > span {
+    margin: 4px 0;
+    color: #7c7c7c;
+  }
 `;

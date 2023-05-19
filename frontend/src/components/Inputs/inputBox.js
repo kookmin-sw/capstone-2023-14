@@ -15,6 +15,7 @@ const InputBox = (props) => {
         value={props.value}
         disabled={props.disabled}
       />
+      {props.addSpan ? <span>{props.addSpan}</span> : null}
     </InputWrap>
   );
 };
