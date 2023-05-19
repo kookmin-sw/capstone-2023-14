@@ -12,6 +12,11 @@ import { useRecoilState } from 'recoil';
 import { email, token } from '../../store/userInfo';
 
 function Login() {
+  // localStorage에 저장된 token값 가져오는 코드
+  // const token = Object.values(
+  //   JSON.parse(localStorage.getItem('recoil-persist')),
+  // )[0];
+
   const navigator = useNavigate();
   const [userEmail, setUserEmail] = useRecoilState(email);
   const [userToken, setUserToken] = useRecoilState(token);
