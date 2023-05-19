@@ -132,14 +132,10 @@ def getCountry():
 def getCompanion():
     # get 파라미터
     user_id = request.args['user_id']
-    country_name = request.args['country_name']
+    country_id = int(request.args['country_id'])
+
 
     db = Database()
-
-    sql = f'select id from country where name="{country_name}"'
-    res = db.select(sql)
-    country_id = int(res[0][0])
-
 
     # Content기반 예측평점 계산
     with open('data.pickle', 'rb') as f:
@@ -289,7 +285,7 @@ def getCompanion():
     # 혼성으로 설정했으면 제외
     include_index = list()
     for idx in companion_index[1:]:
-        if user_data_gender[user_index][0] == '혼성':
+        if user_data_gender[user_index][0] == '혼성' or len(user_data_gender[user_index][0]) == 0:
             if user_data_gender[idx][0] == '혼성':
                 include_index.append(idx)
             elif user_data_gender[user_index][1] == user_data_gender[idx][1]:   # 성이 같을때만
