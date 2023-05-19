@@ -285,7 +285,7 @@ def getCompanion():
     # 혼성으로 설정했으면 제외
     include_index = list()
     for idx in companion_index[1:]:
-        if user_data_gender[user_index][0] == '혼성':
+        if user_data_gender[user_index][0] == '혼성' or len(user_data_gender[user_index][0]) == 0:
             if user_data_gender[idx][0] == '혼성':
                 include_index.append(idx)
             elif user_data_gender[user_index][1] == user_data_gender[idx][1]:   # 성이 같을때만
