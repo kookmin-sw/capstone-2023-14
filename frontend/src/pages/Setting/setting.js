@@ -4,10 +4,26 @@ import { SmallTitle } from '../../components/Fonts/fonts';
 import Item from '../../components/Setting/item';
 import { ItemWrap, Wrap } from './styles';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Setting() {
   const navigator = useNavigate();
 
+  const HandleOnClickEvent = async (text) => {
+    if (text === '로그아웃') {
+      await axios
+        .post('/api/logout')
+        .then((res) => {
+          if (res.status === 200) {
+            alert('로그아웃 되었습니다 :)');
+            navigator('/');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
   const ItemList = [
     {
       img: '/images/Setting/tasteIcon.svg',
@@ -100,6 +116,7 @@ function Setting() {
                 text={item.text}
                 key={item.text}
                 icon={item.icon}
+                onClick={() => HandleOnClickEvent(item.text)}
               />
             ) : null,
           )}
