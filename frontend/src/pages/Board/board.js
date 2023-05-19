@@ -97,7 +97,11 @@ function Board() {
           />
         </SearchWrap>
         {/* 검색어가 없을경우 전체 데이터 보여주기, 입력 값이 있을경우 해당하는 데이터 보여주기 */}
-        {FilterContents.length === 0 ? (
+        {searchWord === '' ? (
+          <>
+            <Normal color={'#7c7c7c'}>아직 올라온 게시글이 없어요 !</Normal>
+          </>
+        ) : searchWord !== '' && FilterContents.length === 0 ? (
           <>
             <Normal color={'#7c7c7c'}>
               검색하신 조건에 맞는 게시글이 없어요 :(
