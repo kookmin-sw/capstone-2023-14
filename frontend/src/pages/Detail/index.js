@@ -23,17 +23,6 @@ function Detail() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
-      const response = await axios.post('/api/get-info', {
-        city: destination,
-      });
-      setCity({ ...city, info: response.data });
-      setCityId(response.data.id);
-      setIsLoading(false);
-    };
-
     const fetchCompanion = async () => {
       setIsLoading(true);
       const response = await axios.get(
@@ -43,9 +32,23 @@ function Detail() {
       setIsLoading(false);
     };
 
+    const fetchData = async () => {
+      setIsLoading(true);
+
+      const response = await axios.post('/api/get-info', {
+        city: destination,
+      });
+      setCity({ ...city, info: response.data });
+      setCityId(response.data.id);
+
+      if (cityId !== -1) {
+        fetchCompanion();
+      }
+      setIsLoading(false);
+    };
+
     fetchData();
-    fetchCompanion();
-  }, []);
+  }, [cityId]);
 
   if (isLoading)
     return (
