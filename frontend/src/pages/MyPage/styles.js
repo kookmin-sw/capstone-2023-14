@@ -47,11 +47,17 @@ export const RowAlign = styled.div`
   > div:first-child {
     flex: 0 1 110px;
   }
+  > div:last-child {
+    display: flex;
+    flex: auto;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+  }
 
   span {
     padding: 2px 16px;
     border: 1.5px solid #7c7c7c;
     border-radius: 24px;
-    margin-right: 8px;
+    cursor: ${(props) => (props.cursor ? 'pointer' : 'auto')};
   }
 `;
