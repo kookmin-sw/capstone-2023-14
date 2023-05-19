@@ -132,10 +132,14 @@ def getCountry():
 def getCompanion():
     # get 파라미터
     user_id = request.args['user_id']
-    country_id = int(request.args['country_id'])
-
+    country_name = request.args['country_name']
 
     db = Database()
+
+    sql = f'select id from country where name="{country_name}"'
+    res = db.select(sql)
+    country_id = int(res[0][0])
+
 
     # Content기반 예측평점 계산
     with open('data.pickle', 'rb') as f:
