@@ -15,6 +15,7 @@ function Setting() {
         .post('/api/logout')
         .then((res) => {
           if (res.status === 200) {
+            localStorage.removeItem('recoil-persist'); //localStorage에서 데이터 삭제
             alert('로그아웃 되었습니다 :)');
             navigator('/');
           }
