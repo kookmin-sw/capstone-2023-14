@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/header';
 import Footer from '../../components/Footer/footer';
 import { RateWrap, TodayWrap, Wrap } from './styles';
-import { Title } from '../../components/Fonts/fonts';
+import { Normal, Title } from '../../components/Fonts/fonts';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { rate } from '../../store/userInfo';
@@ -45,7 +45,7 @@ function Info() {
       <Wrap>
         <TodayWrap>
           <div>
-            <div>오늘</div>
+            <Normal>오늘</Normal>
             <Title margin={'8px 0'}>{now}</Title>
           </div>
         </TodayWrap>

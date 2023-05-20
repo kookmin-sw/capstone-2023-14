@@ -15,11 +15,13 @@ export const InfoWrap = styled.div`
   padding: 20px;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
   border-radius: 12px;
+  font-family: 'SEBANG-Gothic', serif;
 
   > div:first-child {
     text-align: center;
     padding-bottom: 16px;
     margin-bottom: 16px;
+    font-size: 14px;
     border-bottom: 1px solid #ebebeb;
   }
   > div:last-child {
@@ -28,6 +30,8 @@ export const InfoWrap = styled.div`
     > div {
       flex: 25%;
       text-align: center;
+      font-size: 12px;
+      line-height: 1.2em;
     }
   }
 `;

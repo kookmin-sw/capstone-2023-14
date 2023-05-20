@@ -144,6 +144,8 @@ export const InputWrap = styled.div`
 export const Textarea = styled.textarea`
   all: unset;
   resize: none;
+  font-family: 'SEBANG-Gothic', serif;
+  font-size: 12px;
   width: calc(100% - 12px);
   padding: 4px;
   height: 120px;

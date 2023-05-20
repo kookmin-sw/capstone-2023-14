@@ -33,10 +33,12 @@ export const Wrap = styled.div`
     position: absolute;
     right: 20px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 20px;
     background-color: #ef4e3e;
     color: #ffffff;
     padding: 2px 8px;
+    font-family: 'SEBANG-Gothic', serif;
+    letter-spacing: 0.1em;
   }
 `;

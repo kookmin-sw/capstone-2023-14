@@ -54,6 +54,7 @@ export const SearchWrap = styled.div`
     padding: 4px 8px;
     width: -webkit-fill-available;
     height: 24px;
+    font-family: 'SEBANG-Gothic', serif;
   }
   margin-bottom: 20px;
 `;
@@ -104,6 +105,8 @@ export const Textarea = styled.textarea`
   border-radius: 20px;
   border: 2px solid #ef4e3e30;
   background-color: #ffffff;
+  font-family: 'SEBANG-Gothic', serif;
+  letter-spacing: 0.1em;
 
   ${(props) =>
     props.disabled
