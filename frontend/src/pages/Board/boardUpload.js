@@ -24,6 +24,7 @@ function BoardUpload() {
         const response = await axios.post('/api/get-writerInfo', {
           email: writerInfo.email,
         });
+
         setWriterInfo({ ...response.data[0] });
         setSaveInfo({ ...saveInfo, name: response.data[0].name });
 
@@ -87,7 +88,7 @@ function BoardUpload() {
       <Header title={'board-upload'} onClick={uploadContent} />
       <Wrap>
         <WriterInfo>
-          <img src={''} alt="" />
+          <img src={`data:image/jpeg;base64,${writerInfo.profile}`} alt="" />
           <div>
             <SubTitle margin={'0 0 2px'}>{writerInfo.name}</SubTitle>
             <DetailInfo>

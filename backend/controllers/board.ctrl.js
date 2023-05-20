@@ -12,11 +12,19 @@ const saveBoard = (req, res) => {
 };
 
 const getBoardList = (req, res) => {
-  const query = `SELECT b.*, m.gender, m.birth, m.mbti FROM board as b, member as m where b.writer=m.name;`;
+  const query = `SELECT b.*, m.gender, m.birth, m.mbti, m.profile FROM board as b, member as m where b.writer=m.name;`;
 
   db.query(query, (error, result) => {
     if (error) throw error;
-    res.send(result);
+
+    const newBoardList = result.map((post) => {
+      const buff = Buffer.from(post.profile);
+      return {
+        ...post,
+        profile: buff.toString('base64'),
+      };
+    });
+    res.send(newBoardList);
   });
 };
 
@@ -46,12 +54,20 @@ const getReplyList = (req, res) => {
 const getUserInfo = (req, res) => {
   const { email } = req.body;
 
-  const query = `SELECT name, gender, birth, mbti FROM member WHERE email=?;`;
+  const query = `SELECT name, gender, birth, mbti, profile FROM member WHERE email=?;`;
   const values = [email];
 
   db.query(query, values, (error, result) => {
     if (error) throw error;
-    res.send(result);
+
+    // console.log(result[0]);
+    const info = result[0];
+    const buff = Buffer.from(info.profile, 'binary');
+    const userInfo = {
+      ...info,
+      profile: buff.toString('base64'),
+    };
+    res.send([userInfo]);
   });
 };
 

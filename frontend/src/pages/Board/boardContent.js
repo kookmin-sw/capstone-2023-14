@@ -83,7 +83,11 @@ function BoardContent() {
       <Header title={'board-content'} />
       <Wrap>
         <WriterInfo>
-          <img src={''} alt="" />
+          {post.profile ? (
+            <img src={`data:image/jpeg;base64,${post.profile}`} alt="" />
+          ) : (
+            <img src={''} alt="" />
+          )}
           <div>
             <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
             <DetailInfo>
