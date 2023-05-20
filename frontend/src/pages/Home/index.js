@@ -69,7 +69,7 @@ function Home() {
 
   const handleClickDestination = (event) => {
     event.preventDefault();
-    const id = event.currentTarget.querySelector('span').innerText;
+    const id = event.currentTarget.querySelector('div').innerText;
     navigator(`/detail/${id}`);
   };
 

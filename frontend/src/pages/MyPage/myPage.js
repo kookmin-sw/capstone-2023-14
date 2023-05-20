@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/header';
 import Footer from '../../components/Footer/footer';
 import { ImgWrap, RowAlign, Wrap } from './styles';
-import { Title } from '../../components/Fonts/fonts';
+import { Normal, Title } from '../../components/Fonts/fonts';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { email } from '../../store/userInfo';
@@ -56,36 +56,36 @@ function MyPage() {
         </ImgWrap>
         <RowAlign>
           <Title>여행횟수</Title>
-          <div>총 {userInfo.totalCount}회</div>
+          <Normal>총 {userInfo.totalCount}회</Normal>
         </RowAlign>
         <RowAlign>
           <Title>여행경비</Title>
-          <div>총 {userInfo.totalCost ? userInfo.totalCost : 0}원</div>
+          <Normal>총 {userInfo.totalCost ? userInfo.totalCost : 0}원</Normal>
         </RowAlign>
         <div>
           <Title margin={'0 0 12px'}>나의 여행 스타일</Title>
           <div>
             <RowAlign cursor={userInfo.style.length === 0}>
-              <div>스타일</div>
+              <Normal>스타일</Normal>
               <div>
                 {userInfo.style.length !== 0 ? (
-                  userInfo.style.map((tag) => <span key={tag}>{tag}</span>)
+                  userInfo.style.map((tag) => <Normal key={tag}>{tag}</Normal>)
                 ) : (
-                  <span onClick={() => navigator('/setting/taste')}>
+                  <Normal onClick={() => navigator('/setting/taste')}>
                     취향을 설정해보세요 :)
-                  </span>
+                  </Normal>
                 )}
               </div>
             </RowAlign>
             <RowAlign cursor={userInfo.object.length === 0}>
-              <div>목적</div>
+              <Normal>목적</Normal>
               <div>
                 {userInfo.object.length !== 0 ? (
-                  userInfo.object.map((tag) => <span key={tag}>{tag}</span>)
+                  userInfo.object.map((tag) => <Normal key={tag}>{tag}</Normal>)
                 ) : (
-                  <span onClick={() => navigator('/setting/taste')}>
+                  <Normal onClick={() => navigator('/setting/taste')}>
                     취향을 설정해보세요 :)
-                  </span>
+                  </Normal>
                 )}
               </div>
             </RowAlign>
@@ -95,26 +95,30 @@ function MyPage() {
           <Title margin={'0 0 12px'}>선호하는 동행자 스타일</Title>
           <div>
             <RowAlign cursor={userInfo.prefer_age.length === 0}>
-              <div>연령대</div>
+              <Normal>연령대</Normal>
               <div>
                 {userInfo.prefer_age.length !== 0 ? (
-                  userInfo.prefer_age.map((tag) => <span key={tag}>{tag}</span>)
+                  userInfo.prefer_age.map((tag) => (
+                    <Normal key={tag}>{tag}</Normal>
+                  ))
                 ) : (
-                  <span onClick={() => navigator('/setting/taste')}>
+                  <Normal onClick={() => navigator('/setting/taste')}>
                     취향을 설정해보세요 :)
-                  </span>
+                  </Normal>
                 )}
               </div>
             </RowAlign>
             <RowAlign cursor={!userInfo.prefer_gender}>
-              <div>성별</div>
-              {userInfo.prefer_gender ? (
-                <span>{userInfo.prefer_gender}</span>
-              ) : (
-                <span onClick={() => navigator('/setting/taste')}>
-                  취향을 설정해보세요 :)
-                </span>
-              )}
+              <Normal>성별</Normal>
+              <div>
+                {userInfo.prefer_gender ? (
+                  <Normal>{userInfo.prefer_gender}</Normal>
+                ) : (
+                  <Normal onClick={() => navigator('/setting/taste')}>
+                    취향을 설정해보세요 :)
+                  </Normal>
+                )}
+              </div>
             </RowAlign>
           </div>
         </div>

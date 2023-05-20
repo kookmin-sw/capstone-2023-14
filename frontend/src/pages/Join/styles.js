@@ -80,8 +80,9 @@ export const GenderButton = styled.div`
   border-radius: 30px;
   padding: 12px 15px;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
+  font-family: 'SEBANG-Gothic', serif;
 `;
 
 export const InfoWrap = styled.div`
@@ -93,8 +94,9 @@ export const InfoWrap = styled.div`
     border-radius: 30px;
     padding: 12px 15px;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 16px;
     padding: 12px 15px;
+    font-family: 'SEBANG-Gothic', serif;
 
     :hover,
     :focus-visible {
@@ -106,6 +108,7 @@ export const InfoWrap = styled.div`
 `;
 
 export const Row = styled.div`
+  font-family: 'SEBANG-Gothic', serif;
   display: flex;
   gap: ${(props) => (props.gap ? props.gap : null)};
   justify-content: ${(props) => (props.justify ? props.justify : null)};

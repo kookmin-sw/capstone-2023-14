@@ -22,12 +22,8 @@ export const TodayWrap = styled.div`
 `;
 
 export const RateWrap = styled.div`
-  > div {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 28px;
-    border: 1px solid #141414;
-    border-radius: 30px;
-    margin-bottom: 12px;
+  > table {
+    font-family: 'SEBANG-Gothic', serif;
+    font-size: 14px;
   }
 `;

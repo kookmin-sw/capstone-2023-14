@@ -16,10 +16,11 @@ export const InputWrap = styled.div`
     border: 2px solid #e0e0e0;
     border-radius: 30px;
     font-weight: 400;
+    font-family: 'SEBANG-Gothic', serif;
     ${(props) =>
       props.small
-        ? 'font-size: 14px; padding: 8px 12px;'
-        : 'font-size: 18px; padding: 12px 15px;'}
+        ? 'font-size: 12px; padding: 8px 12px;'
+        : 'font-size: 16px; padding: 12px 15px;'}
 
     @media screen and (max-width: 400px) {
       ${(props) => (props.small ? null : 'padding: 8px 12px;')}

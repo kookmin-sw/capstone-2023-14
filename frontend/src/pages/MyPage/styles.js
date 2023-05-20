@@ -52,12 +52,12 @@ export const RowAlign = styled.div`
     flex: auto;
     flex-wrap: wrap;
     gap: 4px 6px;
-  }
 
-  span {
-    padding: 2px 16px;
-    border: 1.5px solid #7c7c7c;
-    border-radius: 24px;
-    cursor: ${(props) => (props.cursor ? 'pointer' : 'auto')};
+    > div {
+      padding: 2px 16px;
+      border: 1.5px solid #7c7c7c;
+      border-radius: 24px;
+      cursor: ${(props) => (props.cursor ? 'pointer' : 'auto')};
+    }
   }
 `;

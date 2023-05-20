@@ -39,6 +39,7 @@ export const AddOptionModal = styled.div`
   justify-content: center;
   margin: auto;
   max-width: 480px;
+  font-family: 'SEBANG-Gothic', serif;
 
   > div {
     background-color: #ffffff;
@@ -85,6 +86,7 @@ export const AddOptionModal = styled.div`
     align-items: center;
     gap: 4px;
     line-height: 2em;
+    font-size: 14px;
   }
 
   input[type='text'] {
@@ -94,6 +96,7 @@ export const AddOptionModal = styled.div`
     height: 24px;
     padding: 2px 12px;
     margin: 12px 0;
+    font-family: 'SEBANG-Gothic', serif;
     :hover,
     :focus-visible {
       border: 2px solid #ef4e3e;

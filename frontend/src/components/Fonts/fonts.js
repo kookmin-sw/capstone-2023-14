@@ -14,22 +14,27 @@ const DefaultFontStyle = styled.div`
 export const Title = styled(DefaultFontStyle)`
   font-size: ${(props) => (props.size ? props.size : '18px')};
   font-weight: 700;
+  font-family: 'SEBANG-Gothic-Bold', serif;
 `;
 
 export const SubTitle = styled(DefaultFontStyle)`
   font-size: 16px;
   font-weight: 700;
+  font-family: 'SEBANG-Gothic-Bold', serif;
 `;
 
 export const SmallTitle = styled(DefaultFontStyle)`
   font-size: 14px;
   font-weight: 700;
+  font-family: 'SEBANG-Gothic-Bold', serif;
 `;
 
 export const Normal = styled(DefaultFontStyle)`
-  font-size: 16px;
+  font-size: ${(props) => (props.size ? props.size : '16px')};
+  font-family: 'SEBANG-Gothic', serif;
 `;
 
 export const Small = styled(DefaultFontStyle)`
   font-size: 12px;
+  font-family: 'SEBANG-Gothic', serif;
 `;
