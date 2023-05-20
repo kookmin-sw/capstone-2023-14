@@ -101,7 +101,7 @@ function BoardContent() {
         <CommentsWrap>
           {feedComments.map((comment) => (
             <div key={comment.reply_id}>
-              <img src={''} alt={''} />
+              <img src={`data:image/jpeg;base64,${comment.profile}`} alt={''} />
               <div>
                 <span>{comment.replyer} </span>
                 <div>{comment.content}</div>

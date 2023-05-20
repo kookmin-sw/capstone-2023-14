@@ -42,12 +42,20 @@ const saveReply = (req, res) => {
 const getReplyList = (req, res) => {
   const { board_id } = req.body;
 
-  const query = `SELECT * FROM reply WHERE board_id=?;`;
+  const query = `select r.*, m.profile from reply as r, member as m where board_id=? and r.replyer = m.email;`;
   const values = [board_id];
 
   db.query(query, values, (error, result) => {
     if (error) throw error;
-    res.send(result);
+
+    const newReplyList = result.map((reply) => {
+      const buff = Buffer.from(reply.profile);
+      return {
+        ...reply,
+        profile: buff.toString('base64'),
+      };
+    });
+    res.send(newReplyList);
   });
 };
 
