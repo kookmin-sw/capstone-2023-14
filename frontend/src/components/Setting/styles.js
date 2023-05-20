@@ -9,6 +9,12 @@ export const Flex = styled.div`
 
   ${(props) =>
     props.gap ? '> img {max-width: 22px; max-height:22px;}' : null};
+
+  span {
+    font-family: 'SEBANG-Gothic', serif;
+    font-size: 14px;
+    color: #7c7c7c;
+  }
 `;
 
 export const MySwitch = styled.div`

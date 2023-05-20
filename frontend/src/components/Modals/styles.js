@@ -30,6 +30,7 @@ export const Wrap = styled(Common)`
 
 export const TasteWrap = styled.div`
   text-align: center;
+  font-family: 'SEBANG-Gothic', serif;
   > div:nth-child(2) {
     margin-bottom: 32px;
   }
@@ -70,6 +71,8 @@ export const TypeWrap = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 4px 8px;
   margin-bottom: 20px;
+  font-family: 'SEBANG-Gothic', serif;
+  font-size: 14px;
 
   > div {
     border-radius: 24px;

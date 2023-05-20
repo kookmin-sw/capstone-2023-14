@@ -22,6 +22,8 @@ const Item = (props) => {
         <MySwitch onClick={switchClicked} mySwitch={mySwitch}>
           <div></div>
         </MySwitch>
+      ) : props.text === '버전 정보' ? (
+        <span>1.0.0</span>
       ) : null}
     </Flex>
   );

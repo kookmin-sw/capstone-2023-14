@@ -129,7 +129,7 @@ function Board() {
                   </DetailInfo>
                 </div>
               </WriterInfo>
-              <div>{post.content}</div>
+              <Normal size={'14px'}>{post.content}</Normal>
             </Block>
           ))
         )}

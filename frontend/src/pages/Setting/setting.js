@@ -23,6 +23,8 @@ function Setting() {
         .catch((err) => {
           console.log(err);
         });
+    } else if (text === '개인정보 이용약관' || text === '서비스 이용방침') {
+      alert('추후 업데이트 예정입니다.');
     }
   };
   const ItemList = [
@@ -38,7 +40,7 @@ function Setting() {
       text: '비밀번호 변경하기',
       icon: 'icon',
       type: 'personal',
-      navi: null,
+      navi: HandleOnClickEvent(),
     },
     {
       img: '/images/Setting/notiIcon.svg',
