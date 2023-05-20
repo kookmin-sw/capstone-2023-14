@@ -67,11 +67,11 @@ function BoardUpload() {
     };
     try {
       await axios.post('/api/board-write', uploadInfo);
+      alert('게시글이 작성되었습니다.\n게시판으로 이동합니다.');
     } catch (e) {
       console.log(e);
     }
 
-    alert('게시글이 작성되었습니다.\n게시판으로 이동합니다.');
     navigator('/board');
   };
 

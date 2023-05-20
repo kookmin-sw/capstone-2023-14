@@ -97,7 +97,7 @@ function Board() {
           />
         </SearchWrap>
         {/* 검색어가 없을경우 전체 데이터 보여주기, 입력 값이 있을경우 해당하는 데이터 보여주기 */}
-        {searchWord === '' ? (
+        {searchWord === '' && boardList.length === 0 ? (
           <>
             <Normal color={'#7c7c7c'}>아직 올라온 게시글이 없어요 !</Normal>
           </>
