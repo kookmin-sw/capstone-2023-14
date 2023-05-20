@@ -68,7 +68,6 @@ const getUserInfo = (req, res) => {
   db.query(query, values, (error, result) => {
     if (error) throw error;
 
-    // console.log(result[0]);
     const info = result[0];
     const buff = Buffer.from(info.profile, 'binary');
     const userInfo = {

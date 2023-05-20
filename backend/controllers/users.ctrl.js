@@ -24,15 +24,23 @@ const getUserInfo = (req, res) => {
   const { email } = req.body;
 
   db.query(
-    `SELECT COUNT(m.cost) as totalCount, IFNULL(SUM(m.cost), 0) as totalCost, i.*
-    FROM member_rating AS m
-    RIGHT OUTER JOIN member_info AS i ON m.user_id = i.id
-    where i.id=?;
+    `SELECT COUNT(mr.cost) as totalCount, SUM(mr.cost) as totalCost, mi.*, m.profile
+    FROM member_rating AS mr
+    RIGHT OUTER JOIN member_info AS mi ON mr.user_id = mi.id
+    JOIN member AS m ON mi.id = m.email
+    WHERE mi.id=?;
   `,
     [email],
     (error, result) => {
       if (error) throw error;
-      res.send(result);
+
+      const info = result[0];
+      const buff = Buffer.from(info.profile, 'binary');
+      const userInfo = {
+        ...info,
+        profile: buff.toString('base64'),
+      };
+      res.send([userInfo]);
     }
   );
 };

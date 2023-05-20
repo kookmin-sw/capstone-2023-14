@@ -48,7 +48,11 @@ function MyPage() {
       <Header title={'mypage'} />
       <Wrap>
         <ImgWrap>
-          <img src={''} alt="" />
+          {userInfo.profile ? (
+            <img src={`data:image/jpeg;base64,${userInfo.profile}`} alt="" />
+          ) : (
+            <img src={''} alt="" />
+          )}
           <img
             src={process.env.PUBLIC_URL + '/images/Common/camera.svg'}
             alt=""
