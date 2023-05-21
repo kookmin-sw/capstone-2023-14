@@ -14,7 +14,6 @@ function Board() {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/get-boardList');
-
         const appendAgeList = response.data.map((post) => ({
           ...post,
           age: post.birth ? calculateAge(post.birth) : '??',
@@ -97,7 +96,7 @@ function Board() {
           />
         </SearchWrap>
         {/* 검색어가 없을경우 전체 데이터 보여주기, 입력 값이 있을경우 해당하는 데이터 보여주기 */}
-        {searchWord === '' && boardList.length === 0 ? (
+        {boardList.length === 0 && searchWord === '' ? (
           <>
             <Normal color={'#7c7c7c'}>아직 올라온 게시글이 없어요 !</Normal>
           </>
