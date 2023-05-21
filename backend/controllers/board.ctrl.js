@@ -42,7 +42,7 @@ const saveReply = (req, res) => {
 const getReplyList = (req, res) => {
   const { board_id } = req.body;
 
-  const query = `select r.*, m.profile from reply as r, member as m where board_id=? and r.replyer = m.email;`;
+  const query = `select r.*, m.profile, m.name from reply as r, member as m where board_id=? and r.replyer = m.email;`;
   const values = [board_id];
 
   db.query(query, values, (error, result) => {

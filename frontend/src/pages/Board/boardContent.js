@@ -103,7 +103,7 @@ function BoardContent() {
             <div key={comment.reply_id}>
               <img src={`data:image/jpeg;base64,${comment.profile}`} alt={''} />
               <div>
-                <span>{comment.replyer} </span>
+                <span>{comment.name} </span>
                 <div>{comment.content}</div>
               </div>
             </div>
