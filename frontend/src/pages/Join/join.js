@@ -33,7 +33,7 @@ function Join() {
   // mbti modal on/off
   const [mbtiModal, setMbtiModal] = useState(false);
 
-  const [startDate, setStartDate] = useState(new Date());
+  const [birthDay, setBirthDay] = useState(new Date());
 
   // database에 저장할 유저의 회원정보
   const [userInfo, setUserInfo] = useState({
@@ -94,6 +94,12 @@ function Join() {
     reader.readAsDataURL(file);
     reader.onloadend = async () => {
       setBase64(reader.result);
+
+      // TODO: 이미지 데이텨 변환
+      setUserInfo((prevState) => ({
+        ...prevState,
+        profile: base64ToBlob(base64),
+      }));
     };
   };
 
@@ -122,16 +128,24 @@ function Join() {
     return new Blob([byteArray], { type: mimeType });
   }
 
+  const convertDateToString = (date) => {
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
+  };
+
   const handleClickSignUp = async (event) => {
     if (userInfo.email === '' || userInfo.passwd === '') {
       alert('이메일과 비밀번호를 입력해주세요.');
       return;
     }
 
-    setUserInfo((prevState) => ({
-      ...prevState,
-      profile: base64ToBlob(base64),
-    }));
+    // TODO: 사용자 생일
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        birthday: convertDateToString(birthDay),
+      };
+    });
 
     await axios
       .post('/api/signup', userInfo)
@@ -232,10 +246,9 @@ function Join() {
           <InfoWrap>
             <SubTitle margin={'0 0 10px'}>생년월일</SubTitle>
             <DatePicker
-              selected={startDate}
+              selected={birthDay}
               onChange={(date) => {
-                setStartDate(date);
-                setUserInfo({ ...userInfo, birthday: date });
+                setBirthDay(date);
               }}
               dateFormat="yyyy-MM-dd"
             />
