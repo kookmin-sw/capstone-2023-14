@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const RecordWrap = styled.div`
   display: flex;
-  padding: 18px 20px;
+  padding: 14px 16px;
   gap: 12px;
   border: 1px solid #ebebeb;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);

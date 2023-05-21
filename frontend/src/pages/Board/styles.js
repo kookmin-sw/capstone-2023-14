@@ -8,14 +8,14 @@ export const Wrap = styled.div`
   }
 
   > div:last-child {
-    padding-bottom: 50px;
+    margin-bottom: 50px;
   }
 `;
 
 export const Block = styled.div`
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
   border-radius: 12px;
-  padding: 24px 20px;
+  padding: 20px 16px;
   margin-bottom: 12px;
   cursor: pointer;
 
@@ -27,8 +27,11 @@ export const Block = styled.div`
   > div:last-child {
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    font-family: 'SEBANG-Gothic', serif;
+    font-size: 14px;
   }
 `;
 
@@ -85,10 +88,10 @@ export const CommentsWrap = styled.div`
   }
   > div > div {
     flex: 0 1 auto;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+    //overflow: hidden;
+    //text-overflow: ellipsis;
+    //-webkit-line-clamp: 1;
+    //-webkit-box-orient: vertical;
   }
   span {
     margin: 0 4px;
@@ -96,7 +99,7 @@ export const CommentsWrap = styled.div`
     font-weight: bold;
   }
   > div > div > div {
-    border-radius: 30px;
+    border-radius: 16px;
     border: 2px solid #ef4e3e30;
     padding: 4px 8px;
     margin-top: 2px;
