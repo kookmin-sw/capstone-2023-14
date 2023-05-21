@@ -6,6 +6,10 @@ export const Wrap = styled.div`
   @media screen and (max-width: 400px) {
     padding: 20px;
   }
+
+  > div:last-child {
+    padding-bottom: 50px;
+  }
 `;
 
 export const Block = styled.div`

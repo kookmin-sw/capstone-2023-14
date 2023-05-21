@@ -110,27 +110,29 @@ function Board() {
         ) : searchWord !== '' ? (
           FilterContents
         ) : (
-          boardList.map((post) => (
-            <Block
-              key={post.board_id}
-              onClick={() =>
-                navigator(`/board/${post.board_id}`, { state: post })
-              }
-            >
-              <WriterInfo>
-                <img src={`data:image/jpeg;base64,${post.profile}`} alt="" />
-                <div>
-                  <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
-                  <DetailInfo>
-                    <Small color={'#7c7c7c'}>{post.age}세</Small>
-                    <Small color={'#7c7c7c'}>{post.gender}</Small>
-                    <Small color={'#EF4E3E'}>{post.mbti}</Small>
-                  </DetailInfo>
-                </div>
-              </WriterInfo>
-              <div>{post.content}</div>
-            </Block>
-          ))
+          <div>
+            {boardList.map((post) => (
+              <Block
+                key={post.board_id}
+                onClick={() =>
+                  navigator(`/board/${post.board_id}`, { state: post })
+                }
+              >
+                <WriterInfo>
+                  <img src={''} alt="" />
+                  <div>
+                    <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
+                    <DetailInfo>
+                      <Small color={'#7c7c7c'}>{post.age}세</Small>
+                      <Small color={'#7c7c7c'}>{post.gender}</Small>
+                      <Small color={'#EF4E3E'}>{post.mbti}</Small>
+                    </DetailInfo>
+                  </div>
+                </WriterInfo>
+                <Normal size={'14px'}>{post.content}</Normal>
+              </Block>
+            ))}
+          </div>
         )}
       </Wrap>
       <Footer onClick={() => navigator('./upload')} />
