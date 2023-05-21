@@ -123,7 +123,11 @@ export const Row = styled.div`
   display: flex;
   ${(props) =>
     props.title
-      ? 'align-items: flex-end; margin: 20px 0;'
+      ? '@media screen and (max-width: 430px) { flex-direction: column;}'
+      : null}
+  ${(props) =>
+    props.title
+      ? 'align-items: flex-end; margin: 20px 0; @media screen and (max-width: 430px) { align-items: unset; }'
       : 'flex-wrap: wrap; gap: 8px 12px; margin-bottom: 20px;'};
 `;
 export const ButtonWrap = styled.div`
