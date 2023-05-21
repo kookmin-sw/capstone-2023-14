@@ -6,6 +6,8 @@ export const Container = styled.div`
   cursor: pointer;
   overflow: hidden;
   border-radius: 15px;
+  max-height: 220px;
+  height: 100%;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
 `;
 

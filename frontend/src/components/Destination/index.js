@@ -7,10 +7,12 @@ function Destination(props) {
     <styled.Container onClick={props.onClick}>
       <styled.destinationImg src={props.imgUrl} alt={props.title} />
       <styled.destinationTitle>
-        <Title size={'36px'}>{props.title}</Title>
+        <Title size={'32px'}>{props.title}</Title>
       </styled.destinationTitle>
       <styled.destinationBottom>
-        <Normal color={'#ffffff'}>{props.contents}</Normal>
+        <Normal color={'#ffffff'} size={'12px'}>
+          {props.contents}
+        </Normal>
       </styled.destinationBottom>
     </styled.Container>
   );
