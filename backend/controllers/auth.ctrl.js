@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import jsonwebtoken from 'jsonwebtoken';
 import db from '../config/db.js';
-import formidable from 'formidable';
 
 const secretKey = process.env.HASH_SECRET_KEY;
 
@@ -39,6 +38,8 @@ const login = (req, res) => {
 
 const signUp = (req, res) => {
   const { email, passwd, name, phone, gender, birth, mbti, profile } = req.body;
+  const newProfile = Buffer.from(profile, 'base64');
+
   // 이메일 중복 검사
   db.query('SELECT * FROM member WHERE email = ?', [email], (error, result) => {
     if (error) throw error;
@@ -55,7 +56,7 @@ const signUp = (req, res) => {
 
       db.query(
         'INSERT INTO member (email, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,?)',
-        [email, password_hash, name, phone, gender, birth, mbti, profile],
+        [email, password_hash, name, phone, gender, birth, mbti, newProfile],
         (error, result) => {
           if (error) throw error;
           res.status(201).json({ success: true });

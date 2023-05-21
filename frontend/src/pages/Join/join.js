@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import heic2any from 'heic2any';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Buffer } from 'buffer';
 import {
   ImgWrap,
   BlockWrap,
@@ -94,39 +95,35 @@ function Join() {
     reader.readAsDataURL(file);
     reader.onloadend = async () => {
       setBase64(reader.result);
-
-      // TODO: 이미지 데이텨 변환
       setUserInfo((prevState) => ({
         ...prevState,
-        profile: base64ToBlob(base64),
+        profile: reader.result,
       }));
     };
   };
 
-  function decodeBase64(input) {
-    // Remove all non-base64 characters
-    let base64 = input.replace(/[^A-Za-z0-9\+\/]/g, '');
+  // function decodeBase64(input) {
+  //   // Remove all non-base64 characters
+  //   let base64 = input.replace(/[^A-Za-z0-9\+\/]/g, '');
+  //   // Add padding if necessary
+  //   while (base64.length % 4 !== 0) {
+  //     base64 += '=';
+  //   }
+  //   // Use atob to decode the string
+  //   return atob(base64);
+  // }
 
-    // Add padding if necessary
-    while (base64.length % 4 !== 0) {
-      base64 += '=';
-    }
+  // function base64ToBlob(base64, mimeType = '') {
+  //   const byteCharacters = decodeBase64(base64);
 
-    // Use atob to decode the string
-    return atob(base64);
-  }
+  //   const byteNumbers = new Array(byteCharacters.length);
+  //   for (let i = 0; i < byteCharacters.length; i++) {
+  //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+  //   }
 
-  function base64ToBlob(base64, mimeType = '') {
-    const byteCharacters = decodeBase64(base64);
-
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-
-    const byteArray = new Uint8Array(byteNumbers);
-    return new Blob([byteArray], { type: mimeType });
-  }
+  //   const byteArray = new Uint8Array(byteNumbers);
+  //   return new Blob([byteArray], { type: mimeType });
+  // }
 
   const convertDateToString = (date) => {
     const formattedDate = date.toISOString().split('T')[0];
@@ -139,7 +136,6 @@ function Join() {
       return;
     }
 
-    // TODO: 사용자 생일
     setUserInfo((prevState) => {
       return {
         ...prevState,
