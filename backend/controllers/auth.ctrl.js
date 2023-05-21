@@ -38,7 +38,8 @@ const login = (req, res) => {
 
 const signUp = (req, res) => {
   const { email, passwd, name, phone, gender, birth, mbti, profile } = req.body;
-  const newProfile = Buffer.from(profile, 'base64');
+
+  var newProfile = Buffer.from(profile.split(',')[1], 'base64');
 
   // 이메일 중복 검사
   db.query('SELECT * FROM member WHERE email = ?', [email], (error, result) => {
