@@ -51,3 +51,44 @@ export const UserWrap = styled.div`
     margin-right: 4px;
   }
 `;
+
+export const UserInfoDetail = styled.div`
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  max-width: 480px;
+  font-family: 'SEBANG-Gothic', serif;
+
+  button {
+    all: unset;
+    float: right;
+    cursor: pointer;
+  }
+  img {
+    max-width: 60px;
+    max-height: 60px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 70%;
+    margin-bottom: 12px;
+  }
+
+  > div {
+    background-color: #ffffff;
+    margin: auto;
+    padding: 20px;
+    border-radius: 12px;
+    overflow-y: scroll;
+    min-width: 60%;
+
+    > div {
+      margin-bottom: 8px;
+    }
+  }
+`;
