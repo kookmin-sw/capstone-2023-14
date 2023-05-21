@@ -78,16 +78,16 @@ function Detail() {
           <div>{city.info.contents}</div>
           <div>
             <div>
-              <SubTitle>날씨</SubTitle>
+              <SubTitle margin={'0 0 4px'}>날씨</SubTitle>
               <div>최저 {city.info.low_temperature}°</div>
               <div>최고 {city.info.high_temperature}°</div>
             </div>
             <div>
-              <SubTitle>소요시간</SubTitle>
+              <SubTitle margin={'0 0 4px'}>소요시간</SubTitle>
               <div>{city.info.flight_time}</div>
             </div>
             <div>
-              <SubTitle>비자유무</SubTitle>
+              <SubTitle margin={'0 0 4px'}>비자유무</SubTitle>
               <div>{city.info.visa}</div>
             </div>
           </div>

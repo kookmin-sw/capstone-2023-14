@@ -54,6 +54,7 @@ export const SearchWrap = styled.div`
     padding: 4px 8px;
     width: -webkit-fill-available;
     height: 24px;
+    font-family: 'SEBANG-Gothic', serif;
   }
   margin-bottom: 20px;
 `;
@@ -62,6 +63,8 @@ export const CommentsWrap = styled.div`
   border-top: 2px solid #ebebeb;
   margin-top: 24px;
   padding: 20px 0;
+  font-family: 'SEBANG-Gothic', serif;
+  letter-spacing: 0.05em;
 
   > div {
     display: flex;
@@ -93,7 +96,7 @@ export const CommentsWrap = styled.div`
     border: 2px solid #ef4e3e30;
     padding: 4px 8px;
     margin-top: 2px;
-    font-size: 14px;
+    font-size: 12px;
   }
 `;
 export const Textarea = styled.textarea`
@@ -104,6 +107,8 @@ export const Textarea = styled.textarea`
   border-radius: 20px;
   border: 2px solid #ef4e3e30;
   background-color: #ffffff;
+  font-family: 'SEBANG-Gothic', serif;
+  letter-spacing: 0.1em;
 
   ${(props) =>
     props.disabled
@@ -119,6 +124,7 @@ export const Comment = styled.div`
   width: 100%;
   padding: 12px 0;
   background-color: #ffffff;
+  font-family: 'SEBANG-Gothic', serif;
 
   > div {
     display: flex;
@@ -130,6 +136,7 @@ export const Comment = styled.div`
     padding: 8px 12px;
     border: 2px solid rgb(224, 224, 224);
     border-radius: 30px;
+    font-size: 14px;
   }
   button {
     all: unset;
