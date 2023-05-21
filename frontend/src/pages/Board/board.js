@@ -68,7 +68,14 @@ function Board() {
           onClick={() => navigator(`/board/${post.board_id}`, { state: post })}
         >
           <WriterInfo>
-            <img src={''} alt="" />
+            {post.profile ? (
+              <img src={`data:image/jpeg;base64,${post.profile}`} alt="" />
+            ) : (
+              <img
+                src={'https://cdn-icons-png.flaticon.com/256/44/44463.png'}
+                alt=""
+              />
+            )}
             <div>
               <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
               <DetailInfo>
@@ -119,7 +126,14 @@ function Board() {
               }
             >
               <WriterInfo>
-                <img src={`data:image/jpeg;base64,${post.profile}`} alt="" />
+                {post.profile ? (
+                  <img src={`data:image/jpeg;base64,${post.profile}`} alt="" />
+                ) : (
+                  <img
+                    src={'https://cdn-icons-png.flaticon.com/256/44/44463.png'}
+                    alt=""
+                  />
+                )}
                 <div>
                   <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
                   <DetailInfo>
