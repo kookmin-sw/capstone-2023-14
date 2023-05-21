@@ -51,7 +51,8 @@ function BoardUpload() {
     };
 
     const calculateAge = (birth) => {
-      const birthDate = new Date(formatDateString(birth));
+      // const birthDate = new Date(formatDateString(birth));
+      const birthDate = new Date(birth);
       const currentDate = new Date();
       const age = currentDate.getFullYear() - birthDate.getFullYear() + 1;
 
