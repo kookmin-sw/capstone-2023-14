@@ -133,6 +133,7 @@ export const Comment = styled.div`
   > div {
     display: flex;
     gap: 4px;
+    padding: 0 8px;
   }
   input {
     all: unset;
