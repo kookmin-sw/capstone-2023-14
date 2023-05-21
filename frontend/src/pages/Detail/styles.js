@@ -44,6 +44,7 @@ export const UserWrap = styled.div`
   margin-bottom: 12px;
   padding: 12px;
   gap: 4px;
+  cursor: pointer;
 
   > img {
     width: 40px;
