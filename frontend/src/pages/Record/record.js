@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Header from '../../components/Header/header';
-import { Title } from '../../components/Fonts/fonts';
+import { Normal, Title } from '../../components/Fonts/fonts';
 import Record from '../../components/Records/recordList';
 import Footer from '../../components/Footer/footer';
 import { Wrap } from './styles';
@@ -9,6 +9,7 @@ import RecordDetail from '../../components/Modals/recordDetail';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { email } from '../../store/userInfo';
+import { AddOptionModal } from './styles';
 
 function MyRecord() {
   const [upload, setUpload] = useState(false);
@@ -51,6 +52,12 @@ function MyRecord() {
       console.log(e);
     }
   };
+  const [del, setDel] = useState(false);
+  const [recordDel, setRecordDel] = useState();
+  const HandleDeleteRecord = async (record_id) => {
+    setDel(true);
+    setRecordDel(record_id);
+  };
 
   return (
     <Wrap>
@@ -72,7 +79,7 @@ function MyRecord() {
               imgUrl={record.imgUrl}
               onClick={() => {
                 if (deleteContent) {
-                  deleteUserRecord(record.country_id);
+                  HandleDeleteRecord(record.country_id);
                   return;
                 }
                 // detail 페이지에 정보 전달 및 모달 띄우기
@@ -93,6 +100,34 @@ function MyRecord() {
         />
       )}
       {upload && <RecordUpload setUpload={setUpload} />}
+      {del ? (
+        <AddOptionModal>
+          <div>
+            <div>
+              <Normal>정말로 삭제하시겠습니까 ?</Normal>
+              <Normal>삭제한 게시글은 복구가 불가능합니다.</Normal>
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  deleteUserRecord(recordDel);
+                  setDel(false);
+                }}
+              >
+                삭제
+              </button>
+              <button
+                onClick={() => {
+                  setDel(false);
+                  setDeleteContent(false);
+                }}
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </AddOptionModal>
+      ) : null}
       <Footer onClick={() => setUpload(true)} upload={upload} />
     </Wrap>
   );
