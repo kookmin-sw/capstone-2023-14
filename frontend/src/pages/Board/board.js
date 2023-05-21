@@ -32,7 +32,8 @@ function Board() {
     };
 
     const calculateAge = (birth) => {
-      const birthDate = new Date(formatDateString(birth));
+      // const birthDate = new Date(formatDateString(birth));
+      const birthDate = new Date(birth);
       const currentDate = new Date();
       const age = currentDate.getFullYear() - birthDate.getFullYear() + 1;
 
@@ -67,7 +68,14 @@ function Board() {
           onClick={() => navigator(`/board/${post.board_id}`, { state: post })}
         >
           <WriterInfo>
-            <img src={''} alt="" />
+            {post.profile ? (
+              <img src={`data:image/jpeg;base64,${post.profile}`} alt="" />
+            ) : (
+              <img
+                src={'https://cdn-icons-png.flaticon.com/256/44/44463.png'}
+                alt=""
+              />
+            )}
             <div>
               <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
               <DetailInfo>
@@ -110,29 +118,34 @@ function Board() {
         ) : searchWord !== '' ? (
           FilterContents
         ) : (
-          <div>
-            {boardList.map((post) => (
-              <Block
-                key={post.board_id}
-                onClick={() =>
-                  navigator(`/board/${post.board_id}`, { state: post })
-                }
-              >
-                <WriterInfo>
-                  <img src={''} alt="" />
-                  <div>
-                    <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
-                    <DetailInfo>
-                      <Small color={'#7c7c7c'}>{post.age}세</Small>
-                      <Small color={'#7c7c7c'}>{post.gender}</Small>
-                      <Small color={'#EF4E3E'}>{post.mbti}</Small>
-                    </DetailInfo>
-                  </div>
-                </WriterInfo>
-                <Normal size={'14px'}>{post.content}</Normal>
-              </Block>
-            ))}
-          </div>
+          boardList.map((post) => (
+            <Block
+              key={post.board_id}
+              onClick={() =>
+                navigator(`/board/${post.board_id}`, { state: post })
+              }
+            >
+              <WriterInfo>
+                {post.profile ? (
+                  <img src={`data:image/jpeg;base64,${post.profile}`} alt="" />
+                ) : (
+                  <img
+                    src={'https://cdn-icons-png.flaticon.com/256/44/44463.png'}
+                    alt=""
+                  />
+                )}
+                <div>
+                  <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
+                  <DetailInfo>
+                    <Small color={'#7c7c7c'}>{post.age}세</Small>
+                    <Small color={'#7c7c7c'}>{post.gender}</Small>
+                    <Small color={'#EF4E3E'}>{post.mbti}</Small>
+                  </DetailInfo>
+                </div>
+              </WriterInfo>
+              <div>{post.content}</div>
+            </Block>
+          ))
         )}
       </Wrap>
       <Footer onClick={() => navigator('./upload')} />
