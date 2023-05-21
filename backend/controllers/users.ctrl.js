@@ -24,11 +24,11 @@ const getUserInfo = (req, res) => {
   const { email } = req.body;
 
   db.query(
-    `SELECT COUNT(mr.cost) as totalCount, SUM(mr.cost) as totalCost, mi.*, m.profile
+    `SELECT COUNT(mr.cost) as totalCount, IFNULL(SUM(mr.cost), 0) as totalCost, mem.email as id, mem.style, mem.object, mem.prefer_age, mem.prefer_gender, mem.profile
     FROM member_rating AS mr
-    RIGHT OUTER JOIN member_info AS mi ON mr.user_id = mi.id
-    JOIN member AS m ON mi.id = m.email
-    WHERE mi.id=?;
+    RIGHT OUTER JOIN (select m.email, mi.*, m.profile from member_info as mi right outer join member as m on mi.id=m.email) AS mem 
+    ON mr.user_id = mem.email 
+    where mem.email=?;
   `,
     [email],
     (error, result) => {
