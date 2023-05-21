@@ -15,15 +15,27 @@ export const InputWrap = styled.div`
   > input {
     border: 2px solid #e0e0e0;
     border-radius: 30px;
-    padding: 12px 15px;
     font-weight: 400;
-    font-size: 18px;
+    font-family: 'SEBANG-Gothic', serif;
+    ${(props) =>
+      props.small
+        ? 'font-size: 12px; padding: 8px 12px;'
+        : 'font-size: 16px; padding: 12px 15px;'}
+
+    @media screen and (max-width: 400px) {
+      ${(props) => (props.small ? null : 'padding: 8px 12px;')}
+    }
 
     :hover,
     :focus-visible {
-      border: 2px solid #ef4e3e;
+      border: ${(props) => (props.disabled ? null : '2px solid #ef4e3e')};
       outline: none;
-      transition: 0.5s ease;
+      transition: 0.2s ease;
     }
+  }
+
+  > span {
+    margin: 4px 0;
+    color: #7c7c7c;
   }
 `;

@@ -1,13 +1,20 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import re #추가
 from dotenv import load_dotenv
 import pandas as pd
 from collections import Counter
 from datetime import datetime
+import pickle
 
 from konlpy.tag import Komoran, Okt, Mecab
 from database import Database
+import platform
 
+import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 
 
 #데이터 전처리 함수
@@ -22,7 +29,10 @@ def preprocessing(review):
 
     # Mecab 설치 (Komoran보다 훨씬 빠름)
     # https://velog.io/@jyong0719/konlpy-mecab-%EC%84%A4%EC%B9%98-window
-    mecab = Mecab(dicpath=os.environ.get('MECAB_DIR'))
+    if platform.system() == "Linux":
+        mecab = Mecab()
+    else:
+        mecab = Mecab(dicpath=os.environ.get('MECAB_DIR'))
     word_review = mecab.nouns(review_text)
 
     #불용어 제거하기
@@ -40,7 +50,7 @@ def preprocessing(review):
 if __name__ == "__main__":
     # load .env
     load_dotenv()
-    os.environ['JAVA_HOME'] = os.environ.get('JAVA_HOME')
+    # os.environ['JAVA_HOME'] = os.environ.get('JAVA_HOME')
 
     # ./blog_data/ 폴더 밑에 있는 크롤링 csv파일 로드
     crawl_path = './blog_data/'
@@ -49,6 +59,8 @@ if __name__ == "__main__":
 
     # Database에서 country id 가져오기
     db = Database()
+
+    country_word_list = []
 
     for file in file_list:
         country_name = file.split('_')[1]
@@ -59,6 +71,7 @@ if __name__ == "__main__":
         country_id = res[0][0]
 
         # pandas csv 파일 읽기
+        # Buffer overflow 관련 오류로 lineterminator 파라미터 추가
         data = pd.read_csv(crawl_path + file)
         word_set = []
 
@@ -67,27 +80,36 @@ if __name__ == "__main__":
                 final_word_list = preprocessing(content)
                 word_set.extend(final_word_list)
             except Exception as e:
-                # print(e)
-                pass
+                if str(e).find('expected string or bytes-like object') != -1:
+                    continue
+                print(e)
 
-
+        # print(wc)
         wc = dict(Counter(word_set).most_common())
-
         wc = dict(filter(lambda x:x[1] > 10, wc.items()))   # 10번 이상 들어간 값만 추출
-        print(wc)
-        print(f"{country_id}_{country_name} : LENGTH={len(str(wc))}")
-        print("="*50)
+        country_word_list.append(" ".join(word_set))    #  pickle로 저장할 데이터
 
+        print(f"{country_id}_{country_name} : LENGTH={len(str(wc))}")
+        print("=" * 50)
 
         # Database 데이터 insert (값이 있으면 UPDATE)
         cur_time = datetime.today().strftime("%Y/%m/%d %H:%M:%S")
         query = f'INSERT INTO country_data VALUES({country_id}, "{str(wc)}", now())' \
                 f'ON DUPLICATE KEY UPDATE id="{country_id}", contents="{str(wc)}", upload_time=now();'
 
-        db.query(query)
-
-
-
+        # db.query(query)
 
     db.close()
 
+
+    # TF-IDF벡터 pickle 파일로 저장
+    vectorizer = TfidfVectorizer(max_features=500)  # 상위 500단어 추출
+    tfidf_matrix = vectorizer.fit_transform(country_word_list)
+
+    cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
+    cosine_sim = np.array(cosine_sim)
+
+    # Cosine 벡터 pickle로 저장
+    with open('data.pickle', 'wb') as f:
+        pickle.dump(cosine_sim, f)
+        print('data.pickle 저장 완료')
