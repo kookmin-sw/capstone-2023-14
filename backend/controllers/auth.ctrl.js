@@ -40,7 +40,7 @@ const signUp = (req, res) => {
   const { email, passwd, name, phone, gender, birthday, mbti, profile } =
     req.body;
 
-  let newProfile = profile;
+  let newProfile = null; // profile string 타입
   try {
     if (profile !== '') {
       const [, base64Data] = profile.split(',');
