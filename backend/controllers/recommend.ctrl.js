@@ -11,14 +11,18 @@ const getFirstImage = (req, res) => {
     (error, result) => {
       if (error) throw error;
 
-      const newRecommendList = result.map((city) => {
-        let buff = Buffer.from(city.picture1, 'binary');
-        return {
-          ...city,
-          imgUrl: buff.toString('base64'),
-        };
-      });
-      res.send(newRecommendList);
+      try {
+        const newRecommendList = result.map((city) => {
+          let buff = Buffer.from(city.picture1, 'binary');
+          return {
+            ...city,
+            imgUrl: buff.toString('base64'),
+          };
+        });
+        res.send(newRecommendList);
+      } catch (e) {
+        console.log(e);
+      }
     }
   );
 };
@@ -34,19 +38,22 @@ const getInfo = (req, res) => {
     (error, result) => {
       if (error) throw error;
 
-      const info = result[0];
-      let buff1 = Buffer.from(info.picture1, 'binary');
-      let buff2 = Buffer.from(info.picture2, 'binary');
-      let buff3 = Buffer.from(info.picture3, 'binary');
+      try {
+        const info = result[0];
+        let buff1 = Buffer.from(info.picture1, 'binary');
+        let buff2 = Buffer.from(info.picture2, 'binary');
+        let buff3 = Buffer.from(info.picture3, 'binary');
 
-      const infoDetail = {
-        ...info,
-        imgUrl1: buff1.toString('base64'),
-        imgUrl2: buff2.toString('base64'),
-        imgUrl3: buff3.toString('base64'),
-      };
-
-      res.send(infoDetail);
+        const infoDetail = {
+          ...info,
+          imgUrl1: buff1.toString('base64'),
+          imgUrl2: buff2.toString('base64'),
+          imgUrl3: buff3.toString('base64'),
+        };
+        res.send(infoDetail);
+      } catch (e) {
+        console.log(e);
+      }
     }
   );
 };

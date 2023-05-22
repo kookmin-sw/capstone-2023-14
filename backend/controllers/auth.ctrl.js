@@ -37,9 +37,15 @@ const login = (req, res) => {
 };
 
 const signUp = (req, res) => {
-  const { email, passwd, name, phone, gender, birth, mbti, profile } = req.body;
+  const { email, passwd, name, phone, gender, birthday, mbti, profile } =
+    req.body;
 
-  var newProfile = Buffer.from(profile.split(',')[1], 'base64');
+  try {
+    if (profile !== '')
+      var newProfile = Buffer.from(profile.split(',')[1], 'base64');
+  } catch (e) {
+    console.log(e);
+  }
 
   // 이메일 중복 검사
   db.query('SELECT * FROM member WHERE email = ?', [email], (error, result) => {
@@ -57,7 +63,7 @@ const signUp = (req, res) => {
 
       db.query(
         'INSERT INTO member (email, passwd, name, phone_number, gender, birth, mbti, profile) VALUES (?,?,?,?,?,?,?,?)',
-        [email, password_hash, name, phone, gender, birth, mbti, newProfile],
+        [email, password_hash, name, phone, gender, birthday, mbti, newProfile],
         (error, result) => {
           if (error) throw error;
           res.status(201).json({ success: true });

@@ -17,14 +17,18 @@ const getBoardList = (req, res) => {
   db.query(query, (error, result) => {
     if (error) throw error;
 
-    const newBoardList = result.map((post) => {
-      const buff = Buffer.from(post.profile);
-      return {
-        ...post,
-        profile: buff.toString('base64'),
-      };
-    });
-    res.send(newBoardList);
+    try {
+      const newBoardList = result.map((post) => {
+        const buff = Buffer.from(post.profile);
+        return {
+          ...post,
+          profile: buff.toString('base64'),
+        };
+      });
+      res.send(newBoardList);
+    } catch (e) {
+      console.log(e);
+    }
   });
 };
 
@@ -48,14 +52,18 @@ const getReplyList = (req, res) => {
   db.query(query, values, (error, result) => {
     if (error) throw error;
 
-    const newReplyList = result.map((reply) => {
-      const buff = Buffer.from(reply.profile);
-      return {
-        ...reply,
-        profile: buff.toString('base64'),
-      };
-    });
-    res.send(newReplyList);
+    try {
+      const newReplyList = result.map((reply) => {
+        const buff = Buffer.from(reply.profile);
+        return {
+          ...reply,
+          profile: buff.toString('base64'),
+        };
+      });
+      res.send(newReplyList);
+    } catch (e) {
+      console.log(e);
+    }
   });
 };
 
@@ -68,13 +76,17 @@ const getUserInfo = (req, res) => {
   db.query(query, values, (error, result) => {
     if (error) throw error;
 
-    const info = result[0];
-    const buff = Buffer.from(info.profile, 'binary');
-    const userInfo = {
-      ...info,
-      profile: buff.toString('base64'),
-    };
-    res.send([userInfo]);
+    try {
+      const info = result[0];
+      const buff = Buffer.from(info.profile, 'binary');
+      const userInfo = {
+        ...info,
+        profile: buff.toString('base64'),
+      };
+      res.send([userInfo]);
+    } catch (e) {
+      console.log(e);
+    }
   });
 };
 

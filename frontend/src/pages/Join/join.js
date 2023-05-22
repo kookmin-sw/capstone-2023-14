@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import heic2any from 'heic2any';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Buffer } from 'buffer';
 import {
   ImgWrap,
   BlockWrap,
