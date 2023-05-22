@@ -110,17 +110,21 @@ export const Textarea = styled.textarea`
   resize: none;
   width: 96%;
   padding: 1.5%;
-  min-height: 320px;
+  min-height: 140px;
   border-radius: 20px;
   border: 2px solid #ef4e3e30;
   background-color: #ffffff;
   font-family: 'SEBANG-Gothic', serif;
   letter-spacing: 0.1em;
+  font-size: 14px;
+  color: #141414;
 
   ${(props) =>
     props.disabled
       ? null
-      : ':hover, :focus-visible { border: 2px solid #ef4e3e70; outline: none; transition: 0.2s ease;'}}
+      : 'color: #141414 !important; :hover, :focus-visible { ' +
+        'border: 2px solid #ef4e3e70; outline: none; transition: 0.2s ease;'}
+  }
   
 `;
 

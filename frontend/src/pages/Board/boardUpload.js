@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../../components/Header/header';
 import { DetailInfo, Textarea, Wrap, WriterInfo } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
@@ -77,7 +77,13 @@ function BoardUpload() {
     navigator('/board');
   };
 
+  const textarea = useRef();
+  const HandleResizeHeight = () => {
+    textarea.current.style.height = 'auto';
+    textarea.current.style.height = textarea.current.scrollHeight + 'px';
+  };
   const handleChangeInput = (event) => {
+    HandleResizeHeight();
     setSaveInfo({
       ...saveInfo,
       content: event.target.value,
@@ -100,6 +106,8 @@ function BoardUpload() {
           </div>
         </WriterInfo>
         <Textarea
+          ref={textarea}
+          rows={1}
           placeholder={
             '이런 글은 작성하실 수 없어요.\n' +
             '타인의 권리를 침해하거나 불쾌감을 주는 글 \n' +
