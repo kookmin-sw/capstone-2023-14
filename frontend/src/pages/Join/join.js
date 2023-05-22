@@ -75,30 +75,34 @@ function Join() {
   // 프로필 사진 업로드
   const upload = async () => {
     let file = imgRef.current.files[0];
-    const fileName = file.name.split('.')[1].toLowerCase(); //확장자명 체크를 위해 소문자 변환 HEIC, heic
-    if (fileName === 'heic') {
-      let blob = file;
-      await heic2any({ blob: blob, toType: 'image/jpeg' })
-        .then(function (resultBlob) {
-          file = new File([resultBlob], file.name.split('.')[0] + '.jpg', {
-            type: 'image/jpeg',
-            lastModified: new Date().getTime(),
+    try {
+      const fileName = file.name.split('.')[1].toLowerCase(); //확장자명 체크를 위해 소문자 변환 HEIC, heic
+      if (fileName === 'heic') {
+        let blob = file;
+        await heic2any({ blob: blob, toType: 'image/jpeg' })
+          .then(function (resultBlob) {
+            file = new File([resultBlob], file.name.split('.')[0] + '.jpg', {
+              type: 'image/jpeg',
+              lastModified: new Date().getTime(),
+            });
+            reader.readAsDataURL(file);
+          })
+          .catch(function (x) {
+            console.log(x);
           });
-          reader.readAsDataURL(file);
-        })
-        .catch(function (x) {
-          console.log(x);
-        });
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        setBase64(reader.result);
+        setUserInfo((prevState) => ({
+          ...prevState,
+          profile: reader.result,
+        }));
+      };
+    } catch (e) {
+      console.log(e);
     }
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      setBase64(reader.result);
-      setUserInfo((prevState) => ({
-        ...prevState,
-        profile: reader.result,
-      }));
-    };
   };
 
   // function decodeBase64(input) {
