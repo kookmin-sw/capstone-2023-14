@@ -42,21 +42,30 @@ function Detail() {
   useEffect(() => {
     const fetchCompanion = async () => {
       setIsLoading(true);
-      const response = await axios.get(
-        `http://3.38.84.113:5000/dm/companion?user_id=${userEmail}&country_id=${cityId}`,
-      );
-      setCompanionList(response.data.result);
+      try {
+        const response = await axios.get(
+          `http://3.38.84.113:5000/dm/companion?user_id=${userEmail}&country_id=${cityId}`,
+        );
+        setCompanionList(response.data.result);
+      } catch (e) {
+        console.log(e);
+      }
+
       setIsLoading(false);
     };
 
     const fetchData = async () => {
       setIsLoading(true);
 
-      const response = await axios.post('/api/get-info', {
-        city: destination,
-      });
-      setCity({ ...city, info: response.data });
-      setCityId(response.data.id);
+      try {
+        const response = await axios.post('/api/get-info', {
+          city: destination,
+        });
+        setCity({ ...city, info: response.data });
+        setCityId(response.data.id);
+      } catch (e) {
+        console.log(e);
+      }
 
       if (cityId !== -1) {
         fetchCompanion();

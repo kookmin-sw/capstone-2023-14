@@ -34,13 +34,16 @@ const getUserInfo = (req, res) => {
     (error, result) => {
       if (error) throw error;
 
-      const info = result[0];
-      const buff = Buffer.from(info.profile, 'binary');
-      const userInfo = {
-        ...info,
-        profile: buff.toString('base64'),
-      };
-      res.send([userInfo]);
+      try {
+        const info = result[0];
+        if (info.profile !== null) {
+          const buff = Buffer.from(info.profile, 'binary');
+          info.profile = buff.toString('base64');
+        }
+        res.send([info]);
+      } catch (e) {
+        console.log(e);
+      }
     }
   );
 };

@@ -95,7 +95,14 @@ function BoardUpload() {
       <Header title={'board-upload'} onClick={uploadContent} />
       <Wrap>
         <WriterInfo>
-          <img src={`data:image/jpeg;base64,${writerInfo.profile}`} alt="" />
+          {writerInfo.profile ? (
+            <img src={`data:image/jpeg;base64,${writerInfo.profile}`} alt="" />
+          ) : (
+            <img
+              src={'https://cdn-icons-png.flaticon.com/256/44/44463.png'}
+              alt=""
+            />
+          )}
           <div>
             <SubTitle margin={'0 0 2px'}>{writerInfo.name}</SubTitle>
             <DetailInfo>

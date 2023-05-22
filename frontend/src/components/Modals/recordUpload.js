@@ -109,10 +109,14 @@ const RecordUpload = (props) => {
     });
     setShowList(false);
 
-    const response = await axios.post('/api/get-info', {
-      city: input,
-    });
-    setImgUrl(response.data.imgUrl1);
+    try {
+      const response = await axios.post('/api/get-info', {
+        city: input,
+      });
+      setImgUrl(response.data.imgUrl1);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const convertDateToString = (date) => {

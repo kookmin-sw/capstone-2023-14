@@ -17,23 +17,27 @@ function MyPage() {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const response = await axios.post('/api/get-userInfo', {
-        email: userEmail,
-      });
+      try {
+        const response = await axios.post('/api/get-userInfo', {
+          email: userEmail,
+        });
 
-      const result = response.data[0];
+        const result = response.data[0];
 
-      const formatNumberWithCommas = (number) => {
-        return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      };
+        const formatNumberWithCommas = (number) => {
+          return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        };
 
-      setUserInfo({
-        ...result,
-        totalCost: formatNumberWithCommas(result.totalCost),
-        object: result.object ? result.object.split(',') : [],
-        prefer_age: result.prefer_age ? result.prefer_age.split(',') : [],
-        style: result.style ? result.style.split(',') : [],
-      });
+        setUserInfo({
+          ...result,
+          totalCost: formatNumberWithCommas(result.totalCost),
+          object: result.object ? result.object.split(',') : [],
+          prefer_age: result.prefer_age ? result.prefer_age.split(',') : [],
+          style: result.style ? result.style.split(',') : [],
+        });
+      } catch (e) {
+        console.log(e);
+      }
 
       setIsLoading(false);
     };
