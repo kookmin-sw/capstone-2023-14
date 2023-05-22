@@ -1,8 +1,9 @@
+<img style="width: 50%; margin:auto; display:block" src="https://github.com/kookmin-sw/capstone-2023-14/assets/54922803/ddee6de4-efb1-4672-9b64-e8996857ce8b" alt="함께할래 로고">
+
 # 함께할래 ?
 
 - Capstone Design Project for Kookmin University, 2023
 - [Check out the github-pages here](https://kookmin-sw.github.io/capstone-2023-14/)
-
 
 ### 1. 프로젝트 소개
 
@@ -31,7 +32,7 @@ Therefore, We would like to solve the inconvenience by recommending a companion 
 
 - 여행 리뷰 데이터를 전처리 작업을 통해 키워드를 추출 → 유저가 매긴 여행지 선호도 점수를 기반으로 다음 여행지 추천 모델을 구축
 - 유저에게 입력받은 여행 성향 데이터를 기반하여 유사한 성격을 가진 다른 사용자를 추천하는 동행인 추천 모델을 구현
-- 구현한 모델을 바탕으로  유저에게 추천 여행지 및 동행자를 메인페이지에서 노출시켜 확인
+- 구현한 모델을 바탕으로 유저에게 추천 여행지 및 동행자를 메인페이지에서 노출시켜 확인
 - 게시글을 통해 직접 동행자를 모집 할 수 있으며 댓글을 활용하여 소통 가능
 
 ---
@@ -50,11 +51,11 @@ Therefore, We would like to solve the inconvenience by recommending a companion 
 
 ### 5. 팀 소개
 
-| <span style="justify-content:center; align-items: center; display: flex;">윤서영</span> | <span style="justify-content:center; align-items: center; display: flex">김지홍</span> | <span style="justify-content:center; align-items: center; display: flex">남상림</span> |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| <img width="200px" src="https://user-images.githubusercontent.com/54922803/227139823-d6c577b9-9206-4a2b-9e0c-427aecb39737.jpeg"> | <img width="200px" src="https://user-images.githubusercontent.com/54922803/227139864-32700bd9-a38b-4e00-ba2a-799e94912a46.jpeg"> | <img width="200px" src="https://user-images.githubusercontent.com/54922803/227139845-b502b414-5a07-4054-adb7-f466bd93594d.jpeg"> |
-| 👩🏻‍💻 학번: xxxx1633                                           | 👩🏻‍💻 학번: xxxx1572                                           | 👩🏻‍💻 학번: xxxx1584                                           |
-| Team Leader, Data Mining, Server                             | FrontEnd, BackEnd                                            | FrontEnd, BackEnd, Design                                    |
+| <span style="justify-content:center; align-items: center; display: flex;">윤서영</span>                                                                                                                                                                                     | <span style="justify-content:center; align-items: center; display: flex">김지홍</span>                                                                                                                                                                                      | <span style="justify-content:center; align-items: center; display: flex">남상림</span>                                                                                                                                                                                          |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <img width="200px" src="https://user-images.githubusercontent.com/54922803/227139823-d6c577b9-9206-4a2b-9e0c-427aecb39737.jpeg">                                                                                                                                            | <img width="200px" src="https://github.com/kookmin-sw/capstone-2023-14/assets/54922803/ee000a30-d6d7-47f7-8acc-7aae6d8a37da">                                                                                                                                               | <img width="200px" src="https://user-images.githubusercontent.com/54922803/227139845-b502b414-5a07-4054-adb7-f466bd93594d.jpeg">                                                                                                                                                |
+| 👩🏻‍💻 학번: xxxx1633                                                                                                                                                                                                                                                           | 👩🏻‍💻 학번: xxxx1572                                                                                                                                                                                                                                                           | 👩🏻‍💻 학번: xxxx1584                                                                                                                                                                                                                                                               |
+| Team Leader, Data Mining, Server                                                                                                                                                                                                                                            | FrontEnd, BackEnd                                                                                                                                                                                                                                                           | FrontEnd, BackEnd, Design                                                                                                                                                                                                                                                       |
 | <div style="display:flex; gap: 4px; align-items:center "><img width="20px" style="align: center;" src="https://raw.githubusercontent.com/tandpfun/skill-icons/59059d9d1a2c092696dc66e00931cc1181a4ce1f/icons/Github-Dark.svg"> [young43](https://github.com/young43) </div> | <div style="display:flex; gap: 4px; align-items:center "><img width="20px" style="align: center;" src="https://raw.githubusercontent.com/tandpfun/skill-icons/59059d9d1a2c092696dc66e00931cc1181a4ce1f/icons/Github-Dark.svg"> [Ziihong](https://github.com/Ziihong) </div> | <div style="display:flex; gap: 4px; align-items:center "><img width="20px" style="align: center;" src="https://raw.githubusercontent.com/tandpfun/skill-icons/59059d9d1a2c092696dc66e00931cc1181a4ce1f/icons/Github-Dark.svg"> [sanglim00](https://github.com/sanglim00) </div> |
 
 ---
@@ -110,7 +111,7 @@ sudo systemctl start nginx
 
 #### 백엔드
 
-(1)  forever 패키지를 다운로드한다.
+(1) forever 패키지를 다운로드한다.
 
 ```shell
 cd ~/capstone-2023-14/backend/
@@ -151,4 +152,3 @@ python3 csv_to_db.py
 ```shell
 nohup app.py &
 ```
-
