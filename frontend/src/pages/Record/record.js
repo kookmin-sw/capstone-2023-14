@@ -47,6 +47,7 @@ function MyRecord() {
         email: userEmail,
         id: record_id,
       });
+
       fetchData();
     } catch (e) {
       console.log(e);

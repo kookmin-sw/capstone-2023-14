@@ -22,17 +22,21 @@ function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.post('/api/get-userInfo', {
-        email: userEmail,
-      });
-      setUserInfo(response.data[0]);
-      if (
-        response.data[0].object === null ||
-        response.data[0].style === null ||
-        response.data[0].prefer_age === null ||
-        response.data[0].prefer_gender === null
-      ) {
-        setTasteModal(true);
+      try {
+        const response = await axios.post('/api/get-userInfo', {
+          email: userEmail,
+        });
+        setUserInfo(response.data[0]);
+        if (
+          response.data[0].object === null ||
+          response.data[0].style === null ||
+          response.data[0].prefer_age === null ||
+          response.data[0].prefer_gender === null
+        ) {
+          setTasteModal(true);
+        }
+      } catch (e) {
+        console.log(e);
       }
     };
     fetchData();
@@ -43,25 +47,28 @@ function Home() {
     const fetchData = async () => {
       setIsLoading(true);
 
-      const response = await axios.get(
-        `http://3.38.84.113:5000/dm/recommend?email=${userEmail}`,
-        { withCredentials: true },
-      );
+      try {
+        const response = await axios.get(
+          `http://3.38.84.113:5000/dm/recommend?email=${userEmail}`,
+          { withCredentials: true },
+        );
 
-      const cityList = response.data.result;
+        const cityList = response.data.result;
+        const cityInfoList = await axios.post('/api/get-image', {
+          cityList: cityList,
+        });
 
-      const cityInfoList = await axios.post('/api/get-image', {
-        cityList: cityList,
-      });
+        const newRecommendList = cityInfoList.data.map((dest) => ({
+          name: dest.name,
+          imgUrl: dest.imgUrl,
+          contents: dest.contents,
+        }));
 
-      const newRecommendList = cityInfoList.data.map((dest) => ({
-        name: dest.name,
-        imgUrl: dest.imgUrl,
-        contents: dest.contents,
-      }));
-
-      setRecommendList(newRecommendList);
-      setIsLoading(false);
+        setRecommendList(newRecommendList);
+        setIsLoading(false);
+      } catch (e) {
+        console.log(e);
+      }
     };
 
     fetchData();
