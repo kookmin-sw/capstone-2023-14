@@ -19,11 +19,11 @@ const getBoardList = (req, res) => {
 
     try {
       const newBoardList = result.map((post) => {
-        const buff = Buffer.from(post.profile);
-        return {
-          ...post,
-          profile: buff.toString('base64'),
-        };
+        if (post.profile != null) {
+          const buff = Buffer.from(post.profile);
+          post.profile = buff.toString('base64');
+        }
+        return post;
       });
       res.send(newBoardList);
     } catch (e) {
@@ -54,12 +54,13 @@ const getReplyList = (req, res) => {
 
     try {
       const newReplyList = result.map((reply) => {
-        const buff = Buffer.from(reply.profile);
-        return {
-          ...reply,
-          profile: buff.toString('base64'),
-        };
+        if (reply.profile !== null) {
+          const buff = Buffer.from(reply.profile);
+          reply.profile = buff.toString('base64');
+        }
+        return reply;
       });
+
       res.send(newReplyList);
     } catch (e) {
       console.log(e);
@@ -78,12 +79,11 @@ const getUserInfo = (req, res) => {
 
     try {
       const info = result[0];
-      const buff = Buffer.from(info.profile, 'binary');
-      const userInfo = {
-        ...info,
-        profile: buff.toString('base64'),
-      };
-      res.send([userInfo]);
+      if (info.profile !== null) {
+        const buff = Buffer.from(info.profile, 'binary');
+        info.profile = buff.toString('base64');
+      }
+      return res.send([info]);
     } catch (e) {
       console.log(e);
     }

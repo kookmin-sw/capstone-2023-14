@@ -40,9 +40,12 @@ const signUp = (req, res) => {
   const { email, passwd, name, phone, gender, birthday, mbti, profile } =
     req.body;
 
+  let newProfile = profile;
   try {
-    if (profile !== '')
-      var newProfile = Buffer.from(profile.split(',')[1], 'base64');
+    if (profile !== '') {
+      const [, base64Data] = profile.split(',');
+      newProfile = Buffer.from(base64Data, 'base64');
+    }
   } catch (e) {
     console.log(e);
   }

@@ -27,7 +27,6 @@ function Home() {
           email: userEmail,
         });
         setUserInfo(response.data[0]);
-        console.log(response.data[0]);
         if (
           response.data[0].object === null ||
           response.data[0].style === null ||
