@@ -6,7 +6,7 @@ export const Wrap = styled.div`
   padding: 0 24px 60px;
 
   @media screen and (max-width: 400px) {
-    padding: 0 20px;
+    padding: 0 20px 40px;
   }
 
   > div:not(:first-child) {

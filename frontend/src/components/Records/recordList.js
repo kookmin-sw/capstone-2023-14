@@ -105,7 +105,7 @@ const RecordList = ({
               />
             </svg>
           </>
-        ) : null}{' '}
+        ) : null}
       </div>
     </RecordWrap>
   );

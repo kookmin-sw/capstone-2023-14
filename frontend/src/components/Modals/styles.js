@@ -6,7 +6,7 @@ const Common = styled.div`
 `;
 
 export const Wrap = styled(Common)`
-  z-index: 99;
+  z-index: 100;
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 0;
@@ -19,6 +19,7 @@ export const Wrap = styled(Common)`
     background-color: #ffffff;
     margin: 24px;
     width: 100%;
+    max-height: 80vh;
     padding: ${(props) => (props.padding ? '60px 20px' : null)};
     border-radius: 12px;
     overflow-y: scroll;
@@ -30,6 +31,7 @@ export const Wrap = styled(Common)`
 
 export const TasteWrap = styled.div`
   text-align: center;
+  font-family: 'SEBANG-Gothic', serif;
   > div:nth-child(2) {
     margin-bottom: 32px;
   }
@@ -70,6 +72,8 @@ export const TypeWrap = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 4px 8px;
   margin-bottom: 20px;
+  font-family: 'SEBANG-Gothic', serif;
+  font-size: 14px;
 
   > div {
     border-radius: 24px;
@@ -85,7 +89,9 @@ export const TypeWrap = styled.div`
 
 export const ImgWrap = styled.div`
   background-color: #d9d9d9;
-  height: 260px;
+  overflow: hidden;
+  max-height: 220px;
+  height: 100%;
   position: relative;
   cursor: pointer;
 
@@ -144,6 +150,8 @@ export const InputWrap = styled.div`
 export const Textarea = styled.textarea`
   all: unset;
   resize: none;
+  font-family: 'SEBANG-Gothic', serif;
+  font-size: 12px;
   width: calc(100% - 12px);
   padding: 4px;
   height: 120px;

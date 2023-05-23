@@ -14,7 +14,6 @@ function Board() {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/get-boardList');
-
         const appendAgeList = response.data.map((post) => ({
           ...post,
           age: post.birth ? calculateAge(post.birth) : '??',
@@ -33,7 +32,8 @@ function Board() {
     };
 
     const calculateAge = (birth) => {
-      const birthDate = new Date(formatDateString(birth));
+      // const birthDate = new Date(formatDateString(birth));
+      const birthDate = new Date(birth);
       const currentDate = new Date();
       const age = currentDate.getFullYear() - birthDate.getFullYear() + 1;
 
@@ -68,7 +68,14 @@ function Board() {
           onClick={() => navigator(`/board/${post.board_id}`, { state: post })}
         >
           <WriterInfo>
-            <img src={''} alt="" />
+            {post.profile ? (
+              <img src={`data:image/jpeg;base64,${post.profile}`} alt="" />
+            ) : (
+              <img
+                src={'https://cdn-icons-png.flaticon.com/256/44/44463.png'}
+                alt=""
+              />
+            )}
             <div>
               <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
               <DetailInfo>
@@ -97,7 +104,11 @@ function Board() {
           />
         </SearchWrap>
         {/* 검색어가 없을경우 전체 데이터 보여주기, 입력 값이 있을경우 해당하는 데이터 보여주기 */}
-        {FilterContents.length === 0 ? (
+        {boardList.length === 0 && searchWord === '' ? (
+          <>
+            <Normal color={'#7c7c7c'}>아직 올라온 게시글이 없어요 !</Normal>
+          </>
+        ) : searchWord !== '' && FilterContents.length === 0 ? (
           <>
             <Normal color={'#7c7c7c'}>
               검색하신 조건에 맞는 게시글이 없어요 :(
@@ -115,7 +126,14 @@ function Board() {
               }
             >
               <WriterInfo>
-                <img src={''} alt="" />
+                {post.profile ? (
+                  <img src={`data:image/jpeg;base64,${post.profile}`} alt="" />
+                ) : (
+                  <img
+                    src={'https://cdn-icons-png.flaticon.com/256/44/44463.png'}
+                    alt=""
+                  />
+                )}
                 <div>
                   <SubTitle margin={'0 0 2px'}>{post.writer}</SubTitle>
                   <DetailInfo>

@@ -58,14 +58,18 @@ const getItineraryList = async (req, res) => {
     (error, result) => {
       if (error) throw error;
 
-      const itineraryList = result.map((itinerary) => {
-        const buff = Buffer.from(itinerary.picture, 'binary');
-        return {
-          ...itinerary,
-          imgUrl: buff.toString('base64'),
-        };
-      });
-      res.send(itineraryList);
+      try {
+        const itineraryList = result.map((itinerary) => {
+          const buff = Buffer.from(itinerary.picture, 'binary');
+          return {
+            ...itinerary,
+            imgUrl: buff.toString('base64'),
+          };
+        });
+        res.send(itineraryList);
+      } catch (e) {
+        console.log(e);
+      }
     }
   );
 };

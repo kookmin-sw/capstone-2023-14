@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { email } from '../../store/userInfo';
+import { Normal } from '../../components/Fonts/fonts';
 
 function TasteSetting() {
   const navigator = useNavigate();
@@ -90,7 +91,7 @@ function TasteSetting() {
     try {
       await axios.post('/api/hashtag-taste', saveInfo);
       alert('취향 정보가 저장되었습니다.');
-      navigator('/setting');
+      navigator('/mypage');
     } catch (e) {
       console.log(e);
     }
@@ -179,7 +180,7 @@ function TasteSetting() {
                     value={i.value}
                     onClick={(e) => checkMyTaste(e)}
                   />
-                  <span>{i.value}</span>
+                  <Normal size={'14px'}>{i.value}</Normal>
                 </Options>
               ))}
             </Row>
@@ -195,7 +196,7 @@ function TasteSetting() {
                     value={i.value}
                     onClick={(e) => checkMyTaste(e)}
                   />
-                  <span>{i.value}</span>
+                  <Normal size={'14px'}>{i.value}</Normal>
                 </Options>
               ))}
             </Row>
@@ -217,7 +218,7 @@ function TasteSetting() {
                     value={i}
                     onClick={(e) => checkMyTaste(e)}
                   />
-                  <span>{i}</span>
+                  <Normal size={'14px'}>{i}</Normal>
                 </Options>
               ))}
             </Row>
@@ -232,7 +233,7 @@ function TasteSetting() {
                   value={'동성'}
                   onClick={(e) => checkMyTaste(e)}
                 />
-                <span>동성</span>
+                <Normal size={'14px'}>동성</Normal>
               </Options>
               <Options>
                 <input
@@ -241,7 +242,7 @@ function TasteSetting() {
                   value={'혼성'}
                   onClick={(e) => checkMyTaste(e)}
                 />
-                <span>혼성</span>
+                <Normal size={'14px'}>혼성</Normal>
               </Options>
             </Row>
           </div>

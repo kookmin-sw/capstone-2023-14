@@ -6,12 +6,16 @@ export const Wrap = styled.div`
   @media screen and (max-width: 400px) {
     padding: 20px;
   }
+
+  > div:last-child {
+    margin-bottom: 50px;
+  }
 `;
 
 export const Block = styled.div`
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
   border-radius: 12px;
-  padding: 24px 20px;
+  padding: 20px 16px;
   margin-bottom: 12px;
   cursor: pointer;
 
@@ -23,8 +27,11 @@ export const Block = styled.div`
   > div:last-child {
     overflow: hidden;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    font-family: 'SEBANG-Gothic', serif;
+    font-size: 14px;
   }
 `;
 
@@ -54,6 +61,7 @@ export const SearchWrap = styled.div`
     padding: 4px 8px;
     width: -webkit-fill-available;
     height: 24px;
+    font-family: 'SEBANG-Gothic', serif;
   }
   margin-bottom: 20px;
 `;
@@ -62,6 +70,8 @@ export const CommentsWrap = styled.div`
   border-top: 2px solid #ebebeb;
   margin-top: 24px;
   padding: 20px 0;
+  font-family: 'SEBANG-Gothic', serif;
+  letter-spacing: 0.05em;
 
   > div {
     display: flex;
@@ -78,10 +88,10 @@ export const CommentsWrap = styled.div`
   }
   > div > div {
     flex: 0 1 auto;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+    //overflow: hidden;
+    //text-overflow: ellipsis;
+    //-webkit-line-clamp: 1;
+    //-webkit-box-orient: vertical;
   }
   span {
     margin: 0 4px;
@@ -89,26 +99,32 @@ export const CommentsWrap = styled.div`
     font-weight: bold;
   }
   > div > div > div {
-    border-radius: 30px;
+    border-radius: 16px;
     border: 2px solid #ef4e3e30;
     padding: 4px 8px;
     margin-top: 2px;
-    font-size: 14px;
+    font-size: 12px;
   }
 `;
 export const Textarea = styled.textarea`
   resize: none;
   width: 96%;
   padding: 1.5%;
-  min-height: 320px;
+  min-height: 140px;
   border-radius: 20px;
   border: 2px solid #ef4e3e30;
   background-color: #ffffff;
+  font-family: 'SEBANG-Gothic', serif;
+  letter-spacing: 0.1em;
+  font-size: 14px;
+  color: #141414;
 
   ${(props) =>
     props.disabled
       ? null
-      : ':hover, :focus-visible { border: 2px solid #ef4e3e70; outline: none; transition: 0.2s ease;'}}
+      : 'color: #141414 !important; :hover, :focus-visible { ' +
+        'border: 2px solid #ef4e3e70; outline: none; transition: 0.2s ease;'}
+  }
   
 `;
 
@@ -119,10 +135,12 @@ export const Comment = styled.div`
   width: 100%;
   padding: 12px 0;
   background-color: #ffffff;
+  font-family: 'SEBANG-Gothic', serif;
 
   > div {
     display: flex;
     gap: 4px;
+    padding: 0 8px;
   }
   input {
     all: unset;
@@ -130,6 +148,7 @@ export const Comment = styled.div`
     padding: 8px 12px;
     border: 2px solid rgb(224, 224, 224);
     border-radius: 30px;
+    font-size: 14px;
   }
   button {
     all: unset;

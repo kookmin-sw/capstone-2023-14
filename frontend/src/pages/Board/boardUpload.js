@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from '../../components/Header/header';
 import { DetailInfo, Textarea, Wrap, WriterInfo } from './styles';
 import { Small, SubTitle } from '../../components/Fonts/fonts';
@@ -24,6 +24,7 @@ function BoardUpload() {
         const response = await axios.post('/api/get-writerInfo', {
           email: writerInfo.email,
         });
+
         setWriterInfo({ ...response.data[0] });
         setSaveInfo({ ...saveInfo, name: response.data[0].name });
 
@@ -50,7 +51,8 @@ function BoardUpload() {
     };
 
     const calculateAge = (birth) => {
-      const birthDate = new Date(formatDateString(birth));
+      // const birthDate = new Date(formatDateString(birth));
+      const birthDate = new Date(birth);
       const currentDate = new Date();
       const age = currentDate.getFullYear() - birthDate.getFullYear() + 1;
 
@@ -67,15 +69,21 @@ function BoardUpload() {
     };
     try {
       await axios.post('/api/board-write', uploadInfo);
+      alert('게시글이 작성되었습니다.\n게시판으로 이동합니다.');
     } catch (e) {
       console.log(e);
     }
 
-    alert('게시글이 작성되었습니다.\n게시판으로 이동합니다.');
     navigator('/board');
   };
 
+  const textarea = useRef();
+  const HandleResizeHeight = () => {
+    textarea.current.style.height = 'auto';
+    textarea.current.style.height = textarea.current.scrollHeight + 'px';
+  };
   const handleChangeInput = (event) => {
+    HandleResizeHeight();
     setSaveInfo({
       ...saveInfo,
       content: event.target.value,
@@ -87,7 +95,14 @@ function BoardUpload() {
       <Header title={'board-upload'} onClick={uploadContent} />
       <Wrap>
         <WriterInfo>
-          <img src={''} alt="" />
+          {writerInfo.profile ? (
+            <img src={`data:image/jpeg;base64,${writerInfo.profile}`} alt="" />
+          ) : (
+            <img
+              src={'https://cdn-icons-png.flaticon.com/256/44/44463.png'}
+              alt=""
+            />
+          )}
           <div>
             <SubTitle margin={'0 0 2px'}>{writerInfo.name}</SubTitle>
             <DetailInfo>
@@ -98,6 +113,8 @@ function BoardUpload() {
           </div>
         </WriterInfo>
         <Textarea
+          ref={textarea}
+          rows={1}
           placeholder={
             '이런 글은 작성하실 수 없어요.\n' +
             '타인의 권리를 침해하거나 불쾌감을 주는 글 \n' +

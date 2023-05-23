@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import heic2any from 'heic2any';
 import DatePicker from 'react-datepicker';
@@ -33,7 +33,7 @@ function Join() {
   // mbti modal on/off
   const [mbtiModal, setMbtiModal] = useState(false);
 
-  const [startDate, setStartDate] = useState(new Date());
+  const [birthDay, setBirthDay] = useState(new Date());
 
   // database에 저장할 유저의 회원정보
   const [userInfo, setUserInfo] = useState({
@@ -53,6 +53,15 @@ function Join() {
     privacy: false,
     terms: false,
   });
+
+  useEffect(() => {
+    setUserInfo((prevState) => {
+      return {
+        ...prevState,
+        birthday: convertDateToString(birthDay),
+      };
+    });
+  }, [birthDay]);
 
   // 입력값 변화 적용
   const handleOnChange = (e) => {
@@ -75,63 +84,46 @@ function Join() {
   // 프로필 사진 업로드
   const upload = async () => {
     let file = imgRef.current.files[0];
-    const fileName = file.name.split('.')[1].toLowerCase(); //확장자명 체크를 위해 소문자 변환 HEIC, heic
-    if (fileName === 'heic') {
-      let blob = file;
-      await heic2any({ blob: blob, toType: 'image/jpeg' })
-        .then(function (resultBlob) {
-          file = new File([resultBlob], file.name.split('.')[0] + '.jpg', {
-            type: 'image/jpeg',
-            lastModified: new Date().getTime(),
+    try {
+      const fileName = file.name.split('.')[1].toLowerCase(); //확장자명 체크를 위해 소문자 변환 HEIC, heic
+      if (fileName === 'heic') {
+        let blob = file;
+        await heic2any({ blob: blob, toType: 'image/jpeg' })
+          .then(function (resultBlob) {
+            file = new File([resultBlob], file.name.split('.')[0] + '.jpg', {
+              type: 'image/jpeg',
+              lastModified: new Date().getTime(),
+            });
+            reader.readAsDataURL(file);
+          })
+          .catch(function (x) {
+            console.log(x);
           });
-          reader.readAsDataURL(file);
-        })
-        .catch(function (x) {
-          console.log(x);
-        });
+      }
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        setBase64(reader.result);
+        setUserInfo((prevState) => ({
+          ...prevState,
+          profile: reader.result,
+        }));
+      };
+    } catch (e) {
+      console.log(e);
     }
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      setBase64(reader.result);
-    };
   };
 
-  function decodeBase64(input) {
-    // Remove all non-base64 characters
-    let base64 = input.replace(/[^A-Za-z0-9\+\/]/g, '');
-
-    // Add padding if necessary
-    while (base64.length % 4 !== 0) {
-      base64 += '=';
-    }
-
-    // Use atob to decode the string
-    return atob(base64);
-  }
-
-  function base64ToBlob(base64, mimeType = '') {
-    const byteCharacters = decodeBase64(base64);
-
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-
-    const byteArray = new Uint8Array(byteNumbers);
-    return new Blob([byteArray], { type: mimeType });
-  }
+  const convertDateToString = (date) => {
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
+  };
 
   const handleClickSignUp = async (event) => {
     if (userInfo.email === '' || userInfo.passwd === '') {
       alert('이메일과 비밀번호를 입력해주세요.');
       return;
     }
-
-    setUserInfo((prevState) => ({
-      ...prevState,
-      profile: base64ToBlob(base64),
-    }));
 
     await axios
       .post('/api/signup', userInfo)
@@ -202,6 +194,7 @@ function Join() {
           <InputBox
             title={'비밀번호 확인'}
             type={'password'}
+            addSpan={passwordMessage}
             onChange={(event) => {
               if (
                 userInfo.passwd.length !== 0 &&
@@ -211,19 +204,18 @@ function Join() {
               else setPasswordMessage('비밀번호가 일치하지 않습니다.');
             }}
           />
-          <span>{passwordMessage}</span>
           <div>
             <SubTitle margin={'0 0 10px'}>성별</SubTitle>
             <GenderWrap>
               <GenderButton
                 onClick={() => setUserInfo({ ...userInfo, gender: 'M' })}
-                checked={userInfo.gender === 'M' ? true : false}
+                checked={userInfo.gender === 'M'}
               >
                 남자
               </GenderButton>
               <GenderButton
                 onClick={() => setUserInfo({ ...userInfo, gender: 'F' })}
-                checked={userInfo.gender === 'F' ? true : false}
+                checked={userInfo.gender === 'F'}
               >
                 여자
               </GenderButton>
@@ -232,10 +224,9 @@ function Join() {
           <InfoWrap>
             <SubTitle margin={'0 0 10px'}>생년월일</SubTitle>
             <DatePicker
-              selected={startDate}
+              selected={birthDay}
               onChange={(date) => {
-                setStartDate(date);
-                setUserInfo({ ...userInfo, birthday: date });
+                setBirthDay(date);
               }}
               dateFormat="yyyy-MM-dd"
             />
