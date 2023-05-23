@@ -36,6 +36,7 @@ Therefore, We would like to solve the inconvenience by recommending a companion 
 - 구현한 모델을 바탕으로 유저에게 추천 여행지 및 동행자를 메인페이지에서 노출시켜 확인
 - 게시글을 통해 직접 동행자를 모집 할 수 있으며 댓글을 활용하여 소통 가능
 
+
 ---
 
 ### 3. 시스템 구성도
@@ -153,8 +154,3 @@ python3 csv_to_db.py
 ```shell
 nohup app.py &
 ```
-
-### 7. 팀 포스터
-
-<img src="https://github.com/kookmin-sw/capstone-2023-14/assets/54923245/367b22ea-86dc-4531-a515-e6c2104d5f5d" alt='team14' width="600px" />
-

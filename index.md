@@ -1,6 +1,7 @@
-<img style="width: 50%; margin:auto; display:block" src="https://github.com/kookmin-sw/capstone-2023-14/assets/54922803/ddee6de4-efb1-4672-9b64-e8996857ce8b" alt="함께할래 로고">
+
 
 # 함께할래 ?
+<img style="width: 120px; margin:auto; display:block" src="https://github.com/kookmin-sw/capstone-2023-14/assets/54922803/ddee6de4-efb1-4672-9b64-e8996857ce8b" alt="함께할래 로고">
 
 - Capstone Design Project for Kookmin University, 2023
 - [Check out the github-pages here](https://kookmin-sw.github.io/capstone-2023-14/)
@@ -34,6 +35,7 @@ Therefore, We would like to solve the inconvenience by recommending a companion 
 - 유저에게 입력받은 여행 성향 데이터를 기반하여 유사한 성격을 가진 다른 사용자를 추천하는 동행인 추천 모델을 구현
 - 구현한 모델을 바탕으로 유저에게 추천 여행지 및 동행자를 메인페이지에서 노출시켜 확인
 - 게시글을 통해 직접 동행자를 모집 할 수 있으며 댓글을 활용하여 소통 가능
+
 
 ---
 
