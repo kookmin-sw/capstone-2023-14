@@ -1,7 +1,7 @@
 
 
 # 함께할래 ?
-<img style="width: 120px; margin:auto; display:block" src="https://github.com/kookmin-sw/capstone-2023-14/assets/54922803/ddee6de4-efb1-4672-9b64-e8996857ce8b" alt="함께할래 로고">
+<img style="width: 120px; display:block" src="https://github.com/kookmin-sw/capstone-2023-14/assets/54922803/ddee6de4-efb1-4672-9b64-e8996857ce8b" alt="함께할래 로고">
 
 - Capstone Design Project for Kookmin University, 2023
 - [Check out the github-pages here](https://kookmin-sw.github.io/capstone-2023-14/)
