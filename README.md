@@ -1,6 +1,7 @@
-<img style="width: 50%; margin:auto; display:block" src="https://github.com/kookmin-sw/capstone-2023-14/assets/54922803/ddee6de4-efb1-4672-9b64-e8996857ce8b" alt="함께할래 로고">
+
 
 # 함께할래 ?
+<img style="width: 120px; margin:auto; display:block" src="https://github.com/kookmin-sw/capstone-2023-14/assets/54922803/ddee6de4-efb1-4672-9b64-e8996857ce8b" alt="함께할래 로고">
 
 - Capstone Design Project for Kookmin University, 2023
 - [Check out the github-pages here](https://kookmin-sw.github.io/capstone-2023-14/)
@@ -152,3 +153,8 @@ python3 csv_to_db.py
 ```shell
 nohup app.py &
 ```
+
+### 7. 팀 포스터
+
+<img src="https://github.com/kookmin-sw/capstone-2023-14/assets/54923245/367b22ea-86dc-4531-a515-e6c2104d5f5d" alt='team14' width="600px" />
+
