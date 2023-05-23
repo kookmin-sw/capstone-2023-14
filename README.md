@@ -16,7 +16,7 @@
 
  <br/>
 
-#### Abstract
+### Abstract
 
 Many people started to travel again as their expectation for travel which was suppressed during pandemic increased with the pandemic coming to an end.
 However, they are unsure about their destination and itinerary. It is very hard to find someone who meets travel conditions such as travel period and travel expenses.
@@ -45,7 +45,7 @@ Therefore, We would like to solve the inconvenience by recommending a companion 
 
 ### 4. 소개 영상
 
-프로젝트 소개하는 영상을 추가하세요
+[![Video Label](http://img.youtube.com/vi/FoNKwS__j4M/0.jpg)](https://youtu.be/FoNKwS__j4M)
 
 ---
 
