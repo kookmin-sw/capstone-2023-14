@@ -248,7 +248,7 @@ def getCompanion():
     user_data_list = list()
     user_data_gender = list()
     sql = '''
-        select mf.*, m.gender
+        select mf.id, ifnull(mf.style, '') as style, ifnull(mf.object, '') as object, ifnull(mf.prefer_age, '') as prefer_age, ifnull(mf.prefer_gender, '') as prefer_gender, m.gender
         from member_info as mf, member as m
         where mf.id=m.email
         order by 1;
